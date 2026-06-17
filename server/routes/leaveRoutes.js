@@ -6,7 +6,7 @@ const { protect, authorize } = require('../middleware/authMiddleware');
 router.use(protect);
 
 // Request leave: restricted to employees
-router.post('/', authorize('employee'), requestLeave);
+router.post('/', authorize('company_admin', 'manager', 'employee'), requestLeave);
 
 // Get leaves: accessible by all workspace members with corresponding scoping
 router.get('/', authorize('company_admin', 'manager', 'employee'), getLeaves);

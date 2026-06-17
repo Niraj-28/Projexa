@@ -88,7 +88,9 @@ const updateLeaveStatus = async (req, res) => {
     }
 
     // Company scoping check
-    if (leave.company.toString() !== req.user.company.toString()) {
+    const leaveCompanyId = leave.company && (leave.company._id || leave.company).toString();
+    const userCompanyId = req.user.company && (req.user.company._id || req.user.company).toString();
+    if (leaveCompanyId !== userCompanyId) {
       return res.status(403).json({ success: false, message: 'Not authorized to manage leaves from other workspaces' });
     }
 

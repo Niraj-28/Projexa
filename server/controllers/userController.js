@@ -259,7 +259,9 @@ const updateUser = async (req, res) => {
 
     // Role-based Multi-tenant check: Can only edit user of the same company (unless super_admin)
     if (req.user.role !== 'super_admin') {
-      if (!req.user.company || !userToEdit.company || req.user.company.toString() !== userToEdit.company.toString()) {
+      const userCompanyId = req.user.company && (req.user.company._id || req.user.company).toString();
+      const targetCompanyId = userToEdit.company && (userToEdit.company._id || userToEdit.company).toString();
+      if (!userCompanyId || !targetCompanyId || userCompanyId !== targetCompanyId) {
         return res.status(403).json({ success: false, message: 'Not authorized to edit users of other companies' });
       }
     }
@@ -314,7 +316,9 @@ const deleteUser = async (req, res) => {
 
     // Multi-tenant check
     if (req.user.role !== 'super_admin') {
-      if (!req.user.company || !userToDelete.company || req.user.company.toString() !== userToDelete.company.toString()) {
+      const userCompanyId = req.user.company && (req.user.company._id || req.user.company).toString();
+      const targetCompanyId = userToDelete.company && (userToDelete.company._id || userToDelete.company).toString();
+      if (!userCompanyId || !targetCompanyId || userCompanyId !== targetCompanyId) {
         return res.status(403).json({ success: false, message: 'Not authorized to delete users of other companies' });
       }
     }

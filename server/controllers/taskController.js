@@ -108,7 +108,9 @@ const updateTask = async (req, res) => {
     }
 
     // Workspace scoping check
-    if (task.company.toString() !== req.user.company.toString()) {
+    const taskCompanyId = task.company && (task.company._id || task.company).toString();
+    const userCompanyId = req.user.company && (req.user.company._id || req.user.company).toString();
+    if (taskCompanyId !== userCompanyId) {
       return res.status(403).json({ success: false, message: 'Not authorized to update tasks from other company workspaces' });
     }
 
