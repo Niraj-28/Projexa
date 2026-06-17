@@ -1,37 +1,77 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Users, FolderGit2, CheckSquare, TrendingUp, ArrowUpRight, Clock } from 'lucide-react';
+import { Users, FolderGit2, CheckSquare, TrendingUp, ArrowUpRight, Clock, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const Dashboard = () => {
   const { user } = useAuth();
-  const [stats, setStats] = useState({
-    employees: 0,
-    projects: 5,
-    tasks: 12,
-    attendance: 98,
-  });
+  const navigate = useNavigate();
+  
   const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [tasks, setTasks] = useState([]);
+  const [leaves, setLeaves] = useState([]);
+  const [attendance, setAttendance] = useState([]);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const [usersRes, projRes, tasksRes, leavesRes, attendanceRes] = await Promise.all([
+        api.get('/users'),
+        api.get('/projects'),
+        api.get('/tasks'),
+        api.get('/leaves'),
+        api.get('/attendance')
+      ]);
+
+      if (usersRes.data?.success) setUsers(usersRes.data.users);
+      if (projRes.data?.success) setProjects(projRes.data.projects);
+      if (tasksRes.data?.success) setTasks(tasksRes.data.tasks);
+      if (leavesRes.data?.success) setLeaves(leavesRes.data.leaves);
+      if (attendanceRes.data?.success) setAttendance(attendanceRes.data.logs);
+    } catch (error) {
+      console.error('Failed to load dashboard data:', error);
+      toast.error('Error loading workspace metrics');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await api.get('/users');
-        if (response.data && response.data.success) {
-          setStats((prev) => ({
-            ...prev,
-            employees: response.data.users.length,
-          }));
-        }
-      } catch (err) {
-        console.error('Failed to load dashboard metrics', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchStats();
+    fetchDashboardData();
   }, []);
+
+  // Compute stats
+  const totalEmployees = users.length;
+  const totalProjects = projects.length;
+  const openTasksCount = tasks.filter(t => t.status !== 'completed').length;
+  const completedTasksCount = tasks.filter(t => t.status === 'completed').length;
+  const totalTasksCount = tasks.length;
+  
+  const todayDateStr = new Date().toISOString().split('T')[0];
+  const todayCheckedInCount = attendance.filter(log => log.date === todayDateStr).length;
+  const attendanceRate = totalEmployees > 0 ? Math.round((todayCheckedInCount / totalEmployees) * 100) : 0;
+  
+  const pendingLeavesCount = leaves.filter(l => l.status === 'Pending').length;
+  const taskVelocityRate = totalTasksCount > 0 ? Math.round((completedTasksCount / totalTasksCount) * 100) : 0;
+
+  // Compute projects with progress
+  const projectListWithProgress = projects.slice(0, 5).map(p => {
+    const projectTasks = tasks.filter(t => t.project && t.project._id === p._id);
+    const completedCount = projectTasks.filter(t => t.status === 'completed').length;
+    const progressVal = projectTasks.length > 0 ? Math.round((completedCount / projectTasks.length) * 100) : 0;
+    
+    return {
+      id: p._id,
+      name: p.name,
+      status: p.status,
+      manager: p.manager?.name || 'Unassigned',
+      progress: progressVal,
+    };
+  });
 
   return (
     <div className="space-y-8">
@@ -50,12 +90,16 @@ const Dashboard = () => {
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Employees', value: stats.employees, subtitle: 'Managers & Staff', icon: <Users className="h-5 w-5 text-blue-400" /> },
-          { label: 'Active Projects', value: stats.projects, subtitle: 'Sprints in progress', icon: <FolderGit2 className="h-5 w-5 text-yellow-400" /> },
-          { label: 'Open Tasks', value: stats.tasks, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5 text-green-400" /> },
-          { label: 'Attendance Rate', value: `${stats.attendance}%`, subtitle: 'Daily check-in average', icon: <Clock className="h-5 w-5 text-purple-400" /> }
+          { label: 'Total Employees', value: totalEmployees, subtitle: 'Managers & Staff', icon: <Users className="h-5 w-5 text-blue-400" />, link: '/employees' },
+          { label: 'Active Projects', value: totalProjects, subtitle: 'Sprints in progress', icon: <FolderGit2 className="h-5 w-5 text-yellow-400" />, link: '/projects' },
+          { label: 'Open Tasks', value: openTasksCount, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5 text-green-400" />, link: '/projects' },
+          { label: 'Daily Attendance', value: `${attendanceRate}%`, subtitle: `${todayCheckedInCount} Checked-in Today`, icon: <Clock className="h-5 w-5 text-purple-400" />, link: '/leave' }
         ].map((card, idx) => (
-          <div key={idx} className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all">
+          <div 
+            key={idx} 
+            onClick={() => navigate(card.link)}
+            className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all cursor-pointer"
+          >
             <div className="flex justify-between items-center">
               <span className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">{card.label}</span>
               <div className="h-8 w-8 rounded-lg bg-[#1C1C1C] flex items-center justify-center border border-[#3C3C3C]/40">
@@ -70,92 +114,101 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Active Projects and Activity Rows */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left column */}
-        <div className="lg:col-span-8 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
-          <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
-            <div>
-              <h3 className="font-semibold text-white text-sm">Active Projects</h3>
-              <p className="text-[10px] text-[#646464]">Current deliverables and deadlines</p>
+      {loading ? (
+        <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+          <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <span className="text-xs font-light">Loading workspace reports...</span>
+        </div>
+      ) : (
+        /* Active Projects and Activity Rows */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left column */}
+          <div className="lg:col-span-8 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+              <div>
+                <h3 className="font-semibold text-white text-sm">Active Projects</h3>
+                <p className="text-[10px] text-[#646464]">Current deliverables and deadlines</p>
+              </div>
+              <button 
+                onClick={() => navigate('/projects')}
+                className="text-[10px] text-[#B5B5B5] hover:text-white font-semibold flex items-center gap-0.5 cursor-pointer"
+              >
+                <span>View All</span>
+                <ArrowUpRight className="h-3 w-3" />
+              </button>
             </div>
-            <button className="text-[10px] text-[#B5B5B5] hover:text-white font-semibold flex items-center gap-0.5">
-              <span>View All</span>
-              <ArrowUpRight className="h-3 w-3" />
-            </button>
+
+            {projectListWithProgress.length === 0 ? (
+              <p className="text-xs text-[#646464] py-8 text-center font-light">No projects added yet.</p>
+            ) : (
+              <div className="divide-y divide-[#1C1C1C] text-xs">
+                {projectListWithProgress.map((p) => (
+                  <div key={p.id} className="py-4 flex items-center justify-between gap-4">
+                    <div className="flex-grow max-w-xs">
+                      <p className="font-medium text-white">{p.name}</p>
+                      <p className="text-[10px] text-[#646464] mt-0.5">Lead: {p.manager}</p>
+                    </div>
+                    <div className="w-48 hidden sm:block">
+                      <div className="flex justify-between text-[10px] text-[#646464] mb-1">
+                        <span>Progress</span>
+                        <span>{p.progress}%</span>
+                      </div>
+                      <div className="h-1.5 bg-[#1C1C1C] border border-[#3C3C3C]/30 rounded-full overflow-hidden">
+                        <div className="bg-[#B5B5B5] h-full transition-all duration-300" style={{ width: `${p.progress}%` }}></div>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                        p.status === 'Completed'
+                          ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                          : p.status === 'Planning'
+                          ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
+                          : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                      }`}>
+                        {p.status}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="divide-y divide-[#1C1C1C] text-xs">
-            {[
-              { name: 'Projexa Redesign', progress: 75, status: 'In Progress', manager: 'Niraj K.' },
-              { name: 'Multi-Tenant Authentication', progress: 90, status: 'Testing', manager: 'Sarah Chen' },
-              { name: 'HRMS Attendance Tracker', progress: 40, status: 'In Progress', manager: 'David Miller' },
-              { name: 'Reporting API Endpoints', progress: 100, status: 'Completed', manager: 'Emma Watson' }
-            ].map((p, idx) => (
-              <div key={idx} className="py-4 flex items-center justify-between gap-4">
-                <div className="flex-grow max-w-xs">
-                  <p className="font-medium text-white">{p.name}</p>
-                  <p className="text-[10px] text-[#646464] mt-0.5">Lead: {p.manager}</p>
+          {/* Right column */}
+          <div className="lg:col-span-4 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+              <div>
+                <h3 className="font-semibold text-white text-sm">Productivity Velocity</h3>
+                <p className="text-[10px] text-[#646464]">Sprint achievement metrics</p>
+              </div>
+              <TrendingUp className="h-4 w-4 text-green-400" />
+            </div>
+
+            <div className="pt-2 text-xs space-y-4">
+              <div className="text-center p-4 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl">
+                <p className="text-[9px] text-[#646464] uppercase font-bold tracking-wider">Overall Task Velocity</p>
+                <p className="text-3xl font-semibold text-white mt-1">{taskVelocityRate}%</p>
+                <p className="text-[10px] text-green-400 mt-1 font-medium">Sprint completion rate</p>
+              </div>
+
+              <div className="space-y-2.5">
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[#646464]">Completed Tasks</span>
+                  <span className="text-white font-medium">{completedTasksCount} / {totalTasksCount}</span>
                 </div>
-                <div className="w-48 hidden sm:block">
-                  <div className="flex justify-between text-[10px] text-[#646464] mb-1">
-                    <span>Progress</span>
-                    <span>{p.progress}%</span>
-                  </div>
-                  <div className="h-1.5 bg-[#1C1C1C] border border-[#3C3C3C]/30 rounded-full overflow-hidden">
-                    <div className="bg-[#B5B5B5] h-full" style={{ width: `${p.progress}%` }}></div>
-                  </div>
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[#646464]">Pending Approvals</span>
+                  <span className="text-white font-medium">{pendingLeavesCount} leaves</span>
                 </div>
-                <div className="text-right">
-                  <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold ${
-                    p.status === 'Completed'
-                      ? 'bg-green-500/10 text-green-400'
-                      : p.status === 'Testing'
-                      ? 'bg-yellow-500/10 text-yellow-400'
-                      : 'bg-blue-500/10 text-blue-400'
-                  }`}>
-                    {p.status.toUpperCase()}
-                  </span>
+                <div className="flex justify-between text-[10px]">
+                  <span className="text-[#646464]">Active Projects</span>
+                  <span className="text-white font-medium">{totalProjects}</span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-
-        {/* Right column */}
-        <div className="lg:col-span-4 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
-          <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
-            <div>
-              <h3 className="font-semibold text-white text-sm">Productivity Velocity</h3>
-              <p className="text-[10px] text-[#646464]">Sprint achievement metrics</p>
-            </div>
-            <TrendingUp className="h-4 w-4 text-green-400" />
-          </div>
-
-          <div className="pt-2 text-xs space-y-4">
-            <div className="text-center p-4 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl">
-              <p className="text-[9px] text-[#646464] uppercase font-bold tracking-wider">Weekly Output</p>
-              <p className="text-3xl font-semibold text-white mt-1">94.2%</p>
-              <p className="text-[10px] text-green-400 mt-1 font-medium">+4.8% from last week</p>
-            </div>
-
-            <div className="space-y-2.5">
-              <div className="flex justify-between text-[10px]">
-                <span className="text-[#646464]">Completed Tasks</span>
-                <span className="text-white font-medium">32 / 38</span>
-              </div>
-              <div className="flex justify-between text-[10px]">
-                <span className="text-[#646464]">Pending Approvals</span>
-                <span className="text-white font-medium">6</span>
-              </div>
-              <div className="flex justify-between text-[10px]">
-                <span className="text-[#646464]">Active Sprints</span>
-                <span className="text-white font-medium">2</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

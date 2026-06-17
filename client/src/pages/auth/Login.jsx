@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { getHomeRoute } from '../../utils/roleRoutes';
 import Logo from '../../components/Logo';
 import AuthShowcase from '../../components/AuthShowcase';
 import { Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
@@ -23,9 +24,11 @@ const Login = () => {
 
     try {
       setSubmitting(true);
-      await login(email, password);
+      const res = await login(email, password);
       toast.success('Welcome back to Projexa!');
-      navigate('/dashboard');
+      
+      const loggedUser = res.user;
+      navigate(getHomeRoute(loggedUser.role));
     } catch (err) {
       toast.error(err || 'Failed to login. Please check your credentials.');
     } finally {
@@ -118,19 +121,7 @@ const Login = () => {
                 <span className="font-light">Remember Me</span>
               </label>
               <Link
-                to="#"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  const emailPrompt = window.prompt("Enter your registered email address:");
-                  if (!emailPrompt) return;
-                  const loadingToast = toast.loading("Processing password recovery...");
-                  try {
-                    const res = await forgotPassword(emailPrompt);
-                    toast.success(res.message, { id: loadingToast });
-                  } catch (err) {
-                    toast.error(err, { id: loadingToast });
-                  }
-                }}
+                to="/forgot-password"
                 className="text-[#B5B5B5] hover:text-white transition duration-150 font-medium"
               >
                 Forgot Password?

@@ -9,6 +9,8 @@ const projectRoutes = require('./routes/projectRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const attendanceRoutes = require('./routes/attendanceRoutes');
 const leaveRoutes = require('./routes/leaveRoutes');
+const companyRoutes = require('./routes/companyRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 // Load environment variables (fallback if not loaded in server.js)
 require('dotenv').config();
@@ -38,6 +40,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/leaves', leaveRoutes);
+app.use('/api/companies', companyRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Root Health Check Route
 app.get('/', (req, res) => {

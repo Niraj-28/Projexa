@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import api, { setAccessToken } from '../services/api';
+import { normalizeAuthUser } from '../utils/roleRoutes';
 
 const AuthContext = createContext();
 
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
           // If successful, retrieve user profile using the new access token
           const userResponse = await api.get('/auth/me');
           if (userResponse.data && userResponse.data.success) {
-            setUser(userResponse.data.user);
+            setUser(normalizeAuthUser(userResponse.data.user));
           }
         }
       } catch (error) {
@@ -54,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/auth/login', { email, password });
       if (response.data && response.data.success) {
         setAccessToken(response.data.token);
-        setUser(response.data.user);
+        setUser(normalizeAuthUser(response.data.user));
         return response.data;
       }
     } catch (error) {
@@ -68,7 +69,7 @@ export const AuthProvider = ({ children }) => {
       const response = await api.post('/auth/register-company', registrationData);
       if (response.data && response.data.success) {
         setAccessToken(response.data.token);
-        setUser(response.data.user);
+        setUser(normalizeAuthUser(response.data.user));
         return response.data;
       }
     } catch (error) {
@@ -87,6 +88,20 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       throw error.response?.data?.message || 'Failed to change password. Please check your inputs.';
+    }
+  };
+
+  // Update profile method
+  const updateProfile = async (profileData) => {
+    try {
+      const response = await api.put('/users/me', profileData);
+      if (response.data && response.data.success) {
+        const updatedUser = normalizeAuthUser(response.data.user);
+        setUser(updatedUser);
+        return response.data;
+      }
+    } catch (error) {
+      throw error.response?.data?.message || 'Failed to update profile.';
     }
   };
 
@@ -121,6 +136,7 @@ export const AuthProvider = ({ children }) => {
         login,
         registerCompany,
         changePassword,
+        updateProfile,
         forgotPassword,
         logout,
       }}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api';
-import { Building2, Search, Calendar, Globe, ShieldCheck, Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Building2, Search, Loader2, ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
@@ -12,26 +12,9 @@ const Companies = () => {
     const fetchCompanies = async () => {
       try {
         setLoading(true);
-        // We retrieve users list to see company references or companies list.
-        // For platform demonstration, we retrieve company list if available, or simulate.
-        const response = await api.get('/users');
+        const response = await api.get('/companies');
         if (response.data && response.data.success) {
-          // Extract unique companies from populated users
-          const uniqueCompanies = [];
-          const companyIds = new Set();
-          
-          response.data.users.forEach((user) => {
-            if (user.company && !companyIds.has(user.company._id)) {
-              companyIds.add(user.company._id);
-              uniqueCompanies.push({
-                ...user.company,
-                adminName: user.role === 'company_admin' ? user.name : 'Unknown Admin',
-                adminEmail: user.role === 'company_admin' ? user.email : 'Unknown Email',
-              });
-            }
-          });
-          
-          setCompanies(uniqueCompanies);
+          setCompanies(response.data.companies);
         }
       } catch (err) {
         console.error('Failed to load companies:', err);
@@ -90,6 +73,7 @@ const Companies = () => {
                   <th className="px-6 py-4">Admin</th>
                   <th className="px-6 py-4">Plan</th>
                   <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4 text-right">Open</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1C1C1C]">
@@ -124,6 +108,15 @@ const Companies = () => {
                       <span className="text-green-400 font-bold bg-green-500/10 px-1.5 py-0.5 rounded text-[9px]">
                         {c.status ? c.status.toUpperCase() : 'ACTIVE'}
                       </span>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <Link
+                        to={`/platform/company/${c._id || c.id}`}
+                        className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B5B5B5]"
+                      >
+                        View
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
                     </td>
                   </tr>
                 ))}

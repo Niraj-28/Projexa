@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getHomeRoute } from '../utils/roleRoutes';
 import Logo from '../components/Logo';
 import {
   ArrowRight,
@@ -16,23 +17,30 @@ import {
   UserCheck,
   CheckCircle,
   HelpCircle,
-  Clock
+  Clock,
+  LogOut
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const LandingPage = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeFaq, setActiveFaq] = useState(null);
+
+  const getWorkspaceRoute = () => (user ? getHomeRoute(user.role) : '/login');
 
   const toggleFaq = (index) => {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
   const handleDemoClick = () => {
-    toast.success('Demo booking requested! Our sales team will email you shortly.', {
-      icon: '📅',
-    });
+    toast.success('Demo booking requested! Our sales team will email you shortly.');
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    toast.success('Signed out successfully');
+    navigate('/login');
   };
 
   const faqs = [
@@ -42,7 +50,7 @@ const LandingPage = () => {
     },
     {
       q: "How does pricing work?",
-      a: "We offer Starter plans for small teams (up to 10 employees, 5 projects), a Professional tier at ₹999/month (100 employees, unlimited projects), and customized Enterprise options with dedicated SLAs."
+      a: "We offer Starter plans for small teams (up to 10 employees, 5 projects), a Professional tier at Rs. 999/month (100 employees, unlimited projects), and customized Enterprise options with dedicated SLAs."
     },
     {
       q: "Can I invite my team?",
@@ -67,7 +75,7 @@ const LandingPage = () => {
 
       {/* 1. Navbar */}
       <header className="sticky top-0 z-50 bg-[#131313]/85 backdrop-blur-md border-b border-[#1C1C1C] h-16 px-6 sm:px-12 flex items-center justify-between">
-        <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
+        <div className="flex items-center cursor-pointer" onClick={() => navigate(getWorkspaceRoute())}>
           <Logo className="text-white" light={true} />
         </div>
         
@@ -81,12 +89,21 @@ const LandingPage = () => {
 
         <div className="flex items-center space-x-4">
           {user ? (
-            <Link
-              to={user.role === 'super_admin' ? '/platform' : user.role === 'company_admin' ? '/dashboard' : user.role === 'manager' ? '/projects' : '/my-tasks'}
-              className="bg-[#F3F3F3] text-[#131313] hover:bg-[#B5B5B5] px-5 py-2 rounded-lg text-xs font-semibold transition duration-150 shadow"
-            >
-              Go to Workspace
-            </Link>
+            <>
+              <Link
+                to={getWorkspaceRoute()}
+                className="bg-[#F3F3F3] text-[#131313] hover:bg-[#B5B5B5] px-5 py-2 rounded-lg text-xs font-semibold transition duration-150 shadow"
+              >
+                Go to Workspace
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#B5B5B5] hover:text-white transition duration-150 cursor-pointer"
+              >
+                <LogOut className="h-3.5 w-3.5" />
+                Sign Out
+              </button>
+            </>
           ) : (
             <>
               <Link to="/login" className="text-xs font-bold uppercase tracking-wider text-[#B5B5B5] hover:text-white transition duration-150">
@@ -116,12 +133,21 @@ const LandingPage = () => {
             Streamline project execution, employee management, attendance tracking, and collaboration in one unified workspace. Built for modern fast-scaling organizations.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-            <Link
-              to={user ? "/dashboard" : "/register-company"}
-              className="w-full sm:w-auto text-center bg-[#F3F3F3] text-[#131313] hover:bg-[#B5B5B5] px-7 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-lg"
-            >
-              Start Free Trial
-            </Link>
+            {user ? (
+              <Link
+                to={getWorkspaceRoute()}
+                className="w-full sm:w-auto text-center bg-[#F3F3F3] text-[#131313] hover:bg-[#B5B5B5] px-7 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-lg"
+              >
+                Go to Workspace
+              </Link>
+            ) : (
+              <Link
+                to="/register-company"
+                className="w-full sm:w-auto text-center bg-[#F3F3F3] text-[#131313] hover:bg-[#B5B5B5] px-7 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition shadow-lg"
+              >
+                Start Free Trial
+              </Link>
+            )}
             <button
               onClick={handleDemoClick}
               className="w-full sm:w-auto text-center bg-[#1C1C1C] border border-[#3C3C3C] text-white hover:bg-[#3C3C3C]/30 px-7 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition cursor-pointer"
@@ -393,7 +419,7 @@ const LandingPage = () => {
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#B5B5B5]/60">Starter</h3>
                 <div className="flex items-baseline mt-4">
-                  <span className="text-4xl font-bold text-white">₹0</span>
+                  <span className="text-4xl font-bold text-white">Rs. 0</span>
                   <span className="text-xs text-[#B5B5B5]/60 ml-1">/ month</span>
                 </div>
                 <ul className="space-y-3 pt-6 mt-6 border-t border-[#3C3C3C] text-xs text-[#B5B5B5]">
@@ -412,7 +438,7 @@ const LandingPage = () => {
               <div>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-[#131313]/60">Professional</h3>
                 <div className="flex items-baseline mt-4">
-                  <span className="text-4xl font-bold text-[#131313]">₹999</span>
+                  <span className="text-4xl font-bold text-[#131313]">Rs. 999</span>
                   <span className="text-xs text-[#131313]/60 ml-1">/ month</span>
                 </div>
                 <ul className="space-y-3 pt-6 mt-6 border-t border-[#131313]/10 text-xs text-[#131313]">
@@ -524,12 +550,21 @@ const LandingPage = () => {
             Claim your dedicated corporate workspace slug and onboard your staff today. Try all professional features free for 14 days.
           </p>
           <div className="pt-2">
-            <Link
-              to={user ? "/dashboard" : "/register-company"}
-              className="inline-block bg-[#EBEDF1] text-[#080808] hover:bg-white px-8 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition duration-150 shadow-lg"
-            >
-              Start Free Trial
-            </Link>
+            {user ? (
+              <Link
+                to={getWorkspaceRoute()}
+                className="inline-block bg-[#EBEDF1] text-[#080808] hover:bg-white px-8 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition duration-150 shadow-lg"
+              >
+                Go to Workspace
+              </Link>
+            ) : (
+              <Link
+                to="/register-company"
+                className="inline-block bg-[#EBEDF1] text-[#080808] hover:bg-white px-8 py-3 rounded-lg text-xs font-bold uppercase tracking-wider transition duration-150 shadow-lg"
+              >
+                Start Free Trial
+              </Link>
+            )}
           </div>
         </div>
       </section>

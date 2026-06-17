@@ -1,4 +1,5 @@
 const Leave = require('../models/Leave');
+const { createNotification } = require('./notificationController');
 
 // @desc    Request a Leave (Employee only)
 // @route   POST /api/leaves
@@ -20,6 +21,17 @@ const requestLeave = async (req, res) => {
       reason,
       status: 'Pending',
     });
+
+    await createNotification(
+      {
+        company: req.user.company,
+        type: 'leave',
+        title: 'Leave request submitted',
+        message: `${req.user.name} requested ${leave.type}.`,
+        metadata: { leaveId: leave._id },
+      },
+      req.app.get('io')
+    );
 
     res.status(201).json({
       success: true,
@@ -83,6 +95,18 @@ const updateLeaveStatus = async (req, res) => {
     leave.status = status;
     leave.approvedBy = req.user.id;
     await leave.save();
+
+    await createNotification(
+      {
+        company: req.user.company,
+        recipient: leave.user,
+        type: 'leave',
+        title: `Leave ${status.toLowerCase()}`,
+        message: `Your leave request was ${status.toLowerCase()} by ${req.user.name}.`,
+        metadata: { leaveId: leave._id },
+      },
+      req.app.get('io')
+    );
 
     res.status(200).json({
       success: true,

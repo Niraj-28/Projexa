@@ -1,5 +1,7 @@
 const Task = require('../models/Task');
 const Project = require('../models/Project');
+const User = require('../models/User');
+const { createNotification } = require('./notificationController');
 
 // @desc    Create a Task (Company Admin and Manager only)
 // @route   POST /api/tasks
@@ -18,6 +20,13 @@ const createTask = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Invalid project ID or project not in company workspace' });
     }
 
+    if (assignee) {
+      const assigneeUser = await User.findOne({ _id: assignee, company: req.user.company });
+      if (!assigneeUser) {
+        return res.status(400).json({ success: false, message: 'Assignee must belong to the same company workspace' });
+      }
+    }
+
     const task = await Task.create({
       title,
       description: description || '',
@@ -29,6 +38,18 @@ const createTask = async (req, res) => {
       status: 'to_do',
       dueDate: dueDate || null,
     });
+
+    await createNotification(
+      {
+        company: req.user.company,
+        recipient: assignee || null,
+        type: 'task',
+        title: 'Task assigned',
+        message: `${task.title} was added to ${projectRecord.name}.`,
+        metadata: { taskId: task._id, projectId: projectRecord._id },
+      },
+      req.app.get('io')
+    );
 
     res.status(201).json({
       success: true,
@@ -111,6 +132,20 @@ const updateTask = async (req, res) => {
     }
 
     await task.save();
+
+    if (status || assignee !== undefined) {
+      await createNotification(
+        {
+          company: req.user.company,
+          recipient: task.assignee || null,
+          type: 'task',
+          title: status ? 'Task status updated' : 'Task reassigned',
+          message: `${task.title} is now ${task.status.replace(/_/g, ' ')}.`,
+          metadata: { taskId: task._id },
+        },
+        req.app.get('io')
+      );
+    }
 
     res.status(200).json({
       success: true,

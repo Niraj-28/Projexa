@@ -186,11 +186,6 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.error('Login error:', error);
-    try {
-      require('fs').writeFileSync('login_error_debug.txt', `Error: ${error.message}\nStack: ${error.stack}`);
-    } catch (fsErr) {
-      console.error('Failed to write debug file:', fsErr);
-    }
     res.status(500).json({ success: false, message: 'Server error during login', error: error.message });
   }
 };

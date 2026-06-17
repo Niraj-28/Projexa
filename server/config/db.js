@@ -24,6 +24,42 @@ const connectDB = async () => {
       });
       console.log('--- DB SEED: Created Super Admin (admin@projexa.com / admin123) ---');
     }
+
+    // DB Migration: Normalize existing user roles to standard lowercase snake_case
+    const users = await User.find({});
+    let modifiedCount = 0;
+    const normalizeRole = (role) => {
+      if (!role) return 'employee';
+      const key = String(role)
+        .trim()
+        .replace(/[_\s-]+/g, '')
+        .toLowerCase();
+      switch (key) {
+        case 'superadmin':
+          return 'super_admin';
+        case 'admin':
+        case 'companyadmin':
+          return 'company_admin';
+        case 'manager':
+          return 'manager';
+        case 'employee':
+          return 'employee';
+        default:
+          return key;
+      }
+    };
+
+    for (const u of users) {
+      const normalized = normalizeRole(u.role);
+      if (u.role !== normalized) {
+        u.role = normalized;
+        await u.save();
+        modifiedCount++;
+      }
+    }
+    if (modifiedCount > 0) {
+      console.log(`--- DB MIGRATION: Normalized roles for ${modifiedCount} users ---`);
+    }
   } catch (error) {
     console.error(`MongoDB Connection Error: ${error.message}`);
     console.log('Keeping server running for debugging...');

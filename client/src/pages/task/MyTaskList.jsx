@@ -1,16 +1,55 @@
-import React, { useState } from 'react';
-import { CheckSquare, AlertTriangle, Calendar, Award } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
+import { Calendar, Loader2, CheckCircle, Clock } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const MyTaskList = () => {
-  const [tasks, setTasks] = useState([
-    { id: 1, title: 'Implement local storage persistent state', priority: 'Medium', due: '2026-06-22', status: 'In Progress' },
-    { id: 2, title: 'Verify CSS border classes for rounded cards', priority: 'Low', due: '2026-06-28', status: 'To Do' },
-  ]);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleCompleteTask = (id) => {
-    setTasks(tasks.map(t => t.id === id ? { ...t, status: 'Completed' } : t));
-    toast.success('Task marked as Completed! Great job.');
+  const fetchMyTasks = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/tasks');
+      if (response.data && response.data.success) {
+        setTasks(response.data.tasks);
+      }
+    } catch (error) {
+      console.error('Fetch my tasks failed:', error);
+      toast.error('Failed to load your tasks');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMyTasks();
+  }, []);
+
+  const handleUpdateStatus = async (id, newStatus) => {
+    try {
+      const response = await api.put(`/tasks/${id}`, { status: newStatus });
+      if (response.data && response.data.success) {
+        toast.success(newStatus === 'completed' ? 'Task marked as Completed! Great job.' : 'Task status updated.');
+        setTasks(prev => prev.map(t => t._id === id ? { ...t, status: newStatus } : t));
+      }
+    } catch (error) {
+      console.error('Update task status failed:', error);
+      toast.error(error.response?.data?.message || 'Failed to update task status');
+    }
+  };
+
+  const getPriorityBadgeClass = (p) => {
+    switch (p) {
+      case 'critical':
+        return 'text-red-400 font-bold uppercase text-[9px]';
+      case 'high':
+        return 'text-yellow-400 font-semibold uppercase text-[9px]';
+      case 'medium':
+        return 'text-blue-400 font-medium uppercase text-[9px]';
+      default:
+        return 'text-neutral-400 font-light uppercase text-[9px]';
+    }
   };
 
   return (
@@ -27,32 +66,70 @@ const MyTaskList = () => {
             <span>STATUS</span>
           </div>
 
-          {tasks.length === 0 ? (
+          {loading ? (
+            <div className="p-8 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+              <Loader2 className="h-5 w-5 animate-spin text-white" />
+              <span className="text-xs">Loading tasks...</span>
+            </div>
+          ) : tasks.length === 0 ? (
             <p className="text-xs text-[#B5B5B5] text-center py-6 font-light">No tasks assigned to you. Enjoy your day!</p>
           ) : (
             <div className="divide-y divide-[#1C1C1C]">
               {tasks.map((task) => (
-                <div key={task.id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#B5B5B5]">
+                <div key={task._id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#B5B5B5]">
                   <div className="space-y-1">
-                    <p className={`font-medium text-white ${task.status === 'Completed' ? 'line-through opacity-40' : ''}`}>{task.title}</p>
-                    <div className="flex items-center gap-3 text-[10px] text-[#646464]">
-                      <span className="flex items-center gap-1"><Calendar className="h-3 w-3" /> Due {task.due}</span>
-                      <span className="font-semibold text-yellow-500 uppercase text-[9px]">{task.priority} PRIORITY</span>
+                    <p className={`font-medium text-white ${task.status === 'completed' ? 'line-through opacity-40' : ''}`}>
+                      {task.title}
+                    </p>
+                    {task.description && (
+                      <p className="text-[#646464] text-[11px] leading-relaxed max-w-lg">{task.description}</p>
+                    )}
+                    <div className="flex items-center gap-3 text-[10px] text-[#646464] pt-0.5">
+                      {task.project && (
+                        <span className="text-white bg-[#1C1C1C] border border-[#3C3C3C] px-1.5 py-0.5 rounded text-[9px]">
+                          {task.project.name}
+                        </span>
+                      )}
+                      {task.dueDate && (
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" /> Due {new Date(task.dueDate).toLocaleDateString()}
+                        </span>
+                      )}
+                      <span className={getPriorityBadgeClass(task.priority)}>{task.priority} PRIORITY</span>
                     </div>
                   </div>
 
                   <div>
-                    {task.status === 'Completed' ? (
-                      <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-1 rounded text-[10px] font-bold">
-                        COMPLETED
-                      </span>
+                    {task.status === 'completed' ? (
+                      <div className="flex items-center gap-2">
+                        <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-1 rounded text-[10px] font-bold">
+                          COMPLETED
+                        </span>
+                        <button
+                          onClick={() => handleUpdateStatus(task._id, 'in_progress')}
+                          className="text-[#646464] hover:text-white text-[10px] font-semibold cursor-pointer underline underline-offset-2"
+                        >
+                          Reopen
+                        </button>
+                      </div>
                     ) : (
-                      <button
-                        onClick={() => handleCompleteTask(task.id)}
-                        className="bg-[#1C1C1C] border border-[#3C3C3C] text-white hover:bg-white hover:text-black px-3 py-1.5 rounded text-[10px] font-semibold transition duration-150 cursor-pointer"
-                      >
-                        Mark Completed
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={task.status}
+                          onChange={(e) => handleUpdateStatus(task._id, e.target.value)}
+                          className="bg-[#0D0D0D] border border-[#1C1C1C] text-[10px] font-semibold text-[#B5B5B5] rounded px-2 py-1.5 focus:outline-none cursor-pointer mr-1"
+                        >
+                          <option value="to_do">TO DO</option>
+                          <option value="in_progress">IN PROGRESS</option>
+                          <option value="testing">TESTING</option>
+                        </select>
+                        <button
+                          onClick={() => handleUpdateStatus(task._id, 'completed')}
+                          className="bg-[#1C1C1C] border border-[#3C3C3C] text-white hover:bg-white hover:text-black px-3 py-1.5 rounded text-[10px] font-semibold transition duration-150 cursor-pointer"
+                        >
+                          Mark Completed
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>

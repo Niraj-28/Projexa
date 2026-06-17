@@ -4,6 +4,8 @@ const {
   createManager,
   createEmployee,
   getUsers,
+  getMe,
+  updateMe,
   updateUser,
   deleteUser,
 } = require('../controllers/userController');
@@ -20,6 +22,10 @@ router.post('/create-employee', authorize('company_admin', 'manager'), createEmp
 
 // Get all users in company: Restricted to company admins, managers and super admins
 router.get('/', authorize('super_admin', 'company_admin', 'manager'), getUsers);
+
+// Current user profile: accessible by all workspace members
+router.get('/me', authorize('super_admin', 'company_admin', 'manager', 'employee'), getMe);
+router.put('/me', authorize('super_admin', 'company_admin', 'manager', 'employee'), updateMe);
 
 // Update user: Restricted to company admins, managers
 router.put('/:id', authorize('super_admin', 'company_admin', 'manager'), updateUser);

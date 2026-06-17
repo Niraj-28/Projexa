@@ -1,4 +1,59 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
+const Department = require('../models/Department');
+
+// Resolve department input (name or ID) to ObjectId, creating it on the fly if needed
+const resolveDepartment = async (departmentInput, companyId) => {
+  if (!departmentInput) return null;
+
+  const trimmedInput = String(departmentInput).trim();
+  if (!trimmedInput) return null;
+
+  // 1. Check if it's a valid ObjectId
+  if (mongoose.Types.ObjectId.isValid(trimmedInput)) {
+    const dept = await Department.findOne({ _id: trimmedInput, company: companyId });
+    if (dept) return dept._id;
+  }
+
+  // 2. Search by case-insensitive name
+  let dept = await Department.findOne({
+    company: companyId,
+    name: { $regex: new RegExp('^' + trimmedInput.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '$', 'i') }
+  });
+
+  if (dept) {
+    return dept._id;
+  }
+
+  // 3. Create a new department on the fly
+  let baseCode = trimmedInput
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, '')
+    .slice(0, 4);
+  if (!baseCode) baseCode = 'DEPT';
+
+  let code = baseCode;
+  let attempts = 0;
+  let codeExists = true;
+
+  while (codeExists && attempts < 100) {
+    const checkCode = await Department.findOne({ company: companyId, code });
+    if (!checkCode) {
+      codeExists = false;
+    } else {
+      attempts++;
+      code = `${baseCode}${attempts}`;
+    }
+  }
+
+  const newDept = await Department.create({
+    name: trimmedInput,
+    code,
+    company: companyId
+  });
+
+  return newDept._id;
+};
 
 // @desc    Create a Manager (Company Admin only)
 // @route   POST /api/users/create-manager
@@ -20,13 +75,15 @@ const createManager = async (req, res) => {
     // Temporary password as requested by user
     const tempPassword = 'Temp@123';
 
+    const resolvedDept = await resolveDepartment(department, req.user.company);
+
     const manager = await User.create({
       name,
       email: email.toLowerCase(),
       passwordHash: tempPassword, // Will be hashed by pre-save hook
       role: 'manager',
       company: req.user.company, // Must be the same company as the admin
-      department: department || null,
+      department: resolvedDept,
       designation: designation || 'Manager',
       mustChangePassword: true,
       isActive: true,
@@ -72,13 +129,15 @@ const createEmployee = async (req, res) => {
     // Temporary password as requested by user
     const tempPassword = 'Temp@123';
 
+    const resolvedDept = await resolveDepartment(department, req.user.company);
+
     const employee = await User.create({
       name,
       email: email.toLowerCase(),
       passwordHash: tempPassword, // Will be hashed by pre-save hook
       role: 'employee',
       company: req.user.company, // Must be the same company
-      department: department || null,
+      department: resolvedDept,
       designation: designation || 'Employee',
       phone: phone || '',
       joiningDate: joiningDate ? new Date(joiningDate) : new Date(),
@@ -139,6 +198,53 @@ const getUsers = async (req, res) => {
   }
 };
 
+// @desc    Get the current user's profile
+// @route   GET /api/users/me
+// @access  Private
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate('company department');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    console.error('Get current user error:', error);
+    res.status(500).json({ success: false, message: 'Server error fetching profile', error: error.message });
+  }
+};
+
+// @desc    Update the current user's profile
+// @route   PUT /api/users/me
+// @access  Private
+const updateMe = async (req, res) => {
+  try {
+    const { name, phone, designation } = req.body;
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (name) user.name = name;
+    if (phone !== undefined) user.phone = phone;
+    if (designation !== undefined) user.designation = designation;
+
+    await user.save();
+    await user.populate('company department');
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      user,
+    });
+  } catch (error) {
+    console.error('Update current user error:', error);
+    res.status(500).json({ success: false, message: 'Server error updating profile', error: error.message });
+  }
+};
+
 // @desc    Update a User
 // @route   PUT /api/users/:id
 // @access  Private (company_admin, manager, or self)
@@ -166,7 +272,10 @@ const updateUser = async (req, res) => {
     // Update fields
     if (name) userToEdit.name = name;
     if (phone) userToEdit.phone = phone;
-    if (department) userToEdit.department = department;
+    if (department !== undefined) {
+      const companyId = userToEdit.company || req.user.company;
+      userToEdit.department = await resolveDepartment(department, companyId);
+    }
     if (designation) userToEdit.designation = designation;
     if (role && req.user.role === 'company_admin') userToEdit.role = role;
     
@@ -229,6 +338,8 @@ module.exports = {
   createManager,
   createEmployee,
   getUsers,
+  getMe,
+  updateMe,
   updateUser,
   deleteUser,
 };

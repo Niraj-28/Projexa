@@ -28,15 +28,47 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['super_admin', 'company_admin', 'manager', 'employee', 'SuperAdmin', 'Admin', 'Manager', 'Employee'],
       default: 'employee',
+      get: function (val) {
+        if (!val) return val;
+        const key = String(val)
+          .trim()
+          .replace(/[_\s-]+/g, '')
+          .toLowerCase();
+
+        switch (key) {
+          case 'superadmin':
+            return 'super_admin';
+          case 'admin':
+          case 'companyadmin':
+            return 'company_admin';
+          case 'manager':
+            return 'manager';
+          case 'employee':
+            return 'employee';
+          default:
+            return key;
+        }
+      },
       set: function (val) {
         if (!val) return val;
-        const roleMapping = {
-          'SuperAdmin': 'super_admin',
-          'Admin': 'company_admin',
-          'Manager': 'manager',
-          'Employee': 'employee'
-        };
-        return roleMapping[val] || val.toLowerCase();
+        const key = String(val)
+          .trim()
+          .replace(/[_\s-]+/g, '')
+          .toLowerCase();
+
+        switch (key) {
+          case 'superadmin':
+            return 'super_admin';
+          case 'admin':
+          case 'companyadmin':
+            return 'company_admin';
+          case 'manager':
+            return 'manager';
+          case 'employee':
+            return 'employee';
+          default:
+            return key;
+        }
       }
     },
     company: {

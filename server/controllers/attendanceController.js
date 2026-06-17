@@ -1,4 +1,5 @@
 const Attendance = require('../models/Attendance');
+const { createNotification } = require('./notificationController');
 
 // Helper to format date & time
 const getTodayDateString = () => new Date().toISOString().split('T')[0];
@@ -32,8 +33,21 @@ const checkIn = async (req, res) => {
       company: req.user.company,
       date: today,
       checkIn: checkInTime,
-      status: 'Active', // Active shift
+      status,
     });
+
+    if (status === 'Late') {
+      await createNotification(
+        {
+          company: req.user.company,
+          type: 'attendance',
+          title: 'Late clock-in',
+          message: `${req.user.name} checked in at ${checkInTime}.`,
+          metadata: { attendanceId: log._id },
+        },
+        req.app.get('io')
+      );
+    }
 
     res.status(201).json({
       success: true,
@@ -61,7 +75,6 @@ const checkOut = async (req, res) => {
     const checkOutTime = getCurrentTimeString();
     
     log.checkOut = checkOutTime;
-    log.status = 'On Time'; // End of active shift
     await log.save();
 
     res.status(200).json({

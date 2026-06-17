@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getHomeRoute, normalizeRole } from '../utils/roleRoutes';
 import Logo from '../components/Logo';
 import {
   LayoutDashboard,
@@ -16,43 +17,75 @@ import {
   CreditCard,
   Globe,
   User2,
-  Briefcase
+  Briefcase,
+  Bell,
+  Settings,
+  User,
+  ChevronDown
 } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const userRole = normalizeRole(user?.role);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  // Define sidebar items based on role
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Define sidebar items based on role according to user spec
   const getSidebarItems = () => {
-    switch (user?.role) {
+    switch (userRole) {
       case 'super_admin':
         return [
-          { label: 'Platform Hub', path: '/platform', icon: <Globe className="h-4 w-4" /> },
-          { label: 'Companies', path: '/companies', icon: <Building2 className="h-4 w-4" /> },
-          { label: 'Subscriptions', path: '/subscriptions', icon: <CreditCard className="h-4 w-4" /> },
+          { label: 'Dashboard', path: '/platform/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+          { label: 'Companies', path: '/platform/companies', icon: <Building2 className="h-4 w-4" /> },
+          { label: 'Subscriptions', path: '/platform/subscriptions', icon: <CreditCard className="h-4 w-4" /> },
+          { label: 'Revenue', path: '/platform/revenue', icon: <FileBarChart2 className="h-4 w-4" /> },
+          { label: 'Analytics', path: '/platform/analytics', icon: <Network className="h-4 w-4" /> },
+          { label: 'Settings', path: '/platform/settings', icon: <Settings className="h-4 w-4" /> },
         ];
       case 'company_admin':
         return [
           { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+          { label: 'Company', path: '/company/profile', icon: <Building2 className="h-4 w-4" /> },
           { label: 'Employees', path: '/employees', icon: <Users className="h-4 w-4" /> },
           { label: 'Departments', path: '/departments', icon: <Network className="h-4 w-4" /> },
           { label: 'Projects', path: '/projects', icon: <FolderGit2 className="h-4 w-4" /> },
+          { label: 'Tasks', path: '/tasks', icon: <CheckSquare className="h-4 w-4" /> },
+          { label: 'Attendance', path: '/attendance', icon: <Clock3 className="h-4 w-4" /> },
+          { label: 'Leaves', path: '/leaves', icon: <CalendarRange className="h-4 w-4" /> },
           { label: 'Reports', path: '/reports', icon: <FileBarChart2 className="h-4 w-4" /> },
+          { label: 'Notifications', path: '/notifications', icon: <Bell className="h-4 w-4" /> },
+          { label: 'Settings', path: '/settings/profile', icon: <Settings className="h-4 w-4" /> },
         ];
       case 'manager':
         return [
-          { label: 'Team Projects', path: '/projects', icon: <FolderGit2 className="h-4 w-4" /> },
-          { label: 'Tasks Desk', path: '/tasks', icon: <CheckSquare className="h-4 w-4" /> },
-          { label: 'Team Members', path: '/team', icon: <Users className="h-4 w-4" /> },
+          { label: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
+          { label: 'Projects', path: '/projects', icon: <FolderGit2 className="h-4 w-4" /> },
+          { label: 'Tasks', path: '/tasks', icon: <CheckSquare className="h-4 w-4" /> },
+          { label: 'Team', path: '/team', icon: <Users className="h-4 w-4" /> },
+          { label: 'Attendance', path: '/attendance', icon: <Clock3 className="h-4 w-4" /> },
+          { label: 'Profile', path: '/profile', icon: <User2 className="h-4 w-4" /> },
         ];
       case 'employee':
         return [
+          { label: 'Dashboard', path: '/my-dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
           { label: 'My Tasks', path: '/my-tasks', icon: <CheckSquare className="h-4 w-4" /> },
           { label: 'Attendance', path: '/attendance', icon: <Clock3 className="h-4 w-4" /> },
-          { label: 'Leave Requests', path: '/leave', icon: <CalendarRange className="h-4 w-4" /> },
-          { label: 'My Profile', path: '/profile', icon: <User2 className="h-4 w-4" /> },
+          { label: 'Leaves', path: '/leaves', icon: <CalendarRange className="h-4 w-4" /> },
+          { label: 'Profile', path: '/profile', icon: <User2 className="h-4 w-4" /> },
+          { label: 'Notifications', path: '/notifications', icon: <Bell className="h-4 w-4" /> },
         ];
       default:
         return [];
@@ -66,13 +99,22 @@ const DashboardLayout = ({ children }) => {
     navigate('/login');
   };
 
+  // Dynamic logo redirect logic
+  const handleLogoRedirect = () => {
+    if (!user) {
+      navigate('/');
+      return;
+    }
+    navigate(getHomeRoute(user.role));
+  };
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F3F3F3] flex flex-col md:flex-row font-sans">
+    <div className="app-shell min-h-screen bg-[#0D0D0D] text-[#F3F3F3] flex flex-col md:flex-row font-sans">
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-[#131313] border-b md:border-b-0 md:border-r border-[#1C1C1C] flex flex-col shrink-0">
         {/* Brand Logo */}
         <div className="h-16 px-6 border-b border-[#1C1C1C] flex items-center">
-          <Logo light={true} className="cursor-pointer" onClick={() => navigate('/')} />
+          <Logo light={true} className="cursor-pointer" onClick={handleLogoRedirect} />
         </div>
 
         {/* Workspace Display */}
@@ -88,7 +130,7 @@ const DashboardLayout = ({ children }) => {
         )}
 
         {/* Navigation Menu */}
-        <nav className="flex-grow p-4 space-y-1">
+        <nav className="flex-grow p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
           {menuItems.map((item) => {
             const isActive = location.pathname === item.path;
             return (
@@ -108,26 +150,19 @@ const DashboardLayout = ({ children }) => {
           })}
         </nav>
 
-        {/* User Card & Logout */}
+        {/* User Card */}
         <div className="p-4 border-t border-[#1C1C1C] bg-[#161616]">
-          <div className="flex items-center space-x-2.5 mb-3">
+          <div className="flex items-center space-x-2.5">
             <div className="h-8 w-8 rounded-full bg-[#3C3C3C] border border-[#646464] flex items-center justify-center text-xs font-bold text-white uppercase">
               {user?.name ? user.name.slice(0, 2) : 'US'}
             </div>
             <div className="truncate flex-grow">
               <p className="text-xs font-medium text-white truncate leading-none mb-0.5">{user?.name}</p>
               <p className="text-[9px] font-semibold text-[#B5B5B5] uppercase tracking-wider truncate">
-                {user?.role ? user.role.replace('_', ' ') : ''}
+                {userRole ? userRole.replace('_', ' ') : ''}
               </p>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center justify-center space-x-2 px-3 py-2 rounded-lg text-xs font-semibold text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all duration-150 cursor-pointer"
-          >
-            <LogOut className="h-3.5 w-3.5" />
-            <span>Sign Out</span>
-          </button>
         </div>
       </aside>
 
@@ -136,15 +171,80 @@ const DashboardLayout = ({ children }) => {
         {/* Top Header */}
         <header className="h-16 px-8 border-b border-[#1C1C1C] bg-[#131313]/50 flex items-center justify-between z-10">
           <h2 className="text-sm font-semibold tracking-tight text-white capitalize">
-            {location.pathname.substring(1).replace('-', ' ')} view
+            {location.pathname.substring(1).replace('-', ' ').replace('/', ' / ') || 'Home'} view
           </h2>
-          <div className="flex items-center space-x-4">
-            <div className="text-right">
-              <span className="text-[10px] text-[#646464] block font-mono">Server Status</span>
-              <span className="text-[10px] font-bold text-green-400 flex items-center justify-end gap-1">
+          
+          <div className="flex items-center space-x-6">
+            {/* Server Status info */}
+            <div className="hidden sm:block text-right">
+              <span className="text-[9px] text-[#646464] block font-mono">Server Status</span>
+              <span className="text-[9px] font-bold text-green-400 flex items-center justify-end gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
                 ONLINE
               </span>
+            </div>
+
+            {/* Profile Dropdown Component */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center space-x-2 bg-[#1C1C1C] border border-[#3C3C3C] px-3 py-1.5 rounded-xl hover:bg-[#3C3C3C]/30 text-xs font-medium transition cursor-pointer text-[#F3F3F3]"
+              >
+                <div className="h-5 w-5 rounded-full bg-[#3C3C3C] flex items-center justify-center text-[10px] font-bold uppercase text-white">
+                  {user?.name ? user.name.slice(0, 2) : 'US'}
+                </div>
+                <span className="max-w-[80px] truncate">{user?.name?.split(' ')[0]}</span>
+                <ChevronDown className={`h-3 w-3 text-[#B5B5B5] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-[#131313] border border-[#1C1C1C] rounded-xl shadow-2xl py-1.5 z-50 animate-in fade-in duration-100">
+                  <div className="px-4 py-2 border-b border-[#1C1C1C]">
+                    <p className="text-xs font-semibold text-white truncate">{user?.name}</p>
+                    <p className="text-[9px] font-medium text-[#B5B5B5] truncate mt-0.5">{user?.email}</p>
+                  </div>
+
+                  <Link
+                    to="/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center space-x-2 px-4 py-2 text-xs text-[#B5B5B5] hover:text-white hover:bg-[#1C1C1C] transition-colors"
+                  >
+                    <User className="h-3.5 w-3.5" />
+                    <span>Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/settings/profile"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center space-x-2 px-4 py-2 text-xs text-[#B5B5B5] hover:text-white hover:bg-[#1C1C1C] transition-colors"
+                  >
+                    <Settings className="h-3.5 w-3.5" />
+                    <span>Settings</span>
+                  </Link>
+
+                  <Link
+                    to="/notifications"
+                    onClick={() => setDropdownOpen(false)}
+                    className="flex items-center space-x-2 px-4 py-2 text-xs text-[#B5B5B5] hover:text-white hover:bg-[#1C1C1C] transition-colors"
+                  >
+                    <Bell className="h-3.5 w-3.5" />
+                    <span>Notifications</span>
+                  </Link>
+
+                  <div className="border-t border-[#1C1C1C] my-1"></div>
+
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      handleLogout();
+                    }}
+                    className="w-full flex items-center space-x-2 px-4 py-2 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors text-left"
+                  >
+                    <LogOut className="h-3.5 w-3.5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>
