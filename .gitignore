@@ -1,17 +1,16 @@
 # Dependencies
 node_modules/
 
-# Environment Variables
+# Environment Files
 .env
 .env.local
-
-# Logs
-logs
-*.log
 
 # Build
 dist/
 build/
+
+# Logs
+*.log
 
 # VS Code
 .vscode/
