@@ -1,0 +1,4 @@
+Error: next is not a function
+Stack: TypeError: next is not a function
+    at model.<anonymous> (Z:\Projects\Projexa\server\models\User.js:103:12)
+    at Kareem.execPre (Z:\Projects\Projexa\server\node_modules\kareem\index.js:59:39)
