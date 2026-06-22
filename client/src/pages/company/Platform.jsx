@@ -83,7 +83,7 @@ const Platform = () => {
           </div>
           <div className="flex justify-between p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl">
             <span>Platform Version</span>
-            <span className="text-white font-mono">Projexa v1.0.0-rc4</span>
+            <span className="text-white font-mono">WorkArea v1.0.0-rc4</span>
           </div>
         </div>
       </div>

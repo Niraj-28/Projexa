@@ -132,7 +132,7 @@ const ResetPassword = () => {
               <div className="space-y-2">
                 <h3 className="text-lg font-medium text-white">Password Updated</h3>
                 <p className="text-xs text-[#B5B5B5] font-light leading-relaxed">
-                  Your new password is set. You can now log in to your Projexa account dashboard.
+                  Your new password is set. You can now log in to your WorkArea account dashboard.
                 </p>
               </div>
               <button

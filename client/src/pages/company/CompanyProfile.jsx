@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Building2, Globe, Calendar } from 'lucide-react';
 import api from '../../services/api';
+import CompanyNavTabs from '../../components/CompanyNavTabs';
 
 const CompanyProfile = () => {
   const { user } = useAuth();
@@ -24,6 +25,7 @@ const CompanyProfile = () => {
 
   return (
     <div className="space-y-6">
+      <CompanyNavTabs />
       <div>
         <h1 className="text-2xl font-semibold text-white tracking-tight">Company Profile</h1>
         <p className="text-xs text-[#B5B5B5] mt-1 font-light">View your organization's registration metadata and slug details.</p>
@@ -44,7 +46,7 @@ const CompanyProfile = () => {
           <div className="space-y-3.5 pt-4 border-t border-[#1C1C1C]">
             <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
               <span className="text-[#646464]">Company Name</span>
-              <span className="text-white font-medium">{company.name || 'Projexa Workspace'}</span>
+              <span className="text-white font-medium">{company.name || 'WorkArea Workspace'}</span>
             </div>
             <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
               <span className="text-[#646464]">Registration Email</span>

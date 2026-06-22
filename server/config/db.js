@@ -11,7 +11,7 @@ const connectDB = async () => {
     
     // Seed Super Admin if not already present
     const User = require('../models/User');
-    const superAdminEmail = 'admin@projexa.com';
+    const superAdminEmail = 'admin@workarea.com';
     const superAdminExists = await User.findOne({ email: superAdminEmail });
     if (!superAdminExists) {
       await User.create({
@@ -22,7 +22,7 @@ const connectDB = async () => {
         isActive: true,
         status: 'Active',
       });
-      console.log('--- DB SEED: Created Super Admin (admin@projexa.com / admin123) ---');
+      console.log('--- DB SEED: Created Super Admin (admin@workarea.com / admin123) ---');
     }
 
     // DB Migration: Normalize existing user roles to standard lowercase snake_case
@@ -49,11 +49,14 @@ const connectDB = async () => {
       }
     };
 
-    for (const u of users) {
+    const rawUsers = await mongoose.connection.db.collection('users').find({}).toArray();
+    for (const u of rawUsers) {
       const normalized = normalizeRole(u.role);
       if (u.role !== normalized) {
-        u.role = normalized;
-        await u.save();
+        await mongoose.connection.db.collection('users').updateOne(
+          { _id: u._id },
+          { $set: { role: normalized } }
+        );
         modifiedCount++;
       }
     }

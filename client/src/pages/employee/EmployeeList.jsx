@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { UserPlus, Search, Shield, User, Smartphone, Calendar, AlertCircle, Copy, Check, Loader2 } from 'lucide-react';
@@ -111,9 +112,23 @@ const EmployeeList = () => {
     }
   };
 
+  const handleActivate = async (id) => {
+    if (!window.confirm('Are you sure you want to reactivate this member?')) return;
+    
+    try {
+      const response = await api.put(`/users/${id}`, { isActive: true });
+      if (response.data && response.data.success) {
+        toast.success('Member reactivated successfully');
+        fetchMembers();
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Failed to reactivate member');
+    }
+  };
+
   const handleCopyPassword = () => {
     if (!createdTempInfo) return;
-    const textToCopy = `Welcome to Projexa\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
+    const textToCopy = `Welcome to WorkArea\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
     navigator.clipboard.writeText(textToCopy);
     setCopiedText(true);
     toast.success('Credentials copied to clipboard!');
@@ -243,16 +258,43 @@ const EmployeeList = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      {currentUser?.role === 'company_admin' && member._id !== currentUser.id && member.isActive ? (
-                        <button
-                          onClick={() => handleDeactivate(member._id)}
-                          className="text-red-400 hover:text-red-300 font-semibold cursor-pointer"
+                      <div className="flex items-center justify-end space-x-3">
+                        <Link
+                          to={`/employees/${member._id}`}
+                          className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
                         >
-                          Deactivate
-                        </button>
-                      ) : (
-                        <span className="text-[#646464]">-</span>
-                      )}
+                          Details
+                        </Link>
+                        {member._id !== currentUser.id && (
+                          <>
+                            {(currentUser?.role === 'company_admin' || (currentUser?.role === 'manager' && member.role === 'employee')) && (
+                              <Link
+                                to={`/employees/edit/${member._id}`}
+                                className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                              >
+                                Edit
+                              </Link>
+                            )}
+                            {currentUser?.role === 'company_admin' && (
+                              member.isActive ? (
+                                <button
+                                  onClick={() => handleDeactivate(member._id)}
+                                  className="text-red-400 hover:text-red-300 font-semibold cursor-pointer"
+                                >
+                                  Deactivate
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => handleActivate(member._id)}
+                                  className="text-green-400 hover:text-green-300 font-semibold cursor-pointer"
+                                >
+                                  Activate
+                                </button>
+                              )
+                            )}
+                          </>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -294,7 +336,7 @@ const EmployeeList = () => {
                   </div>
 
                   <div className="bg-[#0D0D0D] border border-[#1C1C1C] p-4 rounded-xl font-mono text-xs text-[#B5B5B5] relative space-y-1.5">
-                    <p className="text-[10px] text-[#646464] uppercase font-sans font-bold">Welcome to Projexa</p>
+                    <p className="text-[10px] text-[#646464] uppercase font-sans font-bold">Welcome to WorkArea</p>
                     <p><span className="text-[#646464]">Email:</span> {createdTempInfo.email}</p>
                     <p><span className="text-[#646464]">Password:</span> {createdTempInfo.password}</p>
                   </div>
@@ -388,19 +430,19 @@ const EmployeeList = () => {
                     </div>
                   </div>
 
-                  {formData.role === 'employee' && (
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="flex flex-col space-y-1">
-                        <label className="text-[10px] font-bold text-[#646464] uppercase">Phone Number</label>
-                        <input
-                          type="text"
-                          name="phone"
-                          placeholder="e.g. 9876543210"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
-                        />
-                      </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col space-y-1">
+                      <label className="text-[10px] font-bold text-[#646464] uppercase">Phone Number</label>
+                      <input
+                        type="text"
+                        name="phone"
+                        placeholder="e.g. 9876543210"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                      />
+                    </div>
+                    {formData.role === 'employee' ? (
                       <div className="flex flex-col space-y-1">
                         <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
                         <input
@@ -411,8 +453,15 @@ const EmployeeList = () => {
                           className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
                         />
                       </div>
-                    </div>
-                  )}
+                    ) : (
+                      <div className="flex flex-col space-y-1">
+                        <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
+                        <div className="bg-[#0D0D0D]/40 border border-[#1C1C1C] text-xs text-[#646464]/80 rounded-lg p-2.5 select-none leading-normal">
+                          Immediate (Manager)
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   <div className="pt-4 flex gap-3">
                     <button

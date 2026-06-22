@@ -126,7 +126,7 @@ const updateTask = async (req, res) => {
     } else {
       // Admins and Managers can edit everything
       if (title) task.title = title;
-      if (description) task.description = description;
+      if (description !== undefined) task.description = description;
       if (assignee !== undefined) task.assignee = assignee || null;
       if (priority) task.priority = priority;
       if (status) task.status = status;
@@ -160,8 +160,72 @@ const updateTask = async (req, res) => {
   }
 };
 
+const getTasksReport = async (req, res) => {
+  try {
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const totalTasks = await Task.countDocuments({ company: companyId });
+    const completedTasks = await Task.countDocuments({ company: companyId, status: 'completed' });
+    const outstandingTasks = totalTasks - completedTasks;
+    const completionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+    res.status(200).json({
+      success: true,
+      report: {
+        totalTasks,
+        completedTasks,
+        outstandingTasks,
+        completionRate,
+      },
+    });
+  } catch (error) {
+    console.error('Tasks report error:', error);
+    res.status(500).json({ success: false, message: 'Server error during tasks report generation', error: error.message });
+  }
+};
+
+const exportTasksCSV = async (req, res) => {
+  try {
+    const { convertToCSV } = require('../utils/csvHelper');
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const tasks = await Task.find({ company: companyId })
+      .populate('project', 'name')
+      .populate('assignee', 'name email')
+      .populate('reporter', 'name email');
+
+    const data = tasks.map((t) => ({
+      Title: t.title,
+      Description: t.description || 'N/A',
+      Project: t.project?.name || 'N/A',
+      Assignee: t.assignee?.name || 'Unassigned',
+      Reporter: t.reporter?.name || 'N/A',
+      Priority: t.priority,
+      Status: t.status,
+      DueDate: t.dueDate ? new Date(t.dueDate).toLocaleDateString() : 'N/A',
+    }));
+
+    const csvContent = convertToCSV(data, ['Title', 'Description', 'Project', 'Assignee', 'Reporter', 'Priority', 'Status', 'DueDate']);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=tasks_report.csv');
+    res.status(200).send(csvContent);
+  } catch (error) {
+    console.error('Export tasks CSV error:', error);
+    res.status(500).json({ success: false, message: 'Server error during CSV export', error: error.message });
+  }
+};
+
 module.exports = {
   createTask,
   getTasks,
   updateTask,
+  getTasksReport,
+  exportTasksCSV,
 };

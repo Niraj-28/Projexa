@@ -9,16 +9,27 @@ const EditDepartment = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [formData, setFormData] = useState({ name: '', code: '' });
+  const [users, setUsers] = useState([]);
+  const [formData, setFormData] = useState({ name: '', code: '', manager: '' });
 
   useEffect(() => {
-    const fetchDep = async () => {
+    const fetchDepAndUsers = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/departments/${id}`);
-        if (res.data && res.data.success) {
-          const target = res.data.department;
-          setFormData({ name: target.name, code: target.code });
+        const [depRes, usersRes] = await Promise.all([
+          api.get(`/departments/${id}`),
+          api.get('/users')
+        ]);
+        if (depRes.data && depRes.data.success) {
+          const target = depRes.data.department;
+          setFormData({
+            name: target.name,
+            code: target.code,
+            manager: target.manager?._id || ''
+          });
+        }
+        if (usersRes.data && usersRes.data.success) {
+          setUsers(usersRes.data.users);
         }
       } catch (error) {
         console.error(error);
@@ -27,7 +38,7 @@ const EditDepartment = () => {
         setLoading(false);
       }
     };
-    fetchDep();
+    fetchDepAndUsers();
   }, [id]);
 
   const handleChange = (e) => {
@@ -38,7 +49,12 @@ const EditDepartment = () => {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const res = await api.put(`/departments/${id}`, formData);
+      const payload = {
+        name: formData.name,
+        code: formData.code,
+        manager: formData.manager || null
+      };
+      const res = await api.put(`/departments/${id}`, payload);
       if (res.data && res.data.success) {
         toast.success('Department updated successfully');
         navigate('/departments');
@@ -96,6 +112,21 @@ const EditDepartment = () => {
               className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none uppercase"
               required
             />
+          </div>
+
+          <div className="flex flex-col space-y-1">
+            <label className="text-[10px] font-bold text-[#646464] uppercase">Department Manager / Lead</label>
+            <select
+              name="manager"
+              value={formData.manager}
+              onChange={handleChange}
+              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+            >
+              <option value="">Unassigned</option>
+              {users.map(u => (
+                <option key={u._id} value={u._id}>{u.name} ({u.role.replace('_', ' ')})</option>
+              ))}
+            </select>
           </div>
 
           <button

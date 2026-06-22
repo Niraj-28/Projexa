@@ -8,11 +8,16 @@ const {
   updateMe,
   updateUser,
   deleteUser,
+  getEmployeeReport,
+  exportEmployeesCSV,
 } = require('../controllers/userController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
 // All routes require authentication
 router.use(protect);
+
+router.get('/report', authorize('company_admin', 'manager'), getEmployeeReport);
+router.get('/export', authorize('company_admin', 'manager'), exportEmployeesCSV);
 
 // Create manager: Restricted to company admin
 router.post('/create-manager', authorize('company_admin'), createManager);

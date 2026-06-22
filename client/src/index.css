@@ -14,6 +14,9 @@
   --color-accent-bg: rgba(181, 181, 181, 0.08);
   --color-cta-bg: #F3F3F3;
   --color-cta-text: #131313;
+
+  --font-sans: "Poppins", sans-serif;
+  --font-heading: "Poppins", sans-serif;
 }
 
 html {

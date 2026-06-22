@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { Clock, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -64,9 +65,33 @@ const AttendanceTracker = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-white tracking-tight">Attendance Tracker</h1>
-        <p className="text-xs text-[#B5B5B5] mt-1 font-light font-sans">Verify active shifts, check in/out, and review attendance logs.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold text-white tracking-tight">Attendance Tracker</h1>
+          <p className="text-xs text-[#B5B5B5] mt-1 font-light font-sans">Verify active shifts, check in/out, and review attendance logs.</p>
+        </div>
+        
+        {/* Navigation Tabs */}
+        <div className="flex bg-[#131313] border border-[#1C1C1C] rounded-lg p-0.5">
+          <Link
+            to="/attendance"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#3C3C3C] text-white"
+          >
+            Tracker
+          </Link>
+          <Link
+            to="/attendance/history"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+          >
+            History
+          </Link>
+          <Link
+            to="/attendance/reports"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+          >
+            Reports
+          </Link>
+        </div>
       </div>
 
       {/* Clock In Widget */}

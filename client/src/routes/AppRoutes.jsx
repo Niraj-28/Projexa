@@ -321,7 +321,7 @@ const AppRoutes = () => {
       <Route
         path="/employees/edit/:id"
         element={
-          <RoleGuardRoute allowedRoles={['company_admin']}>
+          <RoleGuardRoute allowedRoles={['company_admin', 'manager']}>
             <EditEmployee />
           </RoleGuardRoute>
         }
@@ -585,7 +585,7 @@ const AppRoutes = () => {
       <Route
         path="/notifications"
         element={
-          <RoleGuardRoute allowedRoles={['company_admin', 'manager', 'employee']}>
+          <RoleGuardRoute allowedRoles={['super_admin', 'company_admin', 'manager', 'employee']}>
             <NotificationsView />
           </RoleGuardRoute>
         }
@@ -625,7 +625,7 @@ const AppRoutes = () => {
       <Route
         path="/profile"
         element={
-          <RoleGuardRoute allowedRoles={['company_admin', 'manager', 'employee']}>
+          <RoleGuardRoute allowedRoles={['super_admin', 'company_admin', 'manager', 'employee']}>
             <Profile />
           </RoleGuardRoute>
         }

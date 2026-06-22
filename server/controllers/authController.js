@@ -331,12 +331,119 @@ const changePassword = async (req, res) => {
   }
 };
 
+// @desc    Authenticate user via Google OAuth2 access token
+// @route   POST /api/auth/google
+// @access  Public
+const googleLogin = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({ success: false, message: 'Google access token is required' });
+    }
+
+    // Verify token by calling Google User Info API
+    const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${token}`);
+    if (!response.ok) {
+      return res.status(400).json({ success: false, message: 'Invalid Google access token' });
+    }
+
+    const payload = await response.json();
+    const { email, name } = payload;
+
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Could not retrieve email from Google account' });
+    }
+
+    // Check if user already exists
+    let user = await User.findOne({ email: email.toLowerCase() }).populate('company');
+    
+    if (!user) {
+      // Auto-provision a new Company and Admin user
+      let workspaceUrl = `${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}-workspace`;
+      workspaceUrl = workspaceUrl.replace(/-+/g, '-').replace(/^-|-$/g, '');
+
+      // Ensure uniqueness
+      let urlConflict = await Company.findOne({ workspaceUrl });
+      if (urlConflict) {
+        const suffix = Math.floor(1000 + Math.random() * 9000);
+        workspaceUrl = `${workspaceUrl}-${suffix}`;
+      }
+
+      // Create Company
+      const company = await Company.create({
+        name: `${name}'s Workspace`,
+        email: email.toLowerCase(),
+        industry: 'Other',
+        workspaceUrl,
+        subscriptionPlan: 'Free',
+      });
+
+      // Create Admin User with temporary secure password
+      const tempPassword = Math.random().toString(36).slice(-10) + 'A1!';
+      user = await User.create({
+        name,
+        email: email.toLowerCase(),
+        passwordHash: tempPassword,
+        role: 'company_admin',
+        company: company._id,
+        designation: 'Company Admin',
+      });
+      
+      user.company = company;
+    }
+
+    if (user.status === 'Inactive') {
+      return res.status(403).json({ success: false, message: 'Your account is currently inactive' });
+    }
+
+    // Generate tokens
+    const accessToken = generateAccessToken(user._id);
+    const refreshToken = generateRefreshToken(user._id);
+
+    // Save refresh token to user record
+    user.refreshTokens.push(refreshToken);
+    await user.save();
+
+    // Send HTTPOnly cookie
+    setRefreshTokenCookie(res, refreshToken);
+
+    const userResponse = {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      company: user.company
+        ? {
+            id: user.company._id,
+            name: user.company.name,
+            email: user.company.email,
+            workspaceUrl: user.company.workspaceUrl,
+            subscriptionPlan: user.company.subscriptionPlan,
+          }
+        : null,
+      department: user.department,
+      designation: user.designation,
+      mustChangePassword: user.mustChangePassword,
+      isActive: user.isActive,
+    };
+
+    res.status(200).json({
+      success: true,
+      token: accessToken,
+      user: userResponse,
+    });
+  } catch (error) {
+    console.error('Google authentication error:', error);
+    res.status(500).json({ success: false, message: 'Server error during Google authentication', error: error.message });
+  }
+};
+
 // @desc    Get current authenticated user profile
 // @route   GET /api/auth/me
 // @access  Private
 const getMe = async (req, res) => {
   try {
-    // req.user has already been loaded in protect middleware
     res.status(200).json({
       success: true,
       user: req.user,
@@ -350,6 +457,7 @@ const getMe = async (req, res) => {
 module.exports = {
   registerCompany,
   login,
+  googleLogin,
   refreshToken,
   logout,
   getMe,

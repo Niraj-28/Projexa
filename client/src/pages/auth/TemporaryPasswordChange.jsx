@@ -26,7 +26,7 @@ const TemporaryPasswordChange = () => {
     try {
       setSubmitting(true);
       await changePassword(null, newPassword);
-      toast.success('Password updated successfully! Welcome to Projexa.');
+      toast.success('Password updated successfully! Welcome to WorkArea.');
     } catch (err) {
       toast.error(err || 'Failed to update password. Please try again.');
     } finally {

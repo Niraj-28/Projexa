@@ -9,28 +9,39 @@ const EditTask = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    assignee: '',
+    dueDate: '',
     priority: 'medium',
     status: 'to_do',
   });
 
   useEffect(() => {
-    const fetchTask = async () => {
+    const fetchTaskAndUsers = async () => {
       try {
         setLoading(true);
-        const res = await api.get('/tasks');
-        if (res.data && res.data.success) {
-          const target = res.data.tasks.find(t => t._id === id);
+        const [tasksRes, usersRes] = await Promise.all([
+          api.get('/tasks'),
+          api.get('/users')
+        ]);
+        if (tasksRes.data && tasksRes.data.success) {
+          const target = tasksRes.data.tasks.find(t => t._id === id);
           if (target) {
             setFormData({
               title: target.title,
               description: target.description || '',
+              assignee: target.assignee?._id || '',
+              dueDate: target.dueDate ? target.dueDate.split('T')[0] : '',
               priority: target.priority,
               status: target.status,
             });
           }
+        }
+        if (usersRes.data && usersRes.data.success) {
+          setUsers(usersRes.data.users);
         }
       } catch (error) {
         console.error(error);
@@ -39,7 +50,7 @@ const EditTask = () => {
         setLoading(false);
       }
     };
-    fetchTask();
+    fetchTaskAndUsers();
   }, [id]);
 
   const handleChange = (e) => {
@@ -107,6 +118,33 @@ const EditTask = () => {
               onChange={handleChange}
               className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none resize-none"
             ></textarea>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col space-y-1">
+              <label className="text-[10px] font-bold text-[#646464] uppercase">Assignee</label>
+              <select
+                name="assignee"
+                value={formData.assignee}
+                onChange={handleChange}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+              >
+                <option value="">Unassigned</option>
+                {users.map(u => (
+                  <option key={u._id} value={u._id}>{u.name} ({u.role.replace('_', ' ')})</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col space-y-1">
+              <label className="text-[10px] font-bold text-[#646464] uppercase">Due Date</label>
+              <input
+                type="date"
+                name="dueDate"
+                value={formData.dueDate}
+                onChange={handleChange}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">

@@ -1,9 +1,42 @@
-import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
+import toast from 'react-hot-toast';
 
 const AttendanceReport = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get('/attendance/report');
+        if (res.data?.success) {
+          setData(res.data.report);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to load attendance metrics report');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReport();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <span className="text-xs">Loading attendance metrics...</span>
+      </div>
+    );
+  }
+
+  const onTimeRate = data?.totalShifts > 0 ? (100 - Number(data.delayRate)).toFixed(1) : '100.0';
 
   return (
     <div className="space-y-6 max-w-xl">
@@ -22,15 +55,19 @@ const AttendanceReport = () => {
           <h3 className="font-semibold text-white text-sm mb-4">Attendance Stats</h3>
           <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
             <span className="text-[#646464]">Total Shifts Tracked</span>
-            <span className="text-white font-medium">84 Shifts</span>
+            <span className="text-white font-medium">{data?.totalShifts || 0} Shifts</span>
           </div>
           <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-            <span className="text-[#646464]">Average Delay Rate</span>
-            <span className="text-white text-yellow-400">4.2% (Late logs)</span>
+            <span className="text-[#646464]">On-Time Clock-Ins</span>
+            <span className="text-green-400 font-medium">{data?.onTimeLogs || 0} Logs ({onTimeRate}%)</span>
+          </div>
+          <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <span className="text-[#646464]">Late Clock-Ins</span>
+            <span className="text-yellow-400 font-medium">{data?.lateLogs || 0} Logs ({data?.delayRate || '0.0'}%)</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#646464]">Perfect Week Records</span>
-            <span className="text-white">6 Employees</span>
+            <span className="text-[#646464]">Perfect Attendance Employees</span>
+            <span className="text-white">{data?.perfectAttendanceCount || 0} Staff Members</span>
           </div>
         </div>
       </div>

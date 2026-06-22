@@ -37,6 +37,18 @@ const companySchema = new mongoose.Schema(
       enum: ['Active', 'Suspended'],
       default: 'Active',
     },
+    shiftStart: {
+      type: String,
+      default: '09:00 AM',
+    },
+    shiftGrace: {
+      type: Number,
+      default: 15,
+    },
+    weeklyOff: {
+      type: String,
+      default: 'sat-sun',
+    },
   },
   {
     timestamps: true,

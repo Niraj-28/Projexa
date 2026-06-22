@@ -61,7 +61,7 @@ const AddEmployee = () => {
 
   const handleCopyPassword = () => {
     if (!createdTempInfo) return;
-    const textToCopy = `Welcome to Projexa\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
+    const textToCopy = `Welcome to WorkArea\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
     navigator.clipboard.writeText(textToCopy);
     setCopiedText(true);
     toast.success('Credentials copied to clipboard!');
@@ -194,16 +194,25 @@ const AddEmployee = () => {
                   className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
                 />
               </div>
-              <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
-                <input
-                  type="date"
-                  name="joiningDate"
-                  value={formData.joiningDate}
-                  onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
-                />
-              </div>
+              {formData.role === 'employee' ? (
+                <div className="flex flex-col space-y-1">
+                  <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
+                  <input
+                    type="date"
+                    name="joiningDate"
+                    value={formData.joiningDate}
+                    onChange={handleChange}
+                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col space-y-1">
+                  <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
+                  <div className="bg-[#0D0D0D]/40 border border-[#1C1C1C] text-xs text-[#646464]/80 rounded-lg p-2.5 select-none leading-normal">
+                    Immediate (Manager)
+                  </div>
+                </div>
+              )}
             </div>
 
             <button

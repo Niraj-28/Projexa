@@ -124,9 +124,69 @@ const updateProject = async (req, res) => {
   }
 };
 
+const getProjectsReport = async (req, res) => {
+  try {
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const totalProjects = await Project.countDocuments({ company: companyId });
+    const planningProjects = await Project.countDocuments({ company: companyId, status: 'Planning' });
+    const activeProjects = await Project.countDocuments({ company: companyId, status: 'Active' });
+    const completedProjects = await Project.countDocuments({ company: companyId, status: 'Completed' });
+    const onHoldProjects = await Project.countDocuments({ company: companyId, status: 'On Hold' });
+
+    res.status(200).json({
+      success: true,
+      report: {
+        totalProjects,
+        planningProjects,
+        activeProjects,
+        completedProjects,
+        onHoldProjects,
+      },
+    });
+  } catch (error) {
+    console.error('Projects report error:', error);
+    res.status(500).json({ success: false, message: 'Server error during projects report generation', error: error.message });
+  }
+};
+
+const exportProjectsCSV = async (req, res) => {
+  try {
+    const { convertToCSV } = require('../utils/csvHelper');
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const projects = await Project.find({ company: companyId }).populate('manager', 'name email');
+    const data = projects.map((p) => ({
+      ProjectName: p.name,
+      Description: p.description || 'N/A',
+      Manager: p.manager?.name || 'Unassigned',
+      Deadline: p.deadline ? new Date(p.deadline).toLocaleDateString() : 'N/A',
+      Status: p.status,
+      CreatedAt: new Date(p.createdAt).toLocaleDateString(),
+    }));
+
+    const csvContent = convertToCSV(data, ['ProjectName', 'Description', 'Manager', 'Deadline', 'Status', 'CreatedAt']);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=projects_report.csv');
+    res.status(200).send(csvContent);
+  } catch (error) {
+    console.error('Export projects CSV error:', error);
+    res.status(500).json({ success: false, message: 'Server error during CSV export', error: error.message });
+  }
+};
+
 module.exports = {
   createProject,
   getProjects,
   getProject,
   updateProject,
+  getProjectsReport,
+  exportProjectsCSV,
 };

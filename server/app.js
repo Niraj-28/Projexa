@@ -45,7 +45,7 @@ app.use('/api/notifications', notificationRoutes);
 
 // Root Health Check Route
 app.get('/', (req, res) => {
-  res.json({ success: true, message: 'Projexa Backend API is active' });
+  res.json({ success: true, message: 'WorkArea Backend API is active' });
 });
 
 // 404 Handler

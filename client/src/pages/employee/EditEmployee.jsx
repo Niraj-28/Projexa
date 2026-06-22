@@ -9,6 +9,7 @@ const EditEmployee = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -17,12 +18,15 @@ const EditEmployee = () => {
   });
 
   useEffect(() => {
-    const fetchMember = async () => {
+    const fetchMemberAndDeps = async () => {
       try {
         setLoading(true);
-        const res = await api.get('/users');
-        if (res.data && res.data.success) {
-          const target = res.data.users.find(u => u._id === id);
+        const [memberRes, depRes] = await Promise.all([
+          api.get('/users'),
+          api.get('/departments')
+        ]);
+        if (memberRes.data && memberRes.data.success) {
+          const target = memberRes.data.users.find(u => u._id === id);
           if (target) {
             setFormData({
               name: target.name,
@@ -32,6 +36,9 @@ const EditEmployee = () => {
             });
           }
         }
+        if (depRes.data && depRes.data.success) {
+          setDepartments(depRes.data.departments);
+        }
       } catch (error) {
         console.error(error);
         toast.error('Failed to load employee details');
@@ -39,7 +46,7 @@ const EditEmployee = () => {
         setLoading(false);
       }
     };
-    fetchMember();
+    fetchMemberAndDeps();
   }, [id]);
 
   const handleChange = (e) => {
@@ -119,6 +126,21 @@ const EditEmployee = () => {
                 className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
               />
             </div>
+          </div>
+
+          <div className="flex flex-col space-y-1">
+            <label className="text-[10px] font-bold text-[#646464] uppercase">Department</label>
+            <select
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+            >
+              <option value="">No Department</option>
+              {departments.map(dept => (
+                <option key={dept._id} value={dept._id}>{dept.name}</option>
+              ))}
+            </select>
           </div>
 
           <button

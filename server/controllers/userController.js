@@ -60,7 +60,7 @@ const resolveDepartment = async (departmentInput, companyId) => {
 // @access  Private (company_admin)
 const createManager = async (req, res) => {
   try {
-    const { name, email, department, designation } = req.body;
+    const { name, email, phone, department, designation } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ success: false, message: 'Please provide name and email' });
@@ -85,10 +85,28 @@ const createManager = async (req, res) => {
       company: req.user.company, // Must be the same company as the admin
       department: resolvedDept,
       designation: designation || 'Manager',
+      phone: phone || '',
       mustChangePassword: true,
       isActive: true,
       status: 'Active'
     });
+
+    // Send email and SMS with credentials
+    const { sendEmail, sendSMS } = require('../utils/messaging');
+    const companyName = (req.user.company && req.user.company.name) || 'WorkArea Workspace';
+
+    await sendEmail({
+      to: manager.email,
+      subject: `Welcome to ${companyName} - Your Temporary Credentials`,
+      body: `Hello ${manager.name},\n\nYou have been onboarded as a Manager in ${companyName}.\n\nHere are your login credentials:\nEmail: ${manager.email}\nTemporary Password: ${tempPassword}\n\nPlease login at ${process.env.CLIENT_URL || 'http://localhost:5173'} and update your password on first login.\n\nBest regards,\n${companyName} Team`
+    });
+
+    if (manager.phone) {
+      await sendSMS({
+        to: manager.phone,
+        body: `Welcome to ${companyName}! You have been added as a Manager. Log in at ${process.env.CLIENT_URL || 'http://localhost:5173'} with Email: ${manager.email} and Temp Password: ${tempPassword}`
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -101,6 +119,7 @@ const createManager = async (req, res) => {
         role: manager.role,
         company: manager.company,
         designation: manager.designation,
+        phone: manager.phone,
       }
     });
   } catch (error) {
@@ -145,6 +164,23 @@ const createEmployee = async (req, res) => {
       isActive: true,
       status: 'Active'
     });
+
+    // Send email and SMS with credentials
+    const { sendEmail, sendSMS } = require('../utils/messaging');
+    const companyName = (req.user.company && req.user.company.name) || 'WorkArea Workspace';
+
+    await sendEmail({
+      to: employee.email,
+      subject: `Welcome to ${companyName} - Your Temporary Credentials`,
+      body: `Hello ${employee.name},\n\nYou have been onboarded as an Employee in ${companyName}.\n\nHere are your login credentials:\nEmail: ${employee.email}\nTemporary Password: ${tempPassword}\n\nPlease login at ${process.env.CLIENT_URL || 'http://localhost:5173'} and update your password on first login.\n\nBest regards,\n${companyName} Team`
+    });
+
+    if (employee.phone) {
+      await sendSMS({
+        to: employee.phone,
+        body: `Welcome to ${companyName}! You have been added to the workspace. Log in at ${process.env.CLIENT_URL || 'http://localhost:5173'} with Email: ${employee.email} and Temp Password: ${tempPassword}`
+      });
+    }
 
     res.status(201).json({
       success: true,
@@ -252,7 +288,7 @@ const updateUser = async (req, res) => {
   try {
     const { name, phone, department, designation, role, isActive, status } = req.body;
     
-    const userToEdit = await User.findById(req.id || req.params.id);
+    const userToEdit = await User.findById(req.params.id);
     if (!userToEdit) {
       return res.status(404).json({ success: false, message: 'User not found' });
     }
@@ -273,12 +309,12 @@ const updateUser = async (req, res) => {
 
     // Update fields
     if (name) userToEdit.name = name;
-    if (phone) userToEdit.phone = phone;
+    if (phone !== undefined) userToEdit.phone = phone;
     if (department !== undefined) {
       const companyId = userToEdit.company || req.user.company;
       userToEdit.department = await resolveDepartment(department, companyId);
     }
-    if (designation) userToEdit.designation = designation;
+    if (designation !== undefined) userToEdit.designation = designation;
     if (role && req.user.role === 'company_admin') userToEdit.role = role;
     
     if (isActive !== undefined && req.user.role === 'company_admin') {
@@ -338,6 +374,78 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const getEmployeeReport = async (req, res) => {
+  try {
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const totalStaff = await User.countDocuments({ company: companyId });
+    const activeStaff = await User.countDocuments({ company: companyId, isActive: true });
+    const admins = await User.countDocuments({ company: companyId, role: 'company_admin', isActive: true });
+    const managers = await User.countDocuments({ company: companyId, role: 'manager', isActive: true });
+    const employees = await User.countDocuments({ company: companyId, role: 'employee', isActive: true });
+    const inactive = await User.countDocuments({ company: companyId, isActive: false });
+
+    const users = await User.find({ company: companyId }).populate('department');
+    const deptHeadcounts = {};
+    users.forEach((u) => {
+      if (u.isActive) {
+        const deptName = u.department?.name || 'Unassigned';
+        deptHeadcounts[deptName] = (deptHeadcounts[deptName] || 0) + 1;
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      report: {
+        totalStaff,
+        activeStaff,
+        admins,
+        managers,
+        employees,
+        inactive,
+        deptHeadcounts,
+      },
+    });
+  } catch (error) {
+    console.error('Employee report error:', error);
+    res.status(500).json({ success: false, message: 'Server error during employee report generation', error: error.message });
+  }
+};
+
+const exportEmployeesCSV = async (req, res) => {
+  try {
+    const { convertToCSV } = require('../utils/csvHelper');
+    const companyId = req.user.company;
+    if (!companyId) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const users = await User.find({ company: companyId }).populate('department');
+    const data = users.map((u) => ({
+      Name: u.name,
+      Email: u.email,
+      Role: u.role,
+      Department: u.department?.name || 'N/A',
+      Designation: u.designation || 'N/A',
+      Phone: u.phone || 'N/A',
+      JoiningDate: u.joiningDate ? new Date(u.joiningDate).toLocaleDateString() : 'N/A',
+      Status: u.isActive ? 'Active' : 'Inactive',
+    }));
+
+    const csvContent = convertToCSV(data, ['Name', 'Email', 'Role', 'Department', 'Designation', 'Phone', 'JoiningDate', 'Status']);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=employees_report.csv');
+    res.status(200).send(csvContent);
+  } catch (error) {
+    console.error('Export employees CSV error:', error);
+    res.status(500).json({ success: false, message: 'Server error during CSV export', error: error.message });
+  }
+};
+
 module.exports = {
   createManager,
   createEmployee,
@@ -346,4 +454,6 @@ module.exports = {
   updateMe,
   updateUser,
   deleteUser,
+  getEmployeeReport,
+  exportEmployeesCSV,
 };

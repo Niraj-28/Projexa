@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,13 +30,37 @@ const AttendanceHistory = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/attendance')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
-          <ArrowLeft className="h-4 w-4" />
-        </button>
-        <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Shift Clock History</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Comprehensive list of all logged company check-ins.</p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center space-x-3">
+          <button onClick={() => navigate('/attendance')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-semibold text-white tracking-tight">Shift Clock History</h1>
+            <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Comprehensive list of all logged company check-ins.</p>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex bg-[#131313] border border-[#1C1C1C] rounded-lg p-0.5">
+          <Link
+            to="/attendance"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+          >
+            Tracker
+          </Link>
+          <Link
+            to="/attendance/history"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#3C3C3C] text-white"
+          >
+            History
+          </Link>
+          <Link
+            to="/attendance/reports"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+          >
+            Reports
+          </Link>
         </div>
       </div>
 

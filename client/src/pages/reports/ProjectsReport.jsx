@@ -1,9 +1,40 @@
-import React from 'react';
-import { ArrowLeft } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../services/api';
+import toast from 'react-hot-toast';
 
 const ProjectsReport = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReport = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get('/projects/report');
+        if (res.data?.success) {
+          setData(res.data.report);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error('Failed to load project sprint metrics report');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchReport();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <span className="text-xs">Loading project metrics...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 max-w-xl">
@@ -21,16 +52,24 @@ const ProjectsReport = () => {
         <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
           <h3 className="font-semibold text-white text-sm mb-4">Milestone Overview</h3>
           <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-            <span className="text-[#646464]">Total Sprints Registered</span>
-            <span className="text-white font-medium">8 Sprints</span>
+            <span className="text-[#646464]">Total Projects Registered</span>
+            <span className="text-white font-medium">{data?.totalProjects || 0} Projects</span>
           </div>
           <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-            <span className="text-[#646464]">Completed Deliverables</span>
-            <span className="text-white">3 Projects</span>
+            <span className="text-[#646464]">Planning / Setup phase</span>
+            <span className="text-white text-yellow-400">{data?.planningProjects || 0} Projects</span>
+          </div>
+          <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <span className="text-[#646464]">Active Deliverables</span>
+            <span className="text-white text-blue-400">{data?.activeProjects || 0} Projects</span>
+          </div>
+          <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <span className="text-[#646464]">On Hold status</span>
+            <span className="text-white text-red-400">{data?.onHoldProjects || 0} Projects</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-[#646464]">Active Sprints</span>
-            <span className="text-white text-blue-400">5 Projects</span>
+            <span className="text-[#646464]">Completed Deliverables</span>
+            <span className="text-white text-green-400">{data?.completedProjects || 0} Projects</span>
           </div>
         </div>
       </div>

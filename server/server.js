@@ -41,5 +41,5 @@ app.set('io', io);
 
 // Start listening
 server.listen(PORT, () => {
-  console.log(`Projexa server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
+  console.log(`WorkArea server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
 });

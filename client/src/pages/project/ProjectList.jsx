@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { FolderGit2, FolderPlus, Clock, KanbanSquare, Search, Loader2 } from 'lucide-react';
@@ -104,7 +105,7 @@ const ProjectList = () => {
           <p className="text-xs text-[#B5B5B5] mt-1 font-light">Track milestones, deliverables, and assigned leads.</p>
         </div>
 
-        {user?.role === 'company_admin' && (
+        {(user?.role === 'company_admin' || user?.role === 'manager') && (
           <button
             onClick={() => setShowAddModal(true)}
             className="flex items-center space-x-2 bg-white text-[#131313] hover:bg-[#B5B5B5] px-4 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer"
@@ -169,6 +170,22 @@ const ProjectList = () => {
                 <div className="flex items-center space-x-1">
                   <Clock className="h-3.5 w-3.5" />
                   <span>Deadline: {p.deadline ? new Date(p.deadline).toLocaleDateString() : 'None'}</span>
+                </div>
+                <div className="flex items-center space-x-3 text-xs">
+                  <Link
+                    to={`/projects/${p._id}`}
+                    className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                  >
+                    Details
+                  </Link>
+                  {(user?.role === 'company_admin' || user?.role === 'manager') && (
+                    <Link
+                      to={`/projects/edit/${p._id}`}
+                      className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                    >
+                      Edit
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

@@ -12,7 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const { login, forgotPassword } = useAuth();
+  const { login, loginWithGoogle, forgotPassword } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,7 @@ const Login = () => {
     try {
       setSubmitting(true);
       const res = await login(email, password);
-      toast.success('Welcome back to Projexa!');
+      toast.success('Welcome back to WorkArea!');
       
       const loggedUser = res.user;
       navigate(getHomeRoute(loggedUser.role));
@@ -37,7 +37,38 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    toast.success('Google authentication simulation active!');
+    if (!window.google) {
+      return toast.error('Google Sign-In SDK is loading. Please try again in a moment.');
+    }
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId || clientId.includes('your-google-client-id-here')) {
+      return toast.error('Google Client ID is not configured.');
+    }
+
+    const tokenClient = window.google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: 'email profile openid',
+      callback: async (tokenResponse) => {
+        if (tokenResponse.error) {
+          return toast.error('Google Sign-In was cancelled or failed.');
+        }
+
+        const accessToken = tokenResponse.access_token;
+        try {
+          setSubmitting(true);
+          const res = await loginWithGoogle(accessToken);
+          toast.success('Welcome back to WorkArea!');
+          navigate(getHomeRoute(res.user.role));
+        } catch (err) {
+          toast.error(err || 'Failed to authenticate with Google.');
+        } finally {
+          setSubmitting(false);
+        }
+      },
+    });
+
+    tokenClient.requestAccessToken();
   };
 
   return (

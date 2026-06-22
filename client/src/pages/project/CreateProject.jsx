@@ -87,7 +87,7 @@ const CreateProject = () => {
             <input
               type="text"
               name="name"
-              placeholder="e.g. Projexa Frontend Integration"
+              placeholder="e.g. WorkArea Frontend Integration"
               value={formData.name}
               onChange={handleChange}
               className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"

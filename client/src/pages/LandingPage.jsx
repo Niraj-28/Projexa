@@ -45,8 +45,8 @@ const LandingPage = () => {
 
   const faqs = [
     {
-      q: "What is Projexa?",
-      a: "Projexa is an enterprise-grade SaaS platform combining project boards, team sprints, employee attendance tracking, and leaves management into one unified, multi-tenant workspace."
+      q: "What is WorkArea?",
+      a: "WorkArea is an enterprise-grade SaaS platform combining project boards, team sprints, employee attendance tracking, and leaves management into one unified, multi-tenant workspace."
     },
     {
       q: "How does pricing work?",
@@ -58,7 +58,7 @@ const LandingPage = () => {
     },
     {
       q: "Is data secure?",
-      a: "Absolutely. Projexa isolates data by company tenant ID, encrypts passwords using bcrypt, uses secure JSON Web Tokens for API requests, and maintains regular database backups."
+      a: "Absolutely. WorkArea isolates data by company tenant ID, encrypts passwords using bcrypt, uses secure JSON Web Tokens for API requests, and maintains regular database backups."
     }
   ];
 
@@ -222,7 +222,7 @@ const LandingPage = () => {
             Everything your team needs
           </h2>
           <p className="text-xs sm:text-sm text-[#B5B5B5] mt-2 font-light leading-relaxed">
-            Consolidating project execution and human resources, Projexa replaces disjointed tools to manage workflows in one centralized tenant database.
+            Consolidating project execution and human resources, WorkArea replaces disjointed tools to manage workflows in one centralized tenant database.
           </p>
         </div>
 
@@ -253,7 +253,7 @@ const LandingPage = () => {
           <div className="max-w-3xl mx-auto mb-16">
             <span className="text-[10px] font-bold text-[#B5B5B5]/60 uppercase tracking-widest block font-mono">ONBOARDING PIPELINE</span>
             <h2 className="text-3xl font-bold text-white tracking-tight mt-1">How It Works</h2>
-            <p className="text-xs sm:text-sm text-[#B5B5B5] mt-2 font-light">Get your entire team set up and running on Projexa in minutes.</p>
+            <p className="text-xs sm:text-sm text-[#B5B5B5] mt-2 font-light">Get your entire team set up and running on WorkArea in minutes.</p>
           </div>
 
           {/* Horizontal Timeline */}
@@ -479,12 +479,12 @@ const LandingPage = () => {
           <div className="max-w-3xl mx-auto mb-16">
             <span className="text-[10px] font-bold text-[#B5B5B5]/60 uppercase tracking-widest block font-mono">TESTIMONIALS</span>
             <h2 className="text-3xl font-bold text-white tracking-tight mt-1">SaaS Feedback</h2>
-            <p className="text-xs sm:text-sm text-[#B5B5B5] mt-2 font-light">What corporate workspace administrators say about Projexa.</p>
+            <p className="text-xs sm:text-sm text-[#B5B5B5] mt-2 font-light">What corporate workspace administrators say about WorkArea.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
             {[
-              { quote: "Projexa transformed our project workflow completely. Managing tasks and tracking attendance is extremely seamless.", reviewer: "CEO, ABC Tech" },
+              { quote: "WorkArea transformed our project workflow completely. Managing tasks and tracking attendance is extremely seamless.", reviewer: "CEO, ABC Tech" },
               { quote: "Having projects, sprints, attendance, and leave management inside one tool saves hours of manual sync.", reviewer: "HR Manager, CodeCraft" },
               { quote: "The role isolation and temporary password flow makes onboarding new remote managers secure and simple.", reviewer: "Ops Director, TechNova" }
             ].map((test, idx) => (
@@ -613,7 +613,7 @@ const LandingPage = () => {
 
         {/* Bottom Socials & Rights row */}
         <div className="max-w-7xl mx-auto pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span>© 2026 Projexa. All rights reserved.</span>
+          <span>© 2026 WorkArea. All rights reserved.</span>
           <div className="flex space-x-6 text-[#B5B5B5]">
             <a href="#" className="hover:text-white transition duration-150">LinkedIn</a>
             <a href="#" className="hover:text-white transition duration-150">GitHub</a>

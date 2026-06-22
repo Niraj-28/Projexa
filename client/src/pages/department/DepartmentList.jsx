@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { Network, PlusCircle, Users, Search, Loader2 } from 'lucide-react';
@@ -7,20 +8,27 @@ import toast from 'react-hot-toast';
 const DepartmentList = () => {
   const { user } = useAuth();
   const [departments, setDepartments] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   
   // Modal State
   const [showAddModal, setShowAddModal] = useState(false);
-  const [formData, setFormData] = useState({ name: '', code: '' });
+  const [formData, setFormData] = useState({ name: '', code: '', manager: '' });
   const [submitting, setSubmitting] = useState(false);
 
-  const fetchDepartments = async () => {
+  const fetchWorkspaceData = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/departments');
-      if (response.data && response.data.success) {
-        setDepartments(response.data.departments);
+      const [depRes, usersRes] = await Promise.all([
+        api.get('/departments'),
+        api.get('/users')
+      ]);
+      if (depRes.data && depRes.data.success) {
+        setDepartments(depRes.data.departments);
+      }
+      if (usersRes.data && usersRes.data.success) {
+        setUsers(usersRes.data.users);
       }
     } catch (error) {
       console.error('Fetch departments failed:', error);
@@ -31,7 +39,7 @@ const DepartmentList = () => {
   };
 
   useEffect(() => {
-    fetchDepartments();
+    fetchWorkspaceData();
   }, []);
 
   const handleChange = (e) => {
@@ -46,12 +54,17 @@ const DepartmentList = () => {
 
     try {
       setSubmitting(true);
-      const response = await api.post('/departments', formData);
+      const payload = {
+        name: formData.name,
+        code: formData.code,
+        manager: formData.manager || undefined
+      };
+      const response = await api.post('/departments', payload);
       if (response.data && response.data.success) {
         toast.success('Department created successfully!');
-        setFormData({ name: '', code: '' });
+        setFormData({ name: '', code: '', manager: '' });
         setShowAddModal(false);
-        fetchDepartments();
+        fetchWorkspaceData();
       }
     } catch (error) {
       console.error('Create department failed:', error);
@@ -113,16 +126,34 @@ const DepartmentList = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredDeps.map((d) => (
-            <div key={d._id} className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all">
-              <div className="flex justify-between items-center">
-                <Network className="h-6 w-6 text-[#B5B5B5]" />
-                <span className="font-mono text-[10px] text-[#646464] font-bold">{d.code}</span>
+            <div key={d._id} className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Network className="h-6 w-6 text-[#B5B5B5]" />
+                  <span className="font-mono text-[10px] text-[#646464] font-bold">{d.code}</span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-white text-sm mt-1">{d.name}</h3>
+                  <p className="text-[10px] text-[#646464] mt-0.5 font-light">
+                    Manager: {d.manager?.name || 'Unassigned'}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold text-white text-sm mt-1">{d.name}</h3>
-                <p className="text-[10px] text-[#646464] mt-0.5 font-light">
-                  Manager: {d.manager?.name || 'Unassigned'}
-                </p>
+              <div className="pt-3 border-t border-[#1C1C1C] flex justify-end space-x-3 text-xs">
+                <Link
+                  to={`/departments/${d._id}`}
+                  className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                >
+                  Details
+                </Link>
+                {user?.role === 'company_admin' && (
+                  <Link
+                    to={`/departments/edit/${d._id}`}
+                    className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                  >
+                    Edit
+                  </Link>
+                )}
               </div>
             </div>
           ))}
@@ -168,6 +199,21 @@ const DepartmentList = () => {
                   className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none uppercase"
                   required
                 />
+              </div>
+
+              <div className="flex flex-col space-y-1">
+                <label className="text-[10px] font-bold text-[#646464] uppercase">Department Manager / Lead</label>
+                <select
+                  name="manager"
+                  value={formData.manager}
+                  onChange={handleChange}
+                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+                >
+                  <option value="">Unassigned</option>
+                  {users.map(u => (
+                    <option key={u._id} value={u._id}>{u.name} ({u.role.replace('_', ' ')})</option>
+                  ))}
+                </select>
               </div>
 
               <div className="pt-4 flex gap-3">

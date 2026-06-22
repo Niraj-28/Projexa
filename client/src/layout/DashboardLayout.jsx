@@ -53,6 +53,7 @@ const DashboardLayout = ({ children }) => {
           { label: 'Subscriptions', path: '/platform/subscriptions', icon: <CreditCard className="h-4 w-4" /> },
           { label: 'Revenue', path: '/platform/revenue', icon: <FileBarChart2 className="h-4 w-4" /> },
           { label: 'Analytics', path: '/platform/analytics', icon: <Network className="h-4 w-4" /> },
+          { label: 'Notifications', path: '/notifications', icon: <Bell className="h-4 w-4" /> },
           { label: 'Settings', path: '/platform/settings', icon: <Settings className="h-4 w-4" /> },
         ];
       case 'company_admin':
@@ -67,7 +68,7 @@ const DashboardLayout = ({ children }) => {
           { label: 'Leaves', path: '/leaves', icon: <CalendarRange className="h-4 w-4" /> },
           { label: 'Reports', path: '/reports', icon: <FileBarChart2 className="h-4 w-4" /> },
           { label: 'Notifications', path: '/notifications', icon: <Bell className="h-4 w-4" /> },
-          { label: 'Settings', path: '/settings/profile', icon: <Settings className="h-4 w-4" /> },
+          { label: 'Settings', path: '/profile', icon: <Settings className="h-4 w-4" /> },
         ];
       case 'manager':
         return [
@@ -132,7 +133,8 @@ const DashboardLayout = ({ children }) => {
         {/* Navigation Menu */}
         <nav className="flex-grow p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
           {menuItems.map((item) => {
-            const isActive = location.pathname === item.path;
+            const isActive = location.pathname === item.path || 
+              (item.path === '/company/profile' && location.pathname.startsWith('/company'));
             return (
               <Link
                 key={item.path}
@@ -150,20 +152,6 @@ const DashboardLayout = ({ children }) => {
           })}
         </nav>
 
-        {/* User Card */}
-        <div className="p-4 border-t border-[#1C1C1C] bg-[#161616]">
-          <div className="flex items-center space-x-2.5">
-            <div className="h-8 w-8 rounded-full bg-[#3C3C3C] border border-[#646464] flex items-center justify-center text-xs font-bold text-white uppercase">
-              {user?.name ? user.name.slice(0, 2) : 'US'}
-            </div>
-            <div className="truncate flex-grow">
-              <p className="text-xs font-medium text-white truncate leading-none mb-0.5">{user?.name}</p>
-              <p className="text-[9px] font-semibold text-[#B5B5B5] uppercase tracking-wider truncate">
-                {userRole ? userRole.replace('_', ' ') : ''}
-              </p>
-            </div>
-          </div>
-        </div>
       </aside>
 
       {/* Main Content Area */}
@@ -188,12 +176,12 @@ const DashboardLayout = ({ children }) => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-2 bg-[#1C1C1C] border border-[#3C3C3C] px-3 py-1.5 rounded-xl hover:bg-[#3C3C3C]/30 text-xs font-medium transition cursor-pointer text-[#F3F3F3]"
+                className="flex items-center space-x-2.5 bg-transparent border border-white/60 hover:border-white px-3.5 py-1.5 rounded-full hover:bg-white/5 text-xs font-medium transition cursor-pointer text-[#F3F3F3]"
               >
                 <div className="h-5 w-5 rounded-full bg-[#3C3C3C] flex items-center justify-center text-[10px] font-bold uppercase text-white">
                   {user?.name ? user.name.slice(0, 2) : 'US'}
                 </div>
-                <span className="max-w-[80px] truncate">{user?.name?.split(' ')[0]}</span>
+                <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0]}</span>
                 <ChevronDown className={`h-3 w-3 text-[#B5B5B5] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
@@ -210,16 +198,7 @@ const DashboardLayout = ({ children }) => {
                     className="flex items-center space-x-2 px-4 py-2 text-xs text-[#B5B5B5] hover:text-white hover:bg-[#1C1C1C] transition-colors"
                   >
                     <User className="h-3.5 w-3.5" />
-                    <span>Profile</span>
-                  </Link>
-
-                  <Link
-                    to="/settings/profile"
-                    onClick={() => setDropdownOpen(false)}
-                    className="flex items-center space-x-2 px-4 py-2 text-xs text-[#B5B5B5] hover:text-white hover:bg-[#1C1C1C] transition-colors"
-                  >
-                    <Settings className="h-3.5 w-3.5" />
-                    <span>Settings</span>
+                    <span>Profile Settings</span>
                   </Link>
 
                   <Link

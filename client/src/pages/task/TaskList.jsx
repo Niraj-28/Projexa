@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 import { ListPlus, Calendar, User, Search, Loader2, AlertCircle, Clock, CheckSquare } from 'lucide-react';
@@ -298,6 +299,24 @@ const TaskList = () => {
                         <option value="testing">TESTING</option>
                         <option value="completed">COMPLETED</option>
                       </select>
+                    </div>
+
+                    {/* Details / Edit Links */}
+                    <div className="flex items-center space-x-3 text-xs pl-2.5 border-l border-[#1C1C1C]">
+                      <Link
+                        to={`/tasks/${task._id}`}
+                        className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                      >
+                        Details
+                      </Link>
+                      {(user?.role === 'company_admin' || user?.role === 'manager') && (
+                        <Link
+                          to={`/tasks/edit/${task._id}`}
+                          className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                        >
+                          Edit
+                        </Link>
+                      )}
                     </div>
                   </div>
 

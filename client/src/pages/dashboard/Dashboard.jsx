@@ -92,8 +92,8 @@ const Dashboard = () => {
         {[
           { label: 'Total Employees', value: totalEmployees, subtitle: 'Managers & Staff', icon: <Users className="h-5 w-5 text-blue-400" />, link: '/employees' },
           { label: 'Active Projects', value: totalProjects, subtitle: 'Sprints in progress', icon: <FolderGit2 className="h-5 w-5 text-yellow-400" />, link: '/projects' },
-          { label: 'Open Tasks', value: openTasksCount, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5 text-green-400" />, link: '/projects' },
-          { label: 'Daily Attendance', value: `${attendanceRate}%`, subtitle: `${todayCheckedInCount} Checked-in Today`, icon: <Clock className="h-5 w-5 text-purple-400" />, link: '/leave' }
+          { label: 'Open Tasks', value: openTasksCount, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5 text-green-400" />, link: '/tasks' },
+          { label: 'Daily Attendance', value: `${attendanceRate}%`, subtitle: `${todayCheckedInCount} Checked-in Today`, icon: <Clock className="h-5 w-5 text-purple-400" />, link: '/attendance' }
         ].map((card, idx) => (
           <div 
             key={idx} 

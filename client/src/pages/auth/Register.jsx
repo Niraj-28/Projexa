@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { getHomeRoute } from '../../utils/roleRoutes';
 import Logo from '../../components/Logo';
 import AuthShowcase from '../../components/AuthShowcase';
 import { Building2, Mail, User, Lock, Loader2, Briefcase, Users, ArrowRight, ArrowLeft, CheckCircle2 } from 'lucide-react';
@@ -20,7 +21,7 @@ const Register = () => {
     agreeToTerms: false,
   });
   const [submitting, setSubmitting] = useState(false);
-  const { registerCompany } = useAuth();
+  const { registerCompany, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -76,7 +77,38 @@ const Register = () => {
   };
 
   const handleGoogleSignUp = () => {
-    toast.success('Google authentication simulation active!');
+    if (!window.google) {
+      return toast.error('Google Sign-In SDK is loading. Please try again in a moment.');
+    }
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId || clientId.includes('your-google-client-id-here')) {
+      return toast.error('Google Client ID is not configured.');
+    }
+
+    const tokenClient = window.google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: 'email profile openid',
+      callback: async (tokenResponse) => {
+        if (tokenResponse.error) {
+          return toast.error('Google Sign-In was cancelled or failed.');
+        }
+
+        const accessToken = tokenResponse.access_token;
+        try {
+          setSubmitting(true);
+          const res = await loginWithGoogle(accessToken);
+          toast.success('Workspace Registered Successfully!');
+          navigate(getHomeRoute(res.user.role));
+        } catch (err) {
+          toast.error(err || 'Failed to authenticate with Google.');
+        } finally {
+          setSubmitting(false);
+        }
+      },
+    });
+
+    tokenClient.requestAccessToken();
   };
 
   return (
@@ -85,7 +117,7 @@ const Register = () => {
       {/* Left Branding Showcase */}
       <AuthShowcase
         heading="Create Your Workspace Today"
-        description="Join thousands of teams managing projects efficiently with Projexa."
+        description="Join thousands of teams managing projects efficiently with WorkArea."
       />
 
       {/* Right Form — no card, directly on surface */}
@@ -300,7 +332,7 @@ const Register = () => {
               <CheckCircle2 className="h-14 w-14 text-[#F3F3F3] mx-auto animate-bounce" />
               <div className="space-y-1.5">
                 <h2 className="text-2xl font-medium text-white tracking-tight font-heading">
-                  Welcome to Projexa
+                  Welcome to WorkArea
                 </h2>
                 <p className="text-xs text-[#B5B5B5] font-light max-w-xs mx-auto leading-relaxed">
                   Your workspace is ready. Start collaborating now.

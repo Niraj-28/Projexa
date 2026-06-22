@@ -9,33 +9,45 @@ const EditProject = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  const [managers, setManagers] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    manager: '',
+    deadline: '',
     status: 'Planning',
   });
 
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchProjectAndManagers = async () => {
       try {
         setLoading(true);
-        const res = await api.get(`/projects/${id}`);
-        if (res.data && res.data.success) {
-          const target = res.data.project;
+        const [projRes, usersRes] = await Promise.all([
+          api.get(`/projects/${id}`),
+          api.get('/users')
+        ]);
+        if (projRes.data && projRes.data.success) {
+          const target = projRes.data.project;
           setFormData({
             name: target.name,
             description: target.description || '',
+            manager: target.manager?._id || '',
+            deadline: target.deadline ? target.deadline.split('T')[0] : '',
             status: target.status,
           });
         }
+        if (usersRes.data && usersRes.data.success) {
+          const workspaceManagers = usersRes.data.users.filter(u => u.role === 'manager' || u.role === 'company_admin');
+          setManagers(workspaceManagers);
+        }
       } catch (error) {
         console.error(error);
-        toast.error('Failed to load project');
+        toast.error('Failed to load project details');
       } finally {
         setLoading(false);
       }
     };
-    fetchProject();
+    fetchProjectAndManagers();
   }, [id]);
 
   const handleChange = (e) => {
@@ -103,6 +115,33 @@ const EditProject = () => {
               onChange={handleChange}
               className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none resize-none"
             ></textarea>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col space-y-1">
+              <label className="text-[10px] font-bold text-[#646464] uppercase">Project Lead</label>
+              <select
+                name="manager"
+                value={formData.manager}
+                onChange={handleChange}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+              >
+                <option value="">Select Lead</option>
+                {managers.map(mgr => (
+                  <option key={mgr._id} value={mgr._id}>{mgr.name} ({mgr.role.replace('_', ' ')})</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col space-y-1">
+              <label className="text-[10px] font-bold text-[#646464] uppercase">Deadline</label>
+              <input
+                type="date"
+                name="deadline"
+                value={formData.deadline}
+                onChange={handleChange}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+              />
+            </div>
           </div>
 
           <div className="flex flex-col space-y-1">

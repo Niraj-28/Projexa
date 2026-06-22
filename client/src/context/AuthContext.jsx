@@ -63,6 +63,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Login with Google method
+  const loginWithGoogle = async (googleAccessToken) => {
+    try {
+      const response = await api.post('/auth/google', { token: googleAccessToken });
+      if (response.data && response.data.success) {
+        setAccessToken(response.data.token);
+        setUser(normalizeAuthUser(response.data.user));
+        return response.data;
+      }
+    } catch (error) {
+      throw error.response?.data?.message || 'Google authentication failed.';
+    }
+  };
+
   // Register Company and Admin method
   const registerCompany = async (registrationData) => {
     try {
@@ -105,6 +119,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update company settings method locally
+  const updateCompany = (companyData) => {
+    setUser((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        company: prev.company ? { ...prev.company, ...companyData } : companyData,
+      };
+    });
+  };
+
   // Simulated Forgot password method
   const forgotPassword = async (email) => {
     try {
@@ -134,9 +159,11 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         login,
+        loginWithGoogle,
         registerCompany,
         changePassword,
         updateProfile,
+        updateCompany,
         forgotPassword,
         logout,
       }}
