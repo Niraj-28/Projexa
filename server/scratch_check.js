@@ -343,6 +343,107 @@ const runTests = async () => {
     }
     console.log('Platform API checks verification successful!');
 
+    // 13. Employee attendance logging and status check
+    console.log('\n13. Performing Employee attendance logging check...');
+    const janeEmail = `jane-${randomSuffix}@doe.com`;
+    console.log(`Logging in as Employee Jane Doe (${janeEmail})...`);
+    const empLoginRes = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: janeEmail, password: 'Temp@123' })
+    });
+    const empLoginData = await empLoginRes.json();
+    if (!empLoginData.success) {
+      throw new Error(`Employee login failed: ${JSON.stringify(empLoginData)}`);
+    }
+    let employeeToken = empLoginData.token;
+    console.log('Logged in! Changing password to resolve forced first-time change...');
+
+    const empChangePwdRes = await fetch(`${API_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${employeeToken}`
+      },
+      body: JSON.stringify({ currentPassword: 'Temp@123', newPassword: 'Password123' })
+    });
+    const empChangePwdData = await empChangePwdRes.json();
+    if (!empChangePwdData.success) {
+      throw new Error(`Employee password change failed: ${JSON.stringify(empChangePwdData)}`);
+    }
+    console.log('Password updated successfully. Logging in again to fetch fresh session...');
+
+    const empLoginRes2 = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: janeEmail, password: 'Password123' })
+    });
+    const empLoginData2 = await empLoginRes2.json();
+    employeeToken = empLoginData2.token;
+    console.log('Employee token acquired successfully.');
+
+    console.log('Checking in as Employee Jane Doe...');
+    const checkInRes = await fetch(`${API_URL}/attendance/check-in`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${employeeToken}`
+      }
+    });
+    const checkInData = await checkInRes.json();
+    if (!checkInData.success) {
+      throw new Error(`Employee check-in failed: ${JSON.stringify(checkInData)}`);
+    }
+    console.log(`Checked in successfully! Time: ${checkInData.log.checkIn}, Status: ${checkInData.log.status}`);
+
+    console.log('Fetching attendance logs to verify check-in exists...');
+    const getLogsRes = await fetch(`${API_URL}/attendance`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${employeeToken}`
+      }
+    });
+    const getLogsData = await getLogsRes.json();
+    if (!getLogsData.success) {
+      throw new Error(`Failed to fetch logs: ${JSON.stringify(getLogsData)}`);
+    }
+    const today = new Date().toISOString().split('T')[0];
+    const todayLog = getLogsData.logs.find(l => l.date === today);
+    if (!todayLog) {
+      throw new Error(`Verification failed: attendance log not found for date ${today}!`);
+    }
+    console.log(`Verification Success: Found attendance log for today with checkIn: ${todayLog.checkIn}`);
+
+    console.log('Checking out as Employee Jane Doe...');
+    const checkOutRes = await fetch(`${API_URL}/attendance/check-out`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${employeeToken}`
+      }
+    });
+    const checkOutData = await checkOutRes.json();
+    if (!checkOutData.success) {
+      throw new Error(`Employee check-out failed: ${JSON.stringify(checkOutData)}`);
+    }
+    console.log(`Checked out successfully! Time: ${checkOutData.log.checkOut}`);
+
+    console.log('Fetching logs again to verify check-out timestamp...');
+    const getLogsRes2 = await fetch(`${API_URL}/attendance`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${employeeToken}`
+      }
+    });
+    const getLogsData2 = await getLogsRes2.json();
+    const todayLog2 = getLogsData2.logs.find(l => l.date === today);
+    if (!todayLog2 || !todayLog2.checkOut) {
+      throw new Error(`Verification failed: check-out time not updated. Log: ${JSON.stringify(todayLog2)}`);
+    }
+    console.log(`Verification Success: Employee attendance log updated with checkOut: ${todayLog2.checkOut}`);
+
     console.log('\n--- ALL TESTS COMPLETED SUCCESSFULLY! ALL BUGS RESOLVED! ---');
   } catch (error) {
     console.error('\nTest failed with error:', error.message);
