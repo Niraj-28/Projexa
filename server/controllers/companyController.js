@@ -117,7 +117,8 @@ const updateCompanyStatus = async (req, res) => {
     if (subscriptionPlan) company.subscriptionPlan = subscriptionPlan;
 
     await company.save();
-    res.status(200).json({ success: true, message: 'Company updated successfully', company });
+    const [enrichedCompany] = await withAdminDetails([company]);
+    res.status(200).json({ success: true, message: 'Company updated successfully', company: enrichedCompany });
   } catch (error) {
     console.error('Update company status error:', error);
     res.status(500).json({ success: false, message: 'Server error updating company', error: error.message });

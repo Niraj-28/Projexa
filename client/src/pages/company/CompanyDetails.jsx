@@ -9,6 +9,9 @@ const CompanyDetails = () => {
   const navigate = useNavigate();
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState('Active');
+  const [subscriptionPlan, setSubscriptionPlan] = useState('Free');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchCompanyDetails = async () => {
@@ -17,6 +20,8 @@ const CompanyDetails = () => {
         const res = await api.get(`/companies/${id}`);
         if (res.data && res.data.success) {
           setCompany(res.data.company);
+          setStatus(res.data.company.status || 'Active');
+          setSubscriptionPlan(res.data.company.subscriptionPlan || 'Free');
         }
       } catch (error) {
         console.error('Failed to load company details:', error);
@@ -27,6 +32,26 @@ const CompanyDetails = () => {
     };
     fetchCompanyDetails();
   }, [id]);
+
+  const handleAdminSave = async (e) => {
+    e.preventDefault();
+    try {
+      setSubmitting(true);
+      const res = await api.put(`/companies/${id}`, {
+        status,
+        subscriptionPlan,
+      });
+      if (res.data && res.data.success) {
+        setCompany(res.data.company);
+        toast.success('Workspace administration settings updated successfully');
+      }
+    } catch (error) {
+      console.error('Failed to update company administration settings:', error);
+      toast.error('Failed to save administrative configuration');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -85,9 +110,17 @@ const CompanyDetails = () => {
               <span className="text-[#646464]">Created Date</span>
               <span className="text-white">{new Date(company.createdAt).toLocaleDateString()}</span>
             </div>
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+              <span className="text-[#646464]">Subscription Plan</span>
+              <span className="text-white uppercase font-semibold">{company.subscriptionPlan || 'Free'}</span>
+            </div>
             <div className="flex justify-between">
               <span className="text-[#646464]">Status</span>
-              <span className="text-green-400 font-bold">ACTIVE</span>
+              <span className={`font-bold px-1.5 py-0.5 rounded text-[9px] ${
+                company.status === 'Suspended' ? 'text-red-400 bg-red-500/10' : 'text-green-400 bg-green-500/10'
+              }`}>
+                {(company.status || 'Active').toUpperCase()}
+              </span>
             </div>
           </div>
         </div>
@@ -99,13 +132,61 @@ const CompanyDetails = () => {
           <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
             <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
               <span className="text-[#646464]">Admin Name</span>
-              <span className="text-white font-medium">{company.adminName || 'Admin User'}</span>
+              <span className="text-white font-medium">{company.adminName || 'Unassigned Admin'}</span>
             </div>
             <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
               <span className="text-[#646464]">Admin Email</span>
-              <span className="text-white">{company.adminEmail || 'admin@company.com'}</span>
+              <span className="text-white">{company.adminEmail || '--'}</span>
             </div>
           </div>
+        </div>
+
+        {/* Platform Settings & Administration Form */}
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 md:col-span-2">
+          <h3 className="font-semibold text-white text-sm">Platform Administration</h3>
+          <form onSubmit={handleAdminSave} className="space-y-6 text-xs text-[#B5B5B5] font-light">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="flex flex-col space-y-1.5">
+                <label className="text-[10px] font-bold text-[#646464] uppercase">Workspace Status</label>
+                <select 
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Suspended">Suspended</option>
+                </select>
+              </div>
+              
+              <div className="flex flex-col space-y-1.5">
+                <label className="text-[10px] font-bold text-[#646464] uppercase">Subscription Plan</label>
+                <select 
+                  value={subscriptionPlan}
+                  onChange={(e) => setSubscriptionPlan(e.target.value)}
+                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                >
+                  <option value="Free">Free</option>
+                  <option value="Professional">Professional</option>
+                  <option value="Enterprise">Enterprise</option>
+                </select>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              disabled={submitting}
+              className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-6 py-2.5 rounded-lg text-xs font-semibold shadow transition cursor-pointer flex items-center justify-center gap-1.5"
+            >
+              {submitting ? (
+                <>
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <span>Save Administrative Settings</span>
+              )}
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -113,3 +194,4 @@ const CompanyDetails = () => {
 };
 
 export default CompanyDetails;
+

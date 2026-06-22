@@ -105,7 +105,9 @@ const Companies = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-green-400 font-bold bg-green-500/10 px-1.5 py-0.5 rounded text-[9px]">
+                      <span className={`font-bold px-1.5 py-0.5 rounded text-[9px] ${
+                        c.status === 'Suspended' ? 'text-red-400 bg-red-500/10' : 'text-green-400 bg-green-500/10'
+                      }`}>
                         {c.status ? c.status.toUpperCase() : 'ACTIVE'}
                       </span>
                     </td>

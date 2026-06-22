@@ -254,6 +254,95 @@ const runTests = async () => {
     }
     console.log('Verification Success: Task description is successfully cleared to empty string!');
 
+    // 12. Super Admin capabilities check
+    console.log('\n12. Performing Super Admin capability checks...');
+    console.log('Logging in as Super Admin...');
+    const saLoginRes = await fetch(`${API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'admin@workarea.com', password: 'admin123' })
+    });
+    const saLoginData = await saLoginRes.json();
+    if (!saLoginData.success) {
+      throw new Error(`Super Admin login failed: ${JSON.stringify(saLoginData)}`);
+    }
+    const superAdminToken = saLoginData.token;
+    console.log('Super Admin authenticated successfully.');
+
+    const companyId = regData.user.company._id || regData.user.company.id;
+
+    console.log(`Fetching details for company ${companyId} as Super Admin...`);
+    const saGetRes = await fetch(`${API_URL}/companies/${companyId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${superAdminToken}`
+      }
+    });
+    const saGetData = await saGetRes.json();
+    if (!saGetData.success) {
+      throw new Error(`Super Admin failed to get company details: ${JSON.stringify(saGetData)}`);
+    }
+    console.log(`Company fetched: ${saGetData.company.name}, current status: ${saGetData.company.status}, plan: ${saGetData.company.subscriptionPlan}`);
+
+    console.log(`Updating company status to 'Suspended' and plan to 'Enterprise' as Super Admin...`);
+    const saPutRes = await fetch(`${API_URL}/companies/${companyId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${superAdminToken}`
+      },
+      body: JSON.stringify({
+        status: 'Suspended',
+        subscriptionPlan: 'Enterprise'
+      })
+    });
+    const saPutData = await saPutRes.json();
+    if (!saPutData.success) {
+      throw new Error(`Super Admin failed to update company status/plan: ${JSON.stringify(saPutData)}`);
+    }
+    console.log('Update response verified: status =', saPutData.company.status, ', plan =', saPutData.company.subscriptionPlan);
+    if (saPutData.company.status !== 'Suspended' || saPutData.company.subscriptionPlan !== 'Enterprise') {
+      throw new Error('Verification failed: company status or plan did not match updated values!');
+    }
+    console.log('Verification Success: Super Admin successfully updated company status and plan!');
+
+    console.log('Reverting company status to active for integrity...');
+    const saPutRes2 = await fetch(`${API_URL}/companies/${companyId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${superAdminToken}`
+      },
+      body: JSON.stringify({
+        status: 'Active',
+        subscriptionPlan: 'Professional'
+      })
+    });
+    const saPutData2 = await saPutRes2.json();
+    if (!saPutData2.success || saPutData2.company.status !== 'Active') {
+      throw new Error('Failed to revert status to Active');
+    }
+    console.log('Company status reverted to Active.');
+
+    console.log('Checking platform endpoints (stats, settings, revenue, analytics)...');
+    const endpoints = ['stats', 'platform-settings', 'platform-revenue', 'platform-analytics'];
+    for (const ep of endpoints) {
+      const epRes = await fetch(`${API_URL}/companies/${ep}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${superAdminToken}`
+        }
+      });
+      const epData = await epRes.json();
+      if (!epData.success) {
+        throw new Error(`Platform API check failed on endpoint /companies/${ep}: ${JSON.stringify(epData)}`);
+      }
+      console.log(`- GET /companies/${ep} responded successfully.`);
+    }
+    console.log('Platform API checks verification successful!');
+
     console.log('\n--- ALL TESTS COMPLETED SUCCESSFULLY! ALL BUGS RESOLVED! ---');
   } catch (error) {
     console.error('\nTest failed with error:', error.message);
