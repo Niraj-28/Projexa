@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Building2, Globe, Calendar } from 'lucide-react';
+import { Building2, Mail, Link2, Calendar } from 'lucide-react';
 import api from '../../services/api';
 import CompanyNavTabs from '../../components/CompanyNavTabs';
 
 const CompanyProfile = () => {
   const { user } = useAuth();
   const [company, setCompany] = useState(user?.company || {});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCompany = async () => {
       try {
+        setLoading(true);
         const res = await api.get('/companies/me');
         if (res.data?.success) {
           setCompany(res.data.company);
         }
-      } catch {
-        setCompany(user?.company || {});
+      } catch (err) {
+        console.error('Error fetching company details:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -24,18 +28,19 @@ const CompanyProfile = () => {
   }, [user]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <CompanyNavTabs />
+      
       <div>
         <h1 className="text-2xl font-semibold text-white tracking-tight">Company Profile</h1>
         <p className="text-xs text-[#B5B5B5] mt-1 font-light">View your organization's registration metadata and slug details.</p>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 max-w-xl">
-        <div className="space-y-6 text-xs text-[#B5B5B5] font-light">
+      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 hover-card card-animate">
+        <div className="space-y-6">
           <div className="flex items-center space-x-4">
             <div className="h-12 w-12 rounded-xl bg-white/5 border border-[#1C1C1C] flex items-center justify-center text-white">
-              <Building2 className="h-6 w-6" />
+              <Building2 className="h-6 w-6 text-[#B5B5B5]" />
             </div>
             <div>
               <h3 className="font-semibold text-white text-base leading-tight">{company.name || 'My Organization'}</h3>
@@ -43,22 +48,35 @@ const CompanyProfile = () => {
             </div>
           </div>
 
-          <div className="space-y-3.5 pt-4 border-t border-[#1C1C1C]">
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-              <span className="text-[#646464]">Company Name</span>
-              <span className="text-white font-medium">{company.name || 'WorkArea Workspace'}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-[#1C1C1C] text-xs font-light">
+            <div className="flex justify-between items-center p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
+              <span className="flex items-center gap-2 text-[#646464] font-medium">
+                <Building2 className="h-4 w-4" /> Company Name
+              </span>
+              <span className="text-white font-medium text-right">{company.name || 'WorkArea Workspace'}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-              <span className="text-[#646464]">Registration Email</span>
-              <span className="text-white">{company.email || '--'}</span>
+
+            <div className="flex justify-between items-center p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
+              <span className="flex items-center gap-2 text-[#646464] font-medium">
+                <Mail className="h-4 w-4" /> Registration Email
+              </span>
+              <span className="text-white font-medium text-right">{company.email || '--'}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-              <span className="text-[#646464]">Workspace Slug</span>
-              <span className="text-white font-mono">/{company.workspaceUrl}</span>
+
+            <div className="flex justify-between items-center p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
+              <span className="flex items-center gap-2 text-[#646464] font-medium">
+                <Link2 className="h-4 w-4" /> Workspace Slug
+              </span>
+              <span className="text-white font-mono font-medium text-right">/{company.workspaceUrl}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-              <span className="text-[#646464]">Created On</span>
-              <span className="text-white">{company.createdAt ? new Date(company.createdAt).toLocaleDateString() : 'N/A'}</span>
+
+            <div className="flex justify-between items-center p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
+              <span className="flex items-center gap-2 text-[#646464] font-medium">
+                <Calendar className="h-4 w-4" /> Created On
+              </span>
+              <span className="text-white font-medium text-right">
+                {company.createdAt ? new Date(company.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : 'N/A'}
+              </span>
             </div>
           </div>
         </div>

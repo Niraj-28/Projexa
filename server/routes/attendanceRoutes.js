@@ -11,7 +11,7 @@ const { protect, authorize } = require('../middleware/authMiddleware');
 
 router.use(protect);
 
-router.get('/report', authorize('company_admin', 'manager'), getAttendanceReport);
+router.get('/report', authorize('company_admin', 'manager', 'employee'), getAttendanceReport);
 router.get('/export', authorize('company_admin', 'manager'), exportAttendanceCSV);
 
 router.post('/check-in', authorize('company_admin', 'manager', 'employee'), checkIn);

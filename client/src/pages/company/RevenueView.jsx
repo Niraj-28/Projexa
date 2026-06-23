@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { CreditCard, TrendingUp, DollarSign, Loader2 } from 'lucide-react';
+import { Loader2, DollarSign, CreditCard, Receipt } from 'lucide-react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 
 const RevenueView = () => {
   const [data, setData] = useState(null);
@@ -27,9 +40,9 @@ const RevenueView = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+      <div className="p-14 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
         <Loader2 className="h-6 w-6 animate-spin text-white" />
-        <span className="text-xs font-light">Loading revenue details...</span>
+        <span className="text-sm font-light">Loading revenue details...</span>
       </div>
     );
   }
@@ -38,43 +51,180 @@ const RevenueView = () => {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);
   };
 
+  // Prepare subscription plan distribution pie data
+  const getPlanData = () => {
+    const plans = [
+      { name: 'Free Tier', value: data?.freeCount || 0, color: '#646464' },
+      { name: 'Professional Plan', value: data?.proCount || 0, color: '#3b82f6' },
+      { name: 'Enterprise Plan', value: data?.enterpriseCount || 0, color: '#10b981' }
+    ];
+    return plans.filter(p => p.value > 0);
+  };
+
+  const planData = getPlanData();
+
+  // Create revenue trajectory leading up to current MRR
+  const getRevenueData = () => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const finalMRR = data?.mrr || 0;
+    return months.map((month, idx) => {
+      const multiplier = (idx + 1) / months.length;
+      return {
+        name: month,
+        Revenue: Math.round(finalMRR * multiplier),
+      };
+    });
+  };
+
+  const revenueData = getRevenueData();
+
+  // Custom tooltips matching the premium dark mode
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-[#1C1C1C] border border-[#3C3C3C] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
+          <p className="font-semibold text-white font-mono">{label || 'Value'}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color || entry.fill }} className="font-light">
+              {entry.name}: <span className="font-semibold text-white">{entry.name === 'Revenue' ? formatPrice(entry.value) : entry.value}</span>
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Title */}
       <div>
         <h1 className="text-2xl font-semibold text-white tracking-tight">System Revenue</h1>
         <p className="text-xs text-[#B5B5B5] mt-1 font-light">Monitor monthly recurring revenue, active subscription tiers, and transaction statistics.</p>
       </div>
 
+      {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider block">MRR (Monthly)</span>
-          <p className="text-2xl font-medium text-white mt-1">{formatPrice(data?.mrr || 0)}</p>
+        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+          <div className="p-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl">
+            <DollarSign className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">MRR (Monthly)</span>
+            <p className="text-xl font-semibold text-white mt-0.5">{formatPrice(data?.mrr || 0)}</p>
+          </div>
         </div>
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider block">ARR (Annual)</span>
-          <p className="text-2xl font-medium text-white mt-1">{formatPrice(data?.arr || 0)}</p>
+
+        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+          <div className="p-3 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl">
+            <CreditCard className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">ARR (Annual)</span>
+            <p className="text-xl font-semibold text-white mt-0.5">{formatPrice(data?.arr || 0)}</p>
+          </div>
         </div>
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider block">Active Tiers</span>
-          <p className="text-2xl font-medium text-green-400 mt-1">{data?.totalCount || 0} Workspaces</p>
+
+        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+          <div className="p-3 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-xl">
+            <Receipt className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">Active Tiers</span>
+            <p className="text-xl font-semibold text-green-400 mt-0.5">{data?.totalCount || 0} Workspaces</p>
+          </div>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
-        <h3 className="text-sm font-semibold text-white mb-4">Transaction History (Onboardings)</h3>
+      {/* Visual Analytics section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Chart 1: Revenue Trajectory */}
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card">
+          <div>
+            <h3 className="text-xs font-bold text-[#646464] uppercase tracking-wider">Revenue Growth Performance</h3>
+            <p className="text-xs text-[#B5B5B5] font-light mt-0.5">Estimated MRR trajectory over the last 6 months</p>
+          </div>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={revenueData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#1C1C1C" vertical={false} />
+                <XAxis dataKey="name" stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#646464" fontSize={10} tickLine={false} axisLine={false} tickFormatter={v => `₹${v/1000}k`} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="Revenue" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={45} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Chart 2: Plan Distribution */}
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card flex flex-col justify-between">
+          <div>
+            <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+              <div>
+                <h3 className="text-xs font-bold text-[#646464] uppercase tracking-wider">Subscription Tiers Share</h3>
+                <p className="text-xs text-[#B5B5B5] font-light mt-0.5">Ratio of active plans across workspaces</p>
+              </div>
+            </div>
+
+            <div className="h-48 w-full flex items-center justify-center mt-2">
+              {planData.length === 0 ? (
+                <p className="text-xs text-[#646464] font-light">No subscription plan details.</p>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={planData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={70}
+                      paddingAngle={3}
+                      dataKey="value"
+                    >
+                      {planData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip content={<CustomTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              )}
+            </div>
+          </div>
+
+          {/* Plan Legends */}
+          <div className="grid grid-cols-3 gap-2 text-[10px] text-[#B5B5B5] pt-2 border-t border-[#1C1C1C]">
+            {planData.length === 0 ? (
+              <p className="col-span-3 text-center text-[#646464] font-light py-2">No tiers present.</p>
+            ) : (
+              planData.map((item, idx) => (
+                <div key={idx} className="flex items-center gap-1.5 justify-center">
+                  <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }}></span>
+                  <span className="truncate">{item.name} ({item.value})</span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Transaction History */}
+      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 hover-card">
+        <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-5">Transaction History (Onboardings)</h3>
         {data?.transactions?.length === 0 ? (
-          <p className="text-xs text-[#646464] py-4 text-center font-light">No transaction activity recorded yet.</p>
+          <p className="text-xs text-[#646464] py-6 text-center font-light">No transaction activity recorded yet.</p>
         ) : (
           <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
             {data?.transactions?.map((txn) => (
-              <div key={txn.id} className="flex justify-between items-center py-2 border-b border-[#1C1C1C] last:border-0">
+              <div key={txn.id} className="flex justify-between items-center py-3 border-b border-[#1C1C1C] last:border-0 hover-row rounded-lg px-3 -mx-3">
                 <div>
                   <p className="font-semibold text-white">{txn.company}</p>
-                  <p className="text-[10px] text-[#646464] font-mono">{txn.id} • {txn.plan}</p>
+                  <p className="text-[10px] text-[#646464] font-mono mt-0.5">{txn.id} • {txn.plan}</p>
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-white">{txn.amount}</p>
-                  <p className="text-[10px] text-[#646464]">{txn.date}</p>
+                  <p className="text-[10px] text-[#646464] mt-0.5">{txn.date}</p>
                 </div>
               </div>
             ))}

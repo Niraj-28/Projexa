@@ -147,24 +147,34 @@ const getAttendanceReport = async (req, res) => {
       return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
     }
 
-    const totalShifts = await Attendance.countDocuments({ company: companyId });
-    const lateLogs = await Attendance.countDocuments({ company: companyId, status: 'Late' });
-    const onTimeLogs = await Attendance.countDocuments({ company: companyId, status: 'On Time' });
+    const isEmployee = req.user.role === 'employee';
+    const query = { company: companyId };
+    if (isEmployee) {
+      query.user = req.user.id;
+    }
+
+    const totalShifts = await Attendance.countDocuments(query);
+    const lateLogs = await Attendance.countDocuments({ ...query, status: 'Late' });
+    const onTimeLogs = await Attendance.countDocuments({ ...query, status: 'On Time' });
 
     // Calculate delay rate
     const delayRate = totalShifts > 0 ? ((lateLogs / totalShifts) * 100).toFixed(1) : '0.0';
 
-    // Count employees with logs but no late logs
-    const User = require('../models/User');
-    const users = await User.find({ company: companyId, role: 'employee' });
     let perfectAttendanceCount = 0;
-    
-    for (const u of users) {
-      const uLateLogs = await Attendance.countDocuments({ user: u._id, status: 'Late' });
-      const uTotalLogs = await Attendance.countDocuments({ user: u._id });
-      if (uTotalLogs > 0 && uLateLogs === 0) {
-        perfectAttendanceCount++;
+    if (!isEmployee) {
+      // Count employees with logs but no late logs
+      const User = require('../models/User');
+      const users = await User.find({ company: companyId, role: 'employee' });
+      
+      for (const u of users) {
+        const uLateLogs = await Attendance.countDocuments({ user: u._id, status: 'Late' });
+        const uTotalLogs = await Attendance.countDocuments({ user: u._id });
+        if (uTotalLogs > 0 && uLateLogs === 0) {
+          perfectAttendanceCount++;
+        }
       }
+    } else {
+      perfectAttendanceCount = (totalShifts > 0 && lateLogs === 0) ? 1 : 0;
     }
 
     res.status(200).json({

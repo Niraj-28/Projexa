@@ -75,91 +75,99 @@ const CompanySettings = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+      <div className="p-14 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
         <Loader2 className="h-6 w-6 animate-spin text-white" />
-        <span className="text-xs font-light">Loading settings...</span>
+        <span className="text-sm font-light">Loading settings...</span>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <CompanyNavTabs />
+      
       <div>
         <h1 className="text-2xl font-semibold text-white tracking-tight">Workspace Settings</h1>
         <p className="text-xs text-[#B5B5B5] mt-1 font-light">Configure organization policies, default working hours, and system parameters.</p>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 max-w-xl">
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#B5B5B5] font-light">
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Workspace Name</label>
-            <input 
-              type="text" 
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]" 
-              required
-            />
+      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 hover-card card-animate">
+        <form onSubmit={handleSubmit} className="space-y-6 text-xs text-[#B5B5B5] font-light">
+          {/* Dual column input grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Workspace Name</label>
+              <input 
+                type="text" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+                required
+              />
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Company Email</label>
+              <input 
+                type="email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+                required
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Company Email</label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]" 
-              required
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Industry</label>
+              <input 
+                type="text" 
+                value={industry}
+                onChange={(e) => setIndustry(e.target.value)}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+              />
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Shift Start Time</label>
+              <input 
+                type="text" 
+                value={shiftStart}
+                onChange={(e) => setShiftStart(e.target.value)}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+              />
+            </div>
           </div>
 
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Industry</label>
-            <input 
-              type="text" 
-              value={industry}
-              onChange={(e) => setIndustry(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]" 
-            />
-          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Shift Grace Period (Minutes)</label>
+              <input 
+                type="number" 
+                value={shiftGrace}
+                onChange={(e) => setShiftGrace(Number(e.target.value))}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+              />
+            </div>
 
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Shift Start Time</label>
-            <input 
-              type="text" 
-              value={shiftStart}
-              onChange={(e) => setShiftStart(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]" 
-            />
-          </div>
-
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Shift Grace Period (Minutes)</label>
-            <input 
-              type="number" 
-              value={shiftGrace}
-              onChange={(e) => setShiftGrace(Number(e.target.value))}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]" 
-            />
-          </div>
-
-          <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Weekly Off Days</label>
-            <select 
-              value={weeklyOff}
-              onChange={(e) => setWeeklyOff(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
-            >
-              <option value="sat-sun">Saturday & Sunday</option>
-              <option value="sun">Sunday Only</option>
-            </select>
+            <div className="flex flex-col space-y-2">
+              <label className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">Weekly Off Days</label>
+              <select 
+                value={weeklyOff}
+                onChange={(e) => setWeeklyOff(e.target.value)}
+                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
+              >
+                <option value="sat-sun">Saturday & Sunday</option>
+                <option value="sun">Sunday Only</option>
+              </select>
+            </div>
           </div>
 
           <button 
             type="submit" 
             disabled={submitting}
-            className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-5 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer mt-2 flex items-center justify-center gap-1.5"
+            className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-6 py-2.5 rounded-lg text-xs font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 mt-2"
           >
             {submitting ? (
               <>

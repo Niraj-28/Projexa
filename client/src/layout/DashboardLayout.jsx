@@ -123,7 +123,7 @@ const DashboardLayout = ({ children }) => {
           <div className="px-5 py-3.5 border-b border-[#1C1C1C] bg-[#1C1C1C]/40">
             <span className="text-[9px] font-bold text-[#646464] uppercase tracking-wider block">Workspace</span>
             <div className="flex items-center space-x-1.5 mt-1">
-              <Briefcase className="h-3.5 w-3.5 text-[#B5B5B5]" />
+            <Briefcase className="h-4 w-4 text-[#B5B5B5]" />
               <span className="text-xs text-[#B5B5B5] truncate font-medium">{user.company.name}</span>
             </div>
             <span className="text-[10px] text-[#646464] font-mono mt-0.5 block truncate">/{user.company.workspaceUrl}</span>
@@ -139,7 +139,7 @@ const DashboardLayout = ({ children }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-150 ${
+                className={`flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-medium transition-all duration-200 ${
                   isActive
                     ? 'bg-[#F3F3F3] text-[#131313] font-semibold'
                     : 'text-[#B5B5B5] hover:bg-[#1C1C1C] hover:text-white'
@@ -176,7 +176,7 @@ const DashboardLayout = ({ children }) => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-2.5 bg-transparent border border-white/60 hover:border-white px-3.5 py-1.5 rounded-full hover:bg-white/5 text-xs font-medium transition cursor-pointer text-[#F3F3F3]"
+                className="flex items-center space-x-2.5 bg-transparent border border-white/60 hover:border-white px-3.5 py-1.5 rounded-full hover:bg-white/5 text-xs font-medium transition-all duration-200 cursor-pointer text-[#F3F3F3]"
               >
                 <div className="h-5 w-5 rounded-full bg-[#3C3C3C] flex items-center justify-center text-[10px] font-bold uppercase text-white">
                   {user?.name ? user.name.slice(0, 2) : 'US'}
@@ -230,8 +230,10 @@ const DashboardLayout = ({ children }) => {
 
         {/* Inner Scroll Container */}
         <div className="flex-grow overflow-y-auto p-8 bg-[#0B0B0B]">
-          <div className="max-w-6xl mx-auto">
+          <div className="max-w-7xl mx-auto">
+            <div className="page-transition">
             {children}
+            </div>
           </div>
         </div>
       </main>

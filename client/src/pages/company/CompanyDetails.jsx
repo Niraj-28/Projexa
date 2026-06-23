@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { ArrowLeft, Building2, User, Mail, ShieldAlert, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const CompanyDetails = () => {
@@ -55,9 +55,9 @@ const CompanyDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
+      <div className="p-14 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
         <Loader2 className="h-6 w-6 animate-spin text-white" />
-        <span className="text-xs">Loading workspace details...</span>
+        <span className="text-sm">Loading workspace details...</span>
       </div>
     );
   }
@@ -65,11 +65,11 @@ const CompanyDetails = () => {
   if (!company) {
     return (
       <div className="space-y-4">
-        <button onClick={() => navigate('/platform/companies')} className="flex items-center space-x-1.5 text-xs text-[#B5B5B5] hover:text-white transition">
+        <button onClick={() => navigate('/platform/companies')} className="flex items-center space-x-2 text-sm text-[#B5B5B5] hover:text-white transition-all duration-200">
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Workspaces</span>
         </button>
-        <div className="p-6 text-center text-[#646464] text-xs font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+        <div className="p-8 text-center text-[#646464] text-sm font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
           Workspace not found or inactive.
         </div>
       </div>
@@ -77,46 +77,46 @@ const CompanyDetails = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/platform/companies')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
-          <ArrowLeft className="h-4 w-4" />
+    <div className="space-y-8">
+      <div className="flex items-center space-x-4">
+        <button onClick={() => navigate('/platform/companies')} className="p-2.5 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition-all duration-200 cursor-pointer">
+          <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">{company.name}</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light font-mono">ID: {company._id}</p>
+          <h1 className="text-3xl font-semibold text-white tracking-tight">{company.name}</h1>
+          <p className="text-sm text-[#B5B5B5] mt-0.5 font-light font-mono">ID: {company._id}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Company profile card */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
-          <h3 className="font-semibold text-white text-sm">Workspace Metadata</h3>
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card">
+          <h3 className="font-semibold text-white text-[15px]">Workspace Metadata</h3>
           
-          <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+          <div className="space-y-3.5 text-sm text-[#B5B5B5] font-light">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Workspace Name</span>
               <span className="text-white font-medium">{company.name}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Company Email</span>
               <span className="text-white">{company.email || '--'}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Slug Address</span>
               <span className="text-white font-mono">/{company.workspaceUrl}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Created Date</span>
               <span className="text-white">{new Date(company.createdAt).toLocaleDateString()}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Subscription Plan</span>
               <span className="text-white uppercase font-semibold">{company.subscriptionPlan || 'Free'}</span>
             </div>
-            <div className="flex justify-between">
+            <div className="flex justify-between hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Status</span>
-              <span className={`font-bold px-1.5 py-0.5 rounded text-[9px] ${
+              <span className={`font-bold px-2 py-1 rounded text-[10px] ${
                 company.status === 'Suspended' ? 'text-red-400 bg-red-500/10' : 'text-green-400 bg-green-500/10'
               }`}>
                 {(company.status || 'Active').toUpperCase()}
@@ -126,15 +126,15 @@ const CompanyDetails = () => {
         </div>
 
         {/* Administrator profile */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
-          <h3 className="font-semibold text-white text-sm">Onboarded Administrator</h3>
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card">
+          <h3 className="font-semibold text-white text-[15px]">Onboarded Administrator</h3>
           
-          <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+          <div className="space-y-3.5 text-sm text-[#B5B5B5] font-light">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Admin Name</span>
               <span className="text-white font-medium">{company.adminName || 'Unassigned Admin'}</span>
             </div>
-            <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
+            <div className="flex justify-between border-b border-[#1C1C1C] pb-3 hover-row rounded px-2 -mx-2">
               <span className="text-[#646464]">Admin Email</span>
               <span className="text-white">{company.adminEmail || '--'}</span>
             </div>
@@ -142,28 +142,28 @@ const CompanyDetails = () => {
         </div>
 
         {/* Platform Settings & Administration Form */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 md:col-span-2">
-          <h3 className="font-semibold text-white text-sm">Platform Administration</h3>
-          <form onSubmit={handleAdminSave} className="space-y-6 text-xs text-[#B5B5B5] font-light">
+        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 md:col-span-2 hover-card">
+          <h3 className="font-semibold text-white text-[15px]">Platform Administration</h3>
+          <form onSubmit={handleAdminSave} className="space-y-7 text-sm text-[#B5B5B5] font-light">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="flex flex-col space-y-1.5">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Workspace Status</label>
+              <div className="flex flex-col space-y-2">
+                <label className="text-xs font-bold text-[#646464] uppercase">Workspace Status</label>
                 <select 
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
                 >
                   <option value="Active">Active</option>
                   <option value="Suspended">Suspended</option>
                 </select>
               </div>
               
-              <div className="flex flex-col space-y-1.5">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Subscription Plan</label>
+              <div className="flex flex-col space-y-2">
+                <label className="text-xs font-bold text-[#646464] uppercase">Subscription Plan</label>
                 <select 
                   value={subscriptionPlan}
                   onChange={(e) => setSubscriptionPlan(e.target.value)}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
                 >
                   <option value="Free">Free</option>
                   <option value="Professional">Professional</option>
@@ -175,11 +175,11 @@ const CompanyDetails = () => {
             <button 
               type="submit" 
               disabled={submitting}
-              className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-6 py-2.5 rounded-lg text-xs font-semibold shadow transition cursor-pointer flex items-center justify-center gap-1.5"
+              className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-7 py-3 rounded-lg text-sm font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                   <span>Saving...</span>
                 </>
               ) : (
@@ -194,4 +194,3 @@ const CompanyDetails = () => {
 };
 
 export default CompanyDetails;
-
