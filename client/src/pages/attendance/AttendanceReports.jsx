@@ -36,12 +36,12 @@ const AttendanceReports = () => {
     <div className="space-y-6 max-w-xl">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <button onClick={() => navigate('/attendance')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+          <button onClick={() => navigate('/attendance')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div>
-            <h1 className="text-2xl font-semibold text-white tracking-tight">Attendance Reports</h1>
-            <p className="text-xs text-[#B5B5B5] mt-0.5 font-light font-sans">
+            <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Attendance Reports</h1>
+            <p className="text-xs text-[#598392] mt-0.5 font-light font-sans">
               {isEmployee 
                 ? 'Analyze your personal shift hour statistics and on-time rate.'
                 : 'Analyze monthly attendance summaries and late logs.'}
@@ -50,62 +50,62 @@ const AttendanceReports = () => {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex bg-[#131313] border border-[#1C1C1C] rounded-lg p-0.5">
+        <div className="flex bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-0.5">
           <Link
             to="/attendance"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
           >
             Tracker
           </Link>
           <Link
             to="/attendance/history"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
           >
             History
           </Link>
           <Link
             to="/attendance/reports"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#3C3C3C] text-white"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#E2E8F0] text-[#01161E]"
           >
             Reports
           </Link>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
-        <h3 className="font-semibold text-white text-sm">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4">
+        <h3 className="font-semibold text-[#01161E] text-sm">
           {isEmployee ? 'Personal Shift Summary' : 'Monthly Attendance Summary'}
         </h3>
         
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading report...</span>
           </div>
         ) : (
-          <div className="space-y-4 text-xs font-light text-[#B5B5B5]">
-            <div className="p-4 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl text-center space-y-1.5">
-              <p className="text-[10px] text-[#646464] uppercase font-bold tracking-wider">Average On-Time Rate</p>
-              <p className="text-3xl font-semibold text-white">{onTimeRate}%</p>
+          <div className="space-y-4 text-xs font-light text-[#598392]">
+            <div className="p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl text-center space-y-1.5">
+              <p className="text-[10px] text-[#94A3B8] uppercase font-bold tracking-wider">Average On-Time Rate</p>
+              <p className="text-3xl font-semibold text-[#01161E]">{onTimeRate}%</p>
             </div>
             
             <div className="space-y-3 pt-2">
-              <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-                <span className="text-[#646464]">Total Shifts Tracked</span>
-                <span className="text-white font-medium">{data?.totalShifts || 0} Shifts</span>
+              <div className="flex justify-between border-b border-[#E2E8F0] pb-2">
+                <span className="text-[#94A3B8]">Total Shifts Tracked</span>
+                <span className="text-[#01161E] font-medium">{data?.totalShifts || 0} Shifts</span>
               </div>
-              <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-                <span className="text-[#646464]">On-Time Clock-Ins</span>
+              <div className="flex justify-between border-b border-[#E2E8F0] pb-2">
+                <span className="text-[#94A3B8]">On-Time Clock-Ins</span>
                 <span className="text-green-400 font-medium">{data?.onTimeLogs || 0} Logs</span>
               </div>
-              <div className="flex justify-between border-b border-[#1C1C1C] pb-2">
-                <span className="text-[#646464]">Late Clock-Ins</span>
+              <div className="flex justify-between border-b border-[#E2E8F0] pb-2">
+                <span className="text-[#94A3B8]">Late Clock-Ins</span>
                 <span className="text-yellow-400 font-medium">{data?.lateLogs || 0} Logs ({data?.delayRate || '0.0'}% late)</span>
               </div>
               {!isEmployee && (
                 <div className="flex justify-between">
-                  <span className="text-[#646464]">Perfect Attendance Employees</span>
-                  <span className="text-white">{data?.perfectAttendanceCount || 0} Staff Members</span>
+                  <span className="text-[#94A3B8]">Perfect Attendance Employees</span>
+                  <span className="text-[#01161E]">{data?.perfectAttendanceCount || 0} Staff Members</span>
                 </div>
               )}
             </div>

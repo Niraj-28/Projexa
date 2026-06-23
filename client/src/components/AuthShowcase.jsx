@@ -1,55 +1,54 @@
 import React from 'react';
 import Logo from './Logo';
-import { Layers3, Zap, Shield } from 'lucide-react';
 
-const AuthShowcase = ({ heading, description }) => {
+const AuthShowcase = ({ heading = "Organize Sprints & Track Progress", description = "WorkArena helps teams manage sprint tasks, track real-time attendance, and complete projects successfully under a secure workspace." }) => {
   return (
-    <div className="hidden lg:flex lg:col-span-7 bg-[#131313] min-h-screen flex-col items-center justify-center relative overflow-hidden">
-      {/* Ambient glow orbs */}
-      <div className="absolute top-[20%] left-[30%] w-[400px] h-[400px] rounded-full bg-[#B5B5B5]/[0.04] blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-[20%] right-[20%] w-[300px] h-[300px] rounded-full bg-[#F3F3F3]/[0.03] blur-[80px] pointer-events-none"></div>
+    <div className="hidden lg:flex w-full h-full bg-[#01161E] rounded-[24px] relative overflow-hidden flex-col justify-between p-10 text-white select-none">
+      {/* Custom SVG Fluid/Ribbon Gradient Waves */}
+      <svg className="absolute inset-0 w-full h-full object-cover scale-110 opacity-80 z-0" viewBox="0 0 500 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="ribbon1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#124559" />
+            <stop offset="40%" stopColor="#598392" />
+            <stop offset="80%" stopColor="#AEC3B0" />
+            <stop offset="100%" stopColor="#124559" />
+          </linearGradient>
+          <linearGradient id="ribbon2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#AEC3B0" stopOpacity="0.8" />
+            <stop offset="50%" stopColor="#124559" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#01161E" stopOpacity="0.9" />
+          </linearGradient>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="30" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 linear-grid-bg opacity-15 pointer-events-none"></div>
+        {/* Dynamic Ribbon Flow */}
+        <path d="M-100 150 C 120 20 280 400 600 100 L 600 800 L -100 800 Z" fill="url(#ribbon1)" opacity="0.9" />
+        <path d="M-100 300 C 150 150 320 580 600 400 L 600 800 L -100 800 Z" fill="url(#ribbon2)" opacity="0.75" />
+        <path d="M-100 480 C 200 320 250 680 600 550 L 600 800 L -100 800 Z" fill="#01161E" opacity="0.95" />
 
-      {/* Decorative line accent */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-b from-transparent via-[#3C3C3C] to-transparent"></div>
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-px h-32 bg-gradient-to-t from-transparent via-[#3C3C3C] to-transparent"></div>
+        {/* Decorative Glow Elements */}
+        <circle cx="150" cy="180" r="100" fill="#AEC3B0" opacity="0.2" filter="url(#glow)" />
+        <circle cx="380" cy="520" r="140" fill="#124559" opacity="0.25" filter="url(#glow)" />
+      </svg>
 
-      {/* Center content */}
-      <div className="relative z-10 text-center max-w-lg px-12 space-y-8">
+      {/* Wise Quote Divider (Top) */}
+      <div className="relative z-10 flex items-center gap-3">
+        <span className="text-[10px] font-bold text-[#AEC3B0]/80 tracking-[0.2em] uppercase font-sans">WORKARENA PLATFORM</span>
+        <div className="h-[1px] bg-white/10 flex-grow"></div>
+      </div>
 
-        {/* Logo */}
-        <div className="flex justify-center mb-2">
-          <Logo />
-        </div>
-
-        {/* Heading */}
-        <div className="space-y-3">
-          <h1 className="text-4xl font-medium tracking-tight leading-[1.1] text-white font-heading">
-            {heading}
-          </h1>
-          <p className="text-sm text-[#B5B5B5] font-light leading-relaxed max-w-sm mx-auto">
-            {description}
-          </p>
-        </div>
-
-        {/* Feature pills */}
-        <div className="flex items-center justify-center gap-3 pt-2">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#3C3C3C] bg-[#1C1C1C]/50">
-            <Layers3 className="h-3.5 w-3.5 text-[#B5B5B5]" />
-            <span className="text-[11px] text-[#B5B5B5] font-medium">Projects</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#3C3C3C] bg-[#1C1C1C]/50">
-            <Zap className="h-3.5 w-3.5 text-[#B5B5B5]" />
-            <span className="text-[11px] text-[#B5B5B5] font-medium">Sprints</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#3C3C3C] bg-[#1C1C1C]/50">
-            <Shield className="h-3.5 w-3.5 text-[#B5B5B5]" />
-            <span className="text-[11px] text-[#B5B5B5] font-medium">Secure</span>
-          </div>
-        </div>
-
+      {/* Center Showcase Branding / Typography (Bottom) */}
+      <div className="relative z-10 space-y-4">
+        {/* High-contrast title color to ensure readability */}
+        <h1 className="text-[38px] font-bold !text-#AEC3B0 tracking-tight leading-[1.12] font-heading" style={{ color: '#AEC3B0' }}>
+          {heading}
+        </h1>
+        <p className="text-[13px] font-light text-[#AEC3B0] leading-relaxed max-w-sm">
+          {description}
+        </p>
       </div>
     </div>
   );

@@ -41,30 +41,30 @@ const LeaveHistory = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/leaves')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+        <button onClick={() => navigate('/leaves')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Leave Log History</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Comprehensive list of all past leave applications.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Leave Log History</h1>
+          <p className="text-xs text-[#598392] mt-0.5 font-light">Comprehensive list of all past leave applications.</p>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl overflow-hidden">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl overflow-hidden">
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading leave history...</span>
           </div>
         ) : leaves.length === 0 ? (
-          <div className="p-12 text-center text-[#646464] text-xs font-light">
+          <div className="p-12 text-center text-[#94A3B8] text-xs font-light">
             No leaves recorded.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-[#1C1C1C]/40 border-b border-[#1C1C1C] text-[#646464] font-semibold uppercase tracking-wider text-[10px]">
+                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[10px]">
                   <th className="px-6 py-4">Employee</th>
                   <th className="px-6 py-4">Type</th>
                   <th className="px-6 py-4">Reason</th>
@@ -72,14 +72,14 @@ const LeaveHistory = () => {
                   <th className="px-6 py-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1C1C1C] text-[#B5B5B5] font-light">
+              <tbody className="divide-y divide-[#FFFFFF] text-[#598392] font-light">
                 {leaves.map((req) => (
-                  <tr key={req._id} className="hover:bg-[#1C1C1C]/20 transition-all">
+                  <tr key={req._id} className="hover:bg-[#EFF6E0]/40 transition-all">
                     <td className="px-6 py-4">
-                      <p className="font-semibold text-white">{req.user?.name || 'Staff'}</p>
-                      <p className="text-[10px] text-[#646464]">{req.user?.designation}</p>
+                      <p className="font-semibold text-[#01161E]">{req.user?.name || 'Staff'}</p>
+                      <p className="text-[10px] text-[#94A3B8]">{req.user?.designation}</p>
                     </td>
-                    <td className="px-6 py-4 font-semibold text-white">{req.type}</td>
+                    <td className="px-6 py-4 font-semibold text-[#01161E]">{req.type}</td>
                     <td className="px-6 py-4 max-w-xs truncate">{req.reason}</td>
                     <td className="px-6 py-4 font-mono text-[10px]">
                       {new Date(req.startDate).toLocaleDateString()} to {new Date(req.endDate).toLocaleDateString()}

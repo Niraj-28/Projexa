@@ -128,7 +128,7 @@ const EmployeeList = () => {
 
   const handleCopyPassword = () => {
     if (!createdTempInfo) return;
-    const textToCopy = `Welcome to WorkArea\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
+    const textToCopy = `Welcome to WorkArena\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
     navigator.clipboard.writeText(textToCopy);
     setCopiedText(true);
     toast.success('Credentials copied to clipboard!');
@@ -146,8 +146,8 @@ const EmployeeList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Company Employees</h1>
-          <p className="text-xs text-[#B5B5B5] mt-1 font-light">Manage and onboard managers and employees into your workspace.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Company Employees</h1>
+          <p className="text-sm text-[#598392] mt-1 font-light">Manage and onboard managers and employees into your workspace.</p>
         </div>
         
         {currentUser?.role === 'company_admin' || currentUser?.role === 'manager' ? (
@@ -156,7 +156,7 @@ const EmployeeList = () => {
               setCreatedTempInfo(null);
               setShowAddModal(true);
             }}
-            className="flex items-center space-x-2 bg-white text-[#131313] hover:bg-[#B5B5B5] px-4 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-[#124559] text-white hover:bg-[#01161E] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
           >
             <UserPlus className="h-4 w-4" />
             <span>Add Employee</span>
@@ -166,18 +166,18 @@ const EmployeeList = () => {
 
       {/* Stats Quick Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#131313] border border-[#1C1C1C] p-4 rounded-xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider">Total Staff</span>
-          <p className="text-2xl font-medium text-white mt-1">{members.length}</p>
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
+          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Total Staff</span>
+          <p className="text-2xl font-medium text-[#01161E] mt-1">{members.length}</p>
         </div>
-        <div className="bg-[#131313] border border-[#1C1C1C] p-4 rounded-xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider">Managers</span>
-          <p className="text-2xl font-medium text-white mt-1">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-xl">
+          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Managers</span>
+          <p className="text-2xl font-medium text-[#01161E] mt-1">
             {members.filter((m) => m.role === 'manager').length}
           </p>
         </div>
-        <div className="bg-[#131313] border border-[#1C1C1C] p-4 rounded-xl">
-          <span className="text-[10px] text-[#646464] font-semibold uppercase tracking-wider">Active Status</span>
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
+          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Active Status</span>
           <p className="text-2xl font-medium text-green-400 mt-1">
             {members.filter((m) => m.isActive).length} / {members.length}
           </p>
@@ -185,36 +185,36 @@ const EmployeeList = () => {
       </div>
 
       {/* Filters and List */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-xl overflow-hidden">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl overflow-hidden">
         {/* Search Bar */}
-        <div className="p-4 border-b border-[#1C1C1C] flex items-center">
+        <div className="p-4 border-b border-[#E2E8F0] flex items-center">
           <div className="relative flex-grow max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#646464]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
             <input
               type="text"
               placeholder="Search by name, email, or role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#B5B5B5]"
+              className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#01161E] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#124559]"
             />
           </div>
         </div>
 
         {/* Table */}
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading employees...</span>
           </div>
         ) : filteredMembers.length === 0 ? (
-          <div className="p-12 text-center text-[#B5B5B5] text-xs">
+          <div className="p-12 text-center text-[#598392] text-xs">
             No employees found matching filter.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
+            <table className="w-full text-left text-[13px] border-collapse">
               <thead>
-                <tr className="bg-[#1C1C1C]/40 border-b border-[#1C1C1C] text-[#646464] font-semibold uppercase tracking-wider text-[10px]">
+                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[11px]">
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Role</th>
                   <th className="px-6 py-4">Designation</th>
@@ -222,13 +222,13 @@ const EmployeeList = () => {
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1C1C1C]">
+              <tbody className="divide-y divide-[#FFFFFF]">
                 {filteredMembers.map((member) => (
-                  <tr key={member._id} className="hover:bg-[#1C1C1C]/20 transition-all">
+                  <tr key={member._id} className="hover:bg-[#EFF6E0]/40 transition-all">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-white">{member.name}</p>
-                        <p className="text-[10px] text-[#646464]">{member.email}</p>
+                        <p className="font-medium text-[#01161E] text-sm">{member.name}</p>
+                        <p className="text-[11px] text-[#94A3B8]">{member.email}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -245,7 +245,7 @@ const EmployeeList = () => {
                         {member.role.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-[#B5B5B5] font-light">
+                    <td className="px-6 py-4 text-[#598392] font-light">
                       {member.designation || 'Staff'}
                     </td>
                     <td className="px-6 py-4">
@@ -261,7 +261,7 @@ const EmployeeList = () => {
                       <div className="flex items-center justify-end space-x-3">
                         <Link
                           to={`/employees/${member._id}`}
-                          className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                          className="text-[#598392] hover:text-[#01161E] font-semibold cursor-pointer"
                         >
                           Details
                         </Link>
@@ -270,7 +270,7 @@ const EmployeeList = () => {
                             {(currentUser?.role === 'company_admin' || (currentUser?.role === 'manager' && member.role === 'employee')) && (
                               <Link
                                 to={`/employees/edit/${member._id}`}
-                                className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                                className="text-[#01161E] hover:text-[#598392] font-semibold cursor-pointer"
                               >
                                 Edit
                               </Link>
@@ -307,15 +307,15 @@ const EmployeeList = () => {
       {/* Onboarding Add Member Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#131313] border border-[#1C1C1C] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
-            <div className="p-6 border-b border-[#1C1C1C] flex justify-between items-center">
-              <h3 className="font-semibold text-white text-base">Onboard New Team Member</h3>
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
+            <div className="p-6 border-b border-[#E2E8F0] flex justify-between items-center">
+              <h3 className="font-semibold text-[#01161E] text-base">Onboard New Team Member</h3>
               <button
                 onClick={() => {
                   setShowAddModal(false);
                   setCreatedTempInfo(null);
                 }}
-                className="text-[#646464] hover:text-white text-xs font-semibold cursor-pointer"
+                className="text-[#94A3B8] hover:text-[#01161E] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -335,16 +335,16 @@ const EmployeeList = () => {
                     </div>
                   </div>
 
-                  <div className="bg-[#0D0D0D] border border-[#1C1C1C] p-4 rounded-xl font-mono text-xs text-[#B5B5B5] relative space-y-1.5">
-                    <p className="text-[10px] text-[#646464] uppercase font-sans font-bold">Welcome to WorkArea</p>
-                    <p><span className="text-[#646464]">Email:</span> {createdTempInfo.email}</p>
-                    <p><span className="text-[#646464]">Password:</span> {createdTempInfo.password}</p>
+                  <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl font-mono text-xs text-[#598392] relative space-y-1.5">
+                    <p className="text-[10px] text-[#94A3B8] uppercase font-sans font-bold">Welcome to WorkArena</p>
+                    <p><span className="text-[#94A3B8]">Email:</span> {createdTempInfo.email}</p>
+                    <p><span className="text-[#94A3B8]">Password:</span> {createdTempInfo.password}</p>
                   </div>
 
                   <div className="flex gap-3">
                     <button
                       onClick={handleCopyPassword}
-                      className="flex-grow flex items-center justify-center gap-2 bg-white text-[#131313] hover:bg-[#B5B5B5] py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
+                      className="flex-grow flex items-center justify-center gap-2 bg-[#124559] text-white hover:bg-[#01161E] py-2.5 rounded-xl text-[13px] font-semibold cursor-pointer"
                     >
                       {copiedText ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                       <span>Copy Credentials</span>
@@ -365,12 +365,12 @@ const EmployeeList = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#646464] uppercase">Role Type</label>
+                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Role Type</label>
                       <select
                         name="role"
                         value={formData.role}
                         onChange={handleChange}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                       >
                         {currentUser?.role === 'company_admin' && (
                           <option value="manager">Manager</option>
@@ -379,84 +379,84 @@ const EmployeeList = () => {
                       </select>
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#646464] uppercase">Full Name</label>
+                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Full Name</label>
                       <input
                         type="text"
                         name="name"
-                        placeholder="John Doe"
+                        placeholder="Rahul Sharma"
                         value={formData.name}
                         onChange={handleChange}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col space-y-1">
-                    <label className="text-[10px] font-bold text-[#646464] uppercase">Email Address</label>
+                    <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Email Address</label>
                     <input
                       type="email"
                       name="email"
-                      placeholder="john@company.com"
+                      placeholder="rahul@company.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                      className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                       required
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#646464] uppercase">Designation</label>
+                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Designation</label>
                       <input
                         type="text"
                         name="designation"
                         placeholder="e.g. Lead Designer"
                         value={formData.designation}
                         onChange={handleChange}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                       />
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#646464] uppercase">Department</label>
+                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department</label>
                       <input
                         type="text"
                         name="department"
                         placeholder="e.g. Engineering"
                         value={formData.department}
                         onChange={handleChange}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#646464] uppercase">Phone Number</label>
+                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Phone Number</label>
                       <input
                         type="text"
                         name="phone"
                         placeholder="e.g. 9876543210"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                       />
                     </div>
                     {formData.role === 'employee' ? (
                       <div className="flex flex-col space-y-1">
-                        <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
+                        <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
                         <input
                           type="date"
                           name="joiningDate"
                           value={formData.joiningDate}
                           onChange={handleChange}
-                          className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+                          className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
                         />
                       </div>
                     ) : (
                       <div className="flex flex-col space-y-1">
-                        <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
-                        <div className="bg-[#0D0D0D]/40 border border-[#1C1C1C] text-xs text-[#646464]/80 rounded-lg p-2.5 select-none leading-normal">
+                        <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
+                        <div className="bg-[#F8FAFC]/40 border border-[#E2E8F0] text-xs text-[#94A3B8]/80 rounded-lg p-2.5 select-none leading-normal">
                           Immediate (Manager)
                         </div>
                       </div>

@@ -38,8 +38,8 @@ const CompanySubscription = () => {
 
   if (loading) {
     return (
-      <div className="p-14 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-white" />
+      <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
         <span className="text-sm font-light">Loading billing details...</span>
       </div>
     );
@@ -58,16 +58,16 @@ const CompanySubscription = () => {
       <CompanyNavTabs />
       
       <div>
-        <h1 className="text-2xl font-semibold text-white tracking-tight">Billing & Subscription</h1>
-        <p className="text-xs text-[#B5B5B5] mt-1 font-light">Monitor your plan, payment methods, billing history, and team seat limits.</p>
+        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Billing & Subscription</h1>
+        <p className="text-xs text-[#598392] mt-1 font-light">Monitor your plan, payment methods, billing history, and team seat limits.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Current Plan Card */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card card-animate flex flex-col justify-between">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-5 hover-card card-animate flex flex-col justify-between">
           <div className="space-y-4">
             <div className="flex justify-between items-start">
-              <h3 className="font-semibold text-white text-xs uppercase tracking-wider text-[#646464]">Current Plan</h3>
+              <h3 className="font-semibold text-[#01161E] text-xs uppercase tracking-wider text-[#94A3B8]">Current Plan</h3>
               <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
                 company.status === 'Suspended'
                   ? 'bg-red-500/10 text-red-400 border border-red-500/20'
@@ -78,49 +78,49 @@ const CompanySubscription = () => {
             </div>
 
             <div className="space-y-1.5">
-              <p className="text-xl font-bold text-white flex items-center gap-1.5">
+              <p className="text-xl font-bold text-[#01161E] flex items-center gap-1.5">
                 <Sparkles className="h-5 w-5 text-yellow-400" />
                 {activePlan} Plan
               </p>
-              <p className="text-xs text-[#B5B5B5] font-light">
+              <p className="text-xs text-[#598392] font-light">
                 {priceString} {renewalDate !== 'N/A' && `• Renews on ${renewalDate}`}
               </p>
             </div>
           </div>
 
-          <div className="pt-5 border-t border-[#1C1C1C] flex justify-between items-center text-xs font-light text-[#B5B5B5]">
-            <span className="flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#646464]" /> Team seat occupancy</span>
-            <span className="text-white font-medium">{headcount} / {seatLimit} Employees</span>
+          <div className="pt-5 border-t border-[#E2E8F0] flex justify-between items-center text-xs font-light text-[#598392]">
+            <span className="flex items-center gap-1.5"><Building2 className="h-4 w-4 text-[#94A3B8]" /> Team seat occupancy</span>
+            <span className="text-[#01161E] font-medium">{headcount} / {seatLimit} Employees</span>
           </div>
         </div>
 
         {/* Payment Methods Card */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card card-animate flex flex-col justify-between">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-5 hover-card card-animate flex flex-col justify-between">
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-xs uppercase tracking-wider text-[#646464]">Payment Details</h3>
+            <h3 className="font-semibold text-[#01161E] text-xs uppercase tracking-wider text-[#94A3B8]">Payment Details</h3>
             
             {activePlan === 'Free' ? (
-              <div className="flex items-center space-x-3 text-xs bg-[#0D0D0D] border border-[#1C1C1C] p-4.5 rounded-xl text-[#B5B5B5]">
+              <div className="flex items-center space-x-3 text-xs bg-[#F8FAFC] border border-[#E2E8F0] p-4.5 rounded-xl text-[#598392]">
                 <ShieldCheck className="h-5 w-5 text-green-400 shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">Free Sandbox Tier Active</p>
-                  <p className="text-[10px] text-[#646464] mt-0.5">No billing information is required for sandbox workspaces.</p>
+                  <p className="font-semibold text-[#01161E]">Free Sandbox Tier Active</p>
+                  <p className="text-[10px] text-[#94A3B8] mt-0.5">No billing information is required for sandbox workspaces.</p>
                 </div>
               </div>
             ) : (
-              <div className="flex items-center space-x-3 text-xs bg-[#0D0D0D] border border-[#1C1C1C] p-4.5 rounded-xl text-[#B5B5B5]">
-                <CreditCard className="h-5 w-5 text-white shrink-0" />
+              <div className="flex items-center space-x-3 text-xs bg-[#F8FAFC] border border-[#E2E8F0] p-4.5 rounded-xl text-[#598392]">
+                <CreditCard className="h-5 w-5 text-[#01161E] shrink-0" />
                 <div>
-                  <p className="font-semibold text-white">{cardBrand}</p>
-                  <p className="text-[10px] text-[#646464] font-mono mt-0.5">{cardString}</p>
+                  <p className="font-semibold text-[#01161E]">{cardBrand}</p>
+                  <p className="text-[10px] text-[#94A3B8] font-mono mt-0.5">{cardString}</p>
                 </div>
               </div>
             )}
           </div>
 
-          <div className="pt-5 border-t border-[#1C1C1C] flex justify-between items-center text-xs font-light text-[#B5B5B5]">
-            <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-[#646464]" /> Auto-renewal settings</span>
-            <span className="text-white font-medium">{autoRenew ? 'Auto-renew ON' : 'N/A'}</span>
+          <div className="pt-5 border-t border-[#E2E8F0] flex justify-between items-center text-xs font-light text-[#598392]">
+            <span className="flex items-center gap-1.5"><CheckCircle2 className="h-4 w-4 text-[#94A3B8]" /> Auto-renewal settings</span>
+            <span className="text-[#01161E] font-medium">{autoRenew ? 'Auto-renew ON' : 'N/A'}</span>
           </div>
         </div>
       </div>

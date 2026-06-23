@@ -72,8 +72,8 @@ const EditEmployee = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-white" />
+      <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
         <span className="text-xs">Loading employee form...</span>
       </div>
     );
@@ -82,59 +82,59 @@ const EditEmployee = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/employees')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+        <button onClick={() => navigate('/employees')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Edit Employee</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light font-sans">Modify employee profile fields and designations.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Edit Employee</h1>
+          <p className="text-xs text-[#598392] mt-0.5 font-light font-sans">Modify employee profile fields and designations.</p>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#B5B5B5] font-light">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Full Name</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Full Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">Designation</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Designation</label>
               <input
                 type="text"
                 name="designation"
                 value={formData.designation}
                 onChange={handleChange}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">Phone Number</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Phone Number</label>
               <input
                 type="text"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
               />
             </div>
           </div>
 
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Department</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department</label>
             <select
               name="department"
               value={formData.department}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none pl-2 bg-[#F8FAFC]"
             >
               <option value="">No Department</option>
               {departments.map(dept => (
@@ -146,7 +146,7 @@ const EditEmployee = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-white hover:bg-[#B5B5B5] text-[#131313] py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+            className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
           >
             {submitting ? 'Updating...' : 'Save Changes'}
           </button>

@@ -3,14 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 const CompanyNavTabs = () => {
   return (
-    <div className="flex space-x-1 border-b border-[#1C1C1C] pb-px mb-6">
+    <div className="flex space-x-1 border-b border-[#E2E8F0] pb-px mb-6">
       <NavLink
         to="/company/profile"
         className={({ isActive }) =>
-          `px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+          `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-white text-white font-bold'
-              : 'border-transparent text-[#646464] hover:text-[#B5B5B5]'
+              ? 'border-[#124559] text-[#01161E] font-bold'
+              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
           }`
         }
       >
@@ -19,10 +19,10 @@ const CompanyNavTabs = () => {
       <NavLink
         to="/company/settings"
         className={({ isActive }) =>
-          `px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+          `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-white text-white font-bold'
-              : 'border-transparent text-[#646464] hover:text-[#B5B5B5]'
+              ? 'border-[#124559] text-[#01161E] font-bold'
+              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
           }`
         }
       >
@@ -31,10 +31,10 @@ const CompanyNavTabs = () => {
       <NavLink
         to="/company/subscription"
         className={({ isActive }) =>
-          `px-4 py-2.5 text-xs font-semibold border-b-2 transition-all cursor-pointer ${
+          `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-white text-white font-bold'
-              : 'border-transparent text-[#646464] hover:text-[#B5B5B5]'
+              ? 'border-[#124559] text-[#01161E] font-bold'
+              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
           }`
         }
       >

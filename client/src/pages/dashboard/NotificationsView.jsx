@@ -48,42 +48,58 @@ const NotificationsView = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold text-white tracking-tight">Notifications</h1>
-        <p className="text-sm text-[#B5B5B5] mt-1.5 font-light">Stay updated with task milestones, leaves approvals, and attendance alerts.</p>
+        <h1 className="text-3xl font-extrabold text-[#01161E] tracking-tight font-heading">Notifications</h1>
+        <p className="text-xs text-[#598392] mt-1.5 font-light">Stay updated with task milestones, leaves approvals, and attendance alerts.</p>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 hover-card">
+      <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 hover-card shadow-premium">
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b border-[#1C1C1C] pb-3">
-            <h3 className="font-semibold text-white text-[15px]">Workspace Alerts</h3>
-            <span className="text-xs text-[#646464] font-medium">{alerts.length} Alerts</span>
-          </div>
-
           {loading ? (
-            <div className="p-10 flex items-center justify-center text-[#B5B5B5] gap-2 text-sm">
-              <Loader2 className="h-5 w-5 animate-spin" />
-              Loading notifications...
+            <div className="p-12 flex flex-col items-center justify-center text-[#598392] gap-2 text-xs font-semibold">
+              <Loader2 className="h-5 w-5 animate-spin text-[#124559]" />
+              <span>Loading notifications...</span>
             </div>
           ) : alerts.length === 0 ? (
-            <div className="p-10 text-center text-sm text-[#646464]">
+            <div className="p-12 text-center text-xs text-[#94A3B8] font-medium leading-relaxed">
               No notifications yet. Task, leave, project, and attendance activity will appear here.
             </div>
           ) : (
-            <div className="divide-y divide-[#1C1C1C]">
-              {alerts.map((alert) => (
-                <div key={alert._id || alert.id} className="py-4 flex gap-4 text-sm font-light text-[#B5B5B5] hover-row rounded-lg px-2 -mx-2">
-                  <div className="h-10 w-10 rounded-xl bg-[#0D0D0D] border border-[#1C1C1C] flex items-center justify-center shrink-0">
-                    {iconForType(alert.type)}
-                  </div>
-                  <div className="space-y-1 min-w-0 flex-1">
-                    <div className="flex justify-between items-center gap-3">
-                      <p className="font-semibold text-white leading-none truncate text-[15px]">{alert.title}</p>
-                      <span className="text-xs text-[#646464] font-mono shrink-0">{formatTime(alert.createdAt)}</span>
-                    </div>
-                    <p className="text-sm leading-relaxed text-[#B5B5B5]/90">{alert.message}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-100 text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider">
+                    <th className="pb-3 pl-4">Event</th>
+                    <th className="pb-3 text-center">Description</th>
+                    <th className="pb-3 pr-4 text-right">Time</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100/50">
+                  {alerts.map((alert) => (
+                    <tr key={alert._id || alert.id} className="group transition-colors duration-150">
+                      {/* Left: Event Title and Type */}
+                      <td className="py-4 pl-4">
+                        <div className="flex items-center gap-3">
+                          <div className="h-9 w-9 rounded-xl bg-[#124559]/5 border border-[#124559]/10 flex items-center justify-center shrink-0 shadow-sm">
+                            {iconForType(alert.type)}
+                          </div>
+                          <div>
+                            <span className="font-bold text-[#01161E] text-[13px] block leading-tight">{alert.title}</span>
+                            <span className="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wider block mt-0.5">{alert.type}</span>
+                          </div>
+                        </div>
+                      </td>
+                      {/* Center: Description message (centered as requested) */}
+                      <td className="py-4 text-center text-xs font-semibold text-[#598392] max-w-sm px-4 leading-relaxed">
+                        {alert.message}
+                      </td>
+                      {/* Right: Time */}
+                      <td className="py-4 pr-4 text-right text-xs text-[#94A3B8] font-semibold tracking-tight">
+                        {formatTime(alert.createdAt)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>

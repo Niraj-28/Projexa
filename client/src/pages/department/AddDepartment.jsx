@@ -37,39 +37,39 @@ const AddDepartment = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/departments')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+        <button onClick={() => navigate('/departments')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Add Department</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Create a new department unit inside your workspace.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Add Department</h1>
+          <p className="text-xs text-[#598392] mt-0.5 font-light">Create a new department unit inside your workspace.</p>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#B5B5B5] font-light">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Department Name</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department Name</label>
             <input
               type="text"
               name="name"
               placeholder="e.g. Engineering"
               value={formData.name}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
               required
             />
           </div>
 
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Department Code</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department Code</label>
             <input
               type="text"
               name="code"
               placeholder="e.g. ENG"
               value={formData.code}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none uppercase"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none uppercase"
               required
             />
           </div>
@@ -77,7 +77,7 @@ const AddDepartment = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-white hover:bg-[#B5B5B5] text-[#131313] py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+            className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
           >
             {submitting ? 'Creating...' : 'Create Department'}
           </button>

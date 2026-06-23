@@ -166,13 +166,13 @@ const TaskList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Tasks Desk</h1>
-          <p className="text-xs text-[#B5B5B5] mt-1 font-light">Create, delegate, and monitor sprint task list.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Tasks Desk</h1>
+          <p className="text-sm text-[#598392] mt-1 font-light">Create, delegate, and monitor sprint task list.</p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="flex items-center space-x-2 bg-white text-[#131313] hover:bg-[#B5B5B5] px-4 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer"
+          className="flex items-center space-x-2 bg-[#124559] text-white hover:bg-[#01161E] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
         >
           <ListPlus className="h-4 w-4" />
           <span>Add Task</span>
@@ -180,15 +180,15 @@ const TaskList = () => {
       </div>
 
       {/* Filter and Search Section */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-4 flex flex-col md:flex-row md:items-center gap-4">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4 flex flex-col md:flex-row md:items-center gap-4">
         <div className="relative flex-grow max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#646464]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
           <input
             type="text"
             placeholder="Search tasks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#B5B5B5]"
+            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#01161E] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#124559]"
           />
         </div>
 
@@ -197,7 +197,7 @@ const TaskList = () => {
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#B5B5B5] cursor-pointer"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#598392] rounded-xl px-3 py-2.5 focus:outline-none focus:border-[#124559] cursor-pointer"
             >
               <option value="all">All Statuses</option>
               <option value="to_do">To Do</option>
@@ -211,7 +211,7 @@ const TaskList = () => {
             <select
               value={projectFilter}
               onChange={(e) => setProjectFilter(e.target.value)}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg px-3 py-2.5 focus:outline-none focus:border-[#B5B5B5] cursor-pointer"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#598392] rounded-xl px-3 py-2.5 focus:outline-none focus:border-[#124559] cursor-pointer"
             >
               <option value="all">All Projects</option>
               {projects.map(p => (
@@ -224,40 +224,40 @@ const TaskList = () => {
 
       {/* Task List Grid */}
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-          <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+          <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
           <span className="text-xs">Loading sprint tasks...</span>
         </div>
       ) : filteredTasks.length === 0 ? (
-        <div className="p-12 text-center text-[#B5B5B5] text-xs font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+        <div className="p-12 text-center text-[#598392] text-xs font-light bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
           No tasks found matching current filters.
         </div>
       ) : (
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-[#1C1C1C] pb-3">
-              <h3 className="font-semibold text-white text-sm">Sprint Task Board</h3>
-              <span className="text-[10px] text-[#646464] font-medium">{filteredTasks.length} Active Items</span>
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
+              <h3 className="font-semibold text-[#01161E] text-base">Sprint Task Board</h3>
+              <span className="text-[11px] text-[#94A3B8] font-medium">{filteredTasks.length} Active Items</span>
             </div>
 
-            <div className="divide-y divide-[#1C1C1C]">
+            <div className="divide-y divide-[#FFFFFF]">
               {filteredTasks.map((task) => (
-                <div key={task._id} className="py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs font-light text-[#B5B5B5]">
+                <div key={task._id} className="py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4 text-xs font-light text-[#598392]">
                   
                   {/* Task details */}
                   <div className="space-y-1.5 flex-grow max-w-xl">
                     <div className="flex items-start gap-2.5">
-                      <p className="font-medium text-white text-sm leading-snug">{task.title}</p>
+                      <p className="font-medium text-[#01161E] text-sm leading-snug">{task.title}</p>
                       <span className={`inline-flex px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider shrink-0 ${getPriorityBadgeClass(task.priority)}`}>
                         {task.priority}
                       </span>
                     </div>
                     {task.description && (
-                      <p className="text-[#646464] text-xs leading-relaxed line-clamp-2">{task.description}</p>
+                      <p className="text-[#94A3B8] text-xs leading-relaxed line-clamp-2">{task.description}</p>
                     )}
-                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-[#646464] font-medium pt-1">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-[#94A3B8] font-medium pt-1">
                       <span className="flex items-center gap-1">
-                        <span className="text-white bg-[#1C1C1C] border border-[#3C3C3C] px-1.5 py-0.5 rounded text-[9px]">
+                        <span className="text-[#01161E] bg-[#FFFFFF] border border-[#E2E8F0] px-1.5 py-0.5 rounded text-[9px]">
                           {task.project?.name || 'No Project'}
                         </span>
                       </span>
@@ -266,7 +266,7 @@ const TaskList = () => {
                           <Calendar className="h-3 w-3" /> Due {new Date(task.dueDate).toLocaleDateString()}
                         </span>
                       )}
-                      <span className="text-[#646464] font-light">Reporter: {task.reporter?.name || 'System'}</span>
+                      <span className="text-[#94A3B8] font-light">Reporter: {task.reporter?.name || 'System'}</span>
                     </div>
                   </div>
                   
@@ -274,11 +274,11 @@ const TaskList = () => {
                   <div className="flex items-center flex-wrap gap-4">
                     {/* Inline Assignee Changer */}
                     <div className="flex items-center gap-1.5">
-                      <User className="h-3.5 w-3.5 text-[#646464]" />
+                      <User className="h-3.5 w-3.5 text-[#94A3B8]" />
                       <select
                         value={task.assignee?._id || ''}
                         onChange={(e) => handleUpdateTaskAssignee(task._id, e.target.value)}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-[11px] text-white rounded px-2 py-1.5 focus:outline-none cursor-pointer"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-[11px] text-[#01161E] rounded px-2 py-1.5 focus:outline-none cursor-pointer"
                       >
                         <option value="">Unassigned</option>
                         {users.map(u => (
@@ -292,7 +292,7 @@ const TaskList = () => {
                       <select
                         value={task.status}
                         onChange={(e) => handleUpdateTaskStatus(task._id, e.target.value)}
-                        className="bg-[#0D0D0D] border border-[#1C1C1C] text-[11px] font-semibold text-[#B5B5B5] rounded px-2 py-1.5 focus:outline-none cursor-pointer"
+                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-[11px] font-semibold text-[#598392] rounded px-2 py-1.5 focus:outline-none cursor-pointer"
                       >
                         <option value="to_do">TO DO</option>
                         <option value="in_progress">IN PROGRESS</option>
@@ -302,17 +302,17 @@ const TaskList = () => {
                     </div>
 
                     {/* Details / Edit Links */}
-                    <div className="flex items-center space-x-3 text-xs pl-2.5 border-l border-[#1C1C1C]">
+                    <div className="flex items-center space-x-3 text-xs pl-2.5 border-l border-[#E2E8F0]">
                       <Link
                         to={`/tasks/${task._id}`}
-                        className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                        className="text-[#598392] hover:text-[#01161E] font-semibold cursor-pointer"
                       >
                         Details
                       </Link>
                       {(user?.role === 'company_admin' || user?.role === 'manager') && (
                         <Link
                           to={`/tasks/edit/${task._id}`}
-                          className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                          className="text-[#01161E] hover:text-[#598392] font-semibold cursor-pointer"
                         >
                           Edit
                         </Link>
@@ -330,12 +330,12 @@ const TaskList = () => {
       {/* Add Task Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#131313] border border-[#1C1C1C] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
-            <div className="p-6 border-b border-[#1C1C1C] flex justify-between items-center">
-              <h3 className="font-semibold text-white text-sm">Create Sprint Task</h3>
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
+            <div className="p-6 border-b border-[#E2E8F0] flex justify-between items-center">
+              <h3 className="font-semibold text-[#01161E] text-sm">Create Sprint Task</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-[#646464] hover:text-white text-xs font-semibold cursor-pointer"
+                className="text-[#94A3B8] hover:text-[#01161E] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -343,38 +343,38 @@ const TaskList = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Task Title</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Task Title</label>
                 <input
                   type="text"
                   name="title"
                   placeholder="e.g. Implement user dashboard widgets"
                   value={formData.title}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
 
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Description</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Description</label>
                 <textarea
                   name="description"
                   placeholder="Provide checklist or implementation specs..."
                   rows={3}
                   value={formData.description}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none resize-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none resize-none"
                 ></textarea>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Project *</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Project *</label>
                   <select
                     name="project"
                     value={formData.project}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                     required
                   >
                     <option value="">Select Project</option>
@@ -385,12 +385,12 @@ const TaskList = () => {
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Assignee</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Assignee</label>
                   <select
                     name="assignee"
                     value={formData.assignee}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   >
                     <option value="">Assign Later</option>
                     {users.map(u => (
@@ -402,12 +402,12 @@ const TaskList = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Priority</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Priority</label>
                   <select
                     name="priority"
                     value={formData.priority}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -417,13 +417,13 @@ const TaskList = () => {
                 </div>
 
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Due Date</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Due Date</label>
                   <input
                     type="date"
                     name="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
                   />
                 </div>
               </div>

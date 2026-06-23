@@ -33,104 +33,102 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#131313] grid grid-cols-1 lg:grid-cols-12 font-sans overflow-x-hidden">
-      {/* Left Branding Showcase */}
-      <AuthShowcase
-        heading="Recover Your Account Access"
-        description="Don't worry. Enter your registered email address and we'll help you reset your password in seconds."
-      />
+    <div className="h-screen w-screen bg-[#050811] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
+      {/* Background spillover glow elements */}
+      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#124559]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#AEC3B0]/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
-      {/* Right Form */}
-      <div className="lg:col-span-5 flex flex-col justify-center px-8 sm:px-16 lg:px-20 py-8 relative z-10 border-l border-[#1C1C1C]">
-        {/* Mobile Logo */}
-        <div className="lg:hidden mb-8 cursor-pointer" onClick={() => navigate('/')}>
-          <Logo />
+      {/* Main Floating Card Container (Fixed height to prevent scrolling) */}
+      <div className="w-full max-w-[1000px] h-[580px] bg-white rounded-[28px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl relative z-10 p-2.5 gap-4">
+        
+        {/* Left Side: Auth Showcase Card */}
+        <div className="lg:col-span-6 flex flex-col h-full">
+          <AuthShowcase
+            heading="Recover Account"
+            description="Don't worry. Enter your registered email address and we'll help you reset your password in seconds."
+          />
         </div>
 
-        <div className="w-full max-w-sm space-y-6">
-          {!success ? (
-            <>
-              {/* Header */}
-              <div>
-                <h2 className="text-[25px] font-medium text-white tracking-tight font-heading">
-                  Forgot Password
-                </h2>
-                <p className="text-[15px] text-[#B5B5B5] mt-1 font-light">
-                  Enter your email to receive recovery instructions
-                </p>
-              </div>
+        {/* Right Side: Form Container */}
+        <div className="lg:col-span-6 flex flex-col justify-between px-6 sm:px-10 py-6 h-full relative z-10 overflow-hidden">
+          
+          {/* Logo / Header */}
+          <div className="flex flex-col items-center text-center">
+            <div className="cursor-pointer mb-4" onClick={() => navigate('/')}>
+              <Logo className="h-6 w-auto" />
+            </div>
+            <h2 className="text-[26px] font-bold text-[#01161E] tracking-tight leading-none mb-1.5 font-heading">
+              Forgot Password
+            </h2>
+            <p className="text-[12px] text-[#598392] font-light">
+              Enter your email to receive recovery instructions
+            </p>
+          </div>
 
-              {/* Form */}
+          <div className="my-auto py-4 w-full">
+            {!success ? (
               <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Email */}
-                <div className="flex flex-col space-y-1.5">
-                  <label className="text-[12px] font-semibold text-[#B5B5B5] uppercase tracking-wider">Email Address</label>
-                  <div className="relative">
-                    <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none">
-                      <Mail className="h-4 w-4 text-[#646464]" />
-                    </div>
-                    <input
-                      type="email"
-                      placeholder="EMAIL ADDRESS"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full auth-input text-sm text-white focus:outline-none"
-                      required
-                    />
-                  </div>
+                {/* Email Field */}
+                <div className="flex flex-col space-y-1">
+                  <label className="text-[11px] font-medium text-[#01161E]">Email Address</label>
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                    required
+                  />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full auth-btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-[#124559] hover:bg-[#01161E] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Processing...</span>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <span>Sending...</span>
                     </>
                   ) : (
                     <>
                       <span>Send Recovery Instructions</span>
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-3.5 w-3.5" />
                     </>
                   )}
                 </button>
               </form>
-            </>
-          ) : (
-            <div className="space-y-6 text-center py-4 bg-[#1C1C1C]/50 border border-[#3C3C3C] p-6 rounded-xl">
-              <div className="h-12 w-12 rounded-full bg-green-500/10 border border-green-500/30 flex items-center justify-center mx-auto text-green-400 font-bold">
-                ✓
+            ) : (
+              <div className="space-y-4 text-center py-4 bg-[#F1F5F9]/30 border border-[#E2E8F0] p-5 rounded-2xl">
+                <div className="h-10 w-10 rounded-full bg-[#124559]/10 border border-[#124559]/20 flex items-center justify-center mx-auto text-[#124559] font-bold">
+                  ✓
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-sm font-medium text-[#01161E] font-heading">Check Your Inbox</h3>
+                  <p className="text-[11px] text-[#598392] font-light leading-relaxed">
+                    Instructions sent to <strong className="text-[#01161E] font-mono">{email}</strong>. Use the link to reset your password.
+                  </p>
+                </div>
+                <button
+                  onClick={() => navigate('/reset-password')}
+                  className="w-full bg-[#124559] hover:bg-[#01161E] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+                >
+                  <span>Go to Reset Password</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </button>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-lg font-medium text-white">Check Your Inbox</h3>
-                <p className="text-xs text-[#B5B5B5] font-light leading-relaxed">
-                  We have simulated a recovery link and sent it to <strong className="text-white font-mono">{email}</strong>. Use the link to reset your account password.
-                </p>
-              </div>
-              <button
-                onClick={() => navigate('/reset-password')}
-                className="w-full auth-btn-primary"
-              >
-                <span>Go to Reset Password</span>
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Links back to login */}
-          <div className="text-center pt-2">
-            <Link
-              to="/login"
-              className="inline-flex items-center space-x-1.5 text-xs text-[#B5B5B5] hover:text-white transition duration-150"
-            >
-              <ArrowLeft className="h-3 w-3" />
-              <span>Back to Sign In</span>
+          {/* Bottom Link */}
+          <div className="text-center pt-1">
+            <Link to="/login" className="text-xs text-[#01161E] font-bold hover:underline transition duration-150 inline-flex items-center justify-center gap-1.5">
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to Login</span>
             </Link>
           </div>
+
         </div>
       </div>
     </div>

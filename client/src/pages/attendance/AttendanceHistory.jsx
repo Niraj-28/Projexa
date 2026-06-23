@@ -32,53 +32,53 @@ const AttendanceHistory = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <button onClick={() => navigate('/attendance')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+          <button onClick={() => navigate('/attendance')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
             <ArrowLeft className="h-4 w-4" />
           </button>
           <div>
-            <h1 className="text-2xl font-semibold text-white tracking-tight">Shift Clock History</h1>
-            <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Comprehensive list of all logged company check-ins.</p>
+            <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Shift Clock History</h1>
+            <p className="text-xs text-[#598392] mt-0.5 font-light">Comprehensive list of all logged company check-ins.</p>
           </div>
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex bg-[#131313] border border-[#1C1C1C] rounded-lg p-0.5">
+        <div className="flex bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-0.5">
           <Link
             to="/attendance"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
           >
             Tracker
           </Link>
           <Link
             to="/attendance/history"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#3C3C3C] text-white"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#E2E8F0] text-[#01161E]"
           >
             History
           </Link>
           <Link
             to="/attendance/reports"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#646464] hover:text-[#B5B5B5]"
+            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
           >
             Reports
           </Link>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl overflow-hidden">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl overflow-hidden">
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading history logs...</span>
           </div>
         ) : logs.length === 0 ? (
-          <div className="p-12 text-center text-[#646464] text-xs font-light">
+          <div className="p-12 text-center text-[#94A3B8] text-xs font-light">
             No shift logs recorded in this workspace.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-[#1C1C1C]/40 border-b border-[#1C1C1C] text-[#646464] font-semibold uppercase tracking-wider text-[10px]">
+                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[10px]">
                   <th className="px-6 py-4">Employee</th>
                   <th className="px-6 py-4">Date</th>
                   <th className="px-6 py-4">Check In</th>
@@ -86,10 +86,10 @@ const AttendanceHistory = () => {
                   <th className="px-6 py-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#1C1C1C] text-[#B5B5B5] font-light">
+              <tbody className="divide-y divide-[#FFFFFF] text-[#598392] font-light">
                 {logs.map((log) => (
-                  <tr key={log._id} className="hover:bg-[#1C1C1C]/20 transition-all">
-                    <td className="px-6 py-4 font-semibold text-white">{log.user?.name || 'Staff'}</td>
+                  <tr key={log._id} className="hover:bg-[#EFF6E0]/40 transition-all">
+                    <td className="px-6 py-4 font-semibold text-[#01161E]">{log.user?.name || 'Staff'}</td>
                     <td className="px-6 py-4 font-mono">{log.date}</td>
                     <td className="px-6 py-4">{log.checkIn}</td>
                     <td className="px-6 py-4">{log.checkOut || '--'}</td>

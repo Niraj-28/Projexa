@@ -55,38 +55,38 @@ const MyTaskList = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-white tracking-tight">My Tasks</h1>
-        <p className="text-xs text-[#B5B5B5] mt-1 font-light">List of active tasks assigned to you. Mark them complete once resolved.</p>
+        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">My Tasks</h1>
+        <p className="text-xs text-[#598392] mt-1 font-light">List of active tasks assigned to you. Mark them complete once resolved.</p>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b border-[#1C1C1C] pb-3 text-[#646464] text-xs">
+          <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3 text-[#94A3B8] text-xs">
             <span>TASK DESCRIPTION</span>
             <span>STATUS</span>
           </div>
 
           {loading ? (
-            <div className="p-8 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-              <Loader2 className="h-5 w-5 animate-spin text-white" />
+            <div className="p-8 flex flex-col items-center justify-center text-[#598392] space-y-2">
+              <Loader2 className="h-5 w-5 animate-spin text-[#01161E]" />
               <span className="text-xs">Loading tasks...</span>
             </div>
           ) : tasks.length === 0 ? (
-            <p className="text-xs text-[#B5B5B5] text-center py-6 font-light">No tasks assigned to you. Enjoy your day!</p>
+            <p className="text-xs text-[#598392] text-center py-6 font-light">No tasks assigned to you. Enjoy your day!</p>
           ) : (
-            <div className="divide-y divide-[#1C1C1C]">
+            <div className="divide-y divide-[#FFFFFF]">
               {tasks.map((task) => (
-                <div key={task._id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#B5B5B5]">
+                <div key={task._id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#598392]">
                   <div className="space-y-1">
-                    <p className={`font-medium text-white ${task.status === 'completed' ? 'line-through opacity-40' : ''}`}>
+                    <p className={`font-medium text-[#01161E] ${task.status === 'completed' ? 'line-through opacity-40' : ''}`}>
                       {task.title}
                     </p>
                     {task.description && (
-                      <p className="text-[#646464] text-[11px] leading-relaxed max-w-lg">{task.description}</p>
+                      <p className="text-[#94A3B8] text-[11px] leading-relaxed max-w-lg">{task.description}</p>
                     )}
-                    <div className="flex items-center gap-3 text-[10px] text-[#646464] pt-0.5">
+                    <div className="flex items-center gap-3 text-[10px] text-[#94A3B8] pt-0.5">
                       {task.project && (
-                        <span className="text-white bg-[#1C1C1C] border border-[#3C3C3C] px-1.5 py-0.5 rounded text-[9px]">
+                        <span className="text-[#01161E] bg-[#FFFFFF] border border-[#E2E8F0] px-1.5 py-0.5 rounded text-[9px]">
                           {task.project.name}
                         </span>
                       )}
@@ -107,7 +107,7 @@ const MyTaskList = () => {
                         </span>
                         <button
                           onClick={() => handleUpdateStatus(task._id, 'in_progress')}
-                          className="text-[#646464] hover:text-white text-[10px] font-semibold cursor-pointer underline underline-offset-2"
+                          className="text-[#94A3B8] hover:text-[#01161E] text-[10px] font-semibold cursor-pointer underline underline-offset-2"
                         >
                           Reopen
                         </button>
@@ -117,7 +117,7 @@ const MyTaskList = () => {
                         <select
                           value={task.status}
                           onChange={(e) => handleUpdateStatus(task._id, e.target.value)}
-                          className="bg-[#0D0D0D] border border-[#1C1C1C] text-[10px] font-semibold text-[#B5B5B5] rounded px-2 py-1.5 focus:outline-none cursor-pointer mr-1"
+                          className="bg-[#F8FAFC] border border-[#E2E8F0] text-[10px] font-semibold text-[#598392] rounded px-2 py-1.5 focus:outline-none cursor-pointer mr-1"
                         >
                           <option value="to_do">TO DO</option>
                           <option value="in_progress">IN PROGRESS</option>
@@ -125,7 +125,7 @@ const MyTaskList = () => {
                         </select>
                         <button
                           onClick={() => handleUpdateStatus(task._id, 'completed')}
-                          className="bg-[#1C1C1C] border border-[#3C3C3C] text-white hover:bg-white hover:text-black px-3 py-1.5 rounded text-[10px] font-semibold transition duration-150 cursor-pointer"
+                          className="bg-[#FFFFFF] border border-[#E2E8F0] text-[#01161E] hover:bg-white hover:text-black px-3 py-1.5 rounded text-[10px] font-semibold transition duration-150 cursor-pointer"
                         >
                           Mark Completed
                         </button>

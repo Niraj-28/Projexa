@@ -101,14 +101,14 @@ const ProjectList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Active Projects</h1>
-          <p className="text-xs text-[#B5B5B5] mt-1 font-light">Track milestones, deliverables, and assigned leads.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Active Projects</h1>
+          <p className="text-sm text-[#598392] mt-1 font-light">Track milestones, deliverables, and assigned leads.</p>
         </div>
 
         {(user?.role === 'company_admin' || user?.role === 'manager') && (
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center space-x-2 bg-white text-[#131313] hover:bg-[#B5B5B5] px-4 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-[#124559] text-white hover:bg-[#01161E] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
           >
             <FolderPlus className="h-4 w-4" />
             <span>New Project</span>
@@ -117,36 +117,36 @@ const ProjectList = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-4 flex items-center">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4 flex items-center">
         <div className="relative flex-grow max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#646464]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
           <input
             type="text"
             placeholder="Search projects by name..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#B5B5B5]"
+            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#01161E] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#124559]"
           />
         </div>
       </div>
 
       {/* Projects Grid */}
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-          <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+          <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
           <span className="text-xs">Loading projects...</span>
         </div>
       ) : filteredProjects.length === 0 ? (
-        <div className="p-12 text-center text-[#B5B5B5] text-xs font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+        <div className="p-12 text-center text-[#598392] text-sm font-light bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
           No projects created in this workspace yet.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredProjects.map((p) => (
-            <div key={p._id} className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover:border-[#3C3C3C] transition-all flex flex-col justify-between">
+            <div key={p._id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover:border-[#E2E8F0] transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex justify-between items-start">
-                  <div className="h-9 w-9 rounded-lg bg-white/5 border border-[#1C1C1C] flex items-center justify-center text-[#B5B5B5]">
+                  <div className="h-9 w-9 rounded-lg bg-white/5 border border-[#E2E8F0] flex items-center justify-center text-[#598392]">
                     <FolderGit2 className="h-5 w-5" />
                   </div>
                   <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider ${
@@ -160,13 +160,13 @@ const ProjectList = () => {
                   </span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white text-base leading-tight">{p.name}</h3>
-                  <p className="text-[10px] text-[#646464] mt-0.5">Lead: {p.manager?.name || 'Unassigned'}</p>
+                  <h3 className="font-semibold text-[#01161E] text-base leading-tight">{p.name}</h3>
+                  <p className="text-[11px] text-[#94A3B8] mt-0.5">Lead: {p.manager?.name || 'Unassigned'}</p>
                 </div>
-                <p className="text-xs text-[#B5B5B5] font-light leading-relaxed truncate">{p.description || 'No description provided.'}</p>
+                <p className="text-sm text-[#598392] font-light leading-relaxed truncate">{p.description || 'No description provided.'}</p>
               </div>
 
-              <div className="pt-4 border-t border-[#1C1C1C]/60 flex items-center justify-between text-[10px] text-[#646464]">
+              <div className="pt-4 border-t border-[#E2E8F0]/60 flex items-center justify-between text-[11px] text-[#94A3B8]">
                 <div className="flex items-center space-x-1">
                   <Clock className="h-3.5 w-3.5" />
                   <span>Deadline: {p.deadline ? new Date(p.deadline).toLocaleDateString() : 'None'}</span>
@@ -174,14 +174,14 @@ const ProjectList = () => {
                 <div className="flex items-center space-x-3 text-xs">
                   <Link
                     to={`/projects/${p._id}`}
-                    className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                    className="text-[#598392] hover:text-[#01161E] font-semibold cursor-pointer"
                   >
                     Details
                   </Link>
                   {(user?.role === 'company_admin' || user?.role === 'manager') && (
                     <Link
                       to={`/projects/edit/${p._id}`}
-                      className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                      className="text-[#01161E] hover:text-[#598392] font-semibold cursor-pointer"
                     >
                       Edit
                     </Link>
@@ -196,12 +196,12 @@ const ProjectList = () => {
       {/* Add Project Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#131313] border border-[#1C1C1C] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
-            <div className="p-6 border-b border-[#1C1C1C] flex justify-between items-center">
-              <h3 className="font-semibold text-white text-sm">Add New Project</h3>
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
+            <div className="p-6 border-b border-[#E2E8F0] flex justify-between items-center">
+              <h3 className="font-semibold text-[#01161E] text-sm">Add New Project</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-[#646464] hover:text-white text-xs font-semibold cursor-pointer"
+                className="text-[#94A3B8] hover:text-[#01161E] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -209,38 +209,38 @@ const ProjectList = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Project Name</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Project Name</label>
                 <input
                   type="text"
                   name="name"
                   placeholder="e.g. Grayscale Redesign"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
 
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Description</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Description</label>
                 <textarea
                   name="description"
                   placeholder="Provide brief sprint guidelines..."
                   rows={2}
                   value={formData.description}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none resize-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none resize-none"
                 ></textarea>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Project Lead</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Project Lead</label>
                   <select
                     name="manager"
                     value={formData.manager}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   >
                     <option value="">Select Lead</option>
                     {managers.map(mgr => (
@@ -249,24 +249,24 @@ const ProjectList = () => {
                   </select>
                 </div>
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Deadline</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Deadline</label>
                   <input
                     type="date"
                     name="deadline"
                     value={formData.deadline}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Initial Status</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Initial Status</label>
                 <select
                   name="status"
                   value={formData.status}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 >
                   <option value="Planning">Planning</option>
                   <option value="Active">Active</option>

@@ -61,7 +61,7 @@ const AddEmployee = () => {
 
   const handleCopyPassword = () => {
     if (!createdTempInfo) return;
-    const textToCopy = `Welcome to WorkArea\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
+    const textToCopy = `Welcome to WorkArena\nEmail: ${createdTempInfo.email}\nPassword: ${createdTempInfo.password}`;
     navigator.clipboard.writeText(textToCopy);
     setCopiedText(true);
     toast.success('Credentials copied to clipboard!');
@@ -71,16 +71,16 @@ const AddEmployee = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/employees')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+        <button onClick={() => navigate('/employees')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Onboard Staff</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Create credentials for a new manager or employee.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Onboard Staff</h1>
+          <p className="text-xs text-[#598392] mt-0.5 font-light">Create credentials for a new manager or employee.</p>
         </div>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
         {createdTempInfo ? (
           <div className="space-y-4">
             <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 p-4 rounded-xl flex items-start gap-3 text-xs">
@@ -93,16 +93,16 @@ const AddEmployee = () => {
               </div>
             </div>
 
-            <div className="bg-[#0D0D0D] border border-[#1C1C1C] p-4 rounded-xl font-mono text-xs text-[#B5B5B5] space-y-1.5">
-              <p className="text-[10px] text-[#646464] uppercase font-sans font-bold">Workspace Credentials</p>
-              <p><span className="text-[#646464]">Email:</span> {createdTempInfo.email}</p>
-              <p><span className="text-[#646464]">Password:</span> {createdTempInfo.password}</p>
+            <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl font-mono text-xs text-[#598392] space-y-1.5">
+              <p className="text-[10px] text-[#94A3B8] uppercase font-sans font-bold">Workspace Credentials</p>
+              <p><span className="text-[#94A3B8]">Email:</span> {createdTempInfo.email}</p>
+              <p><span className="text-[#94A3B8]">Password:</span> {createdTempInfo.password}</p>
             </div>
 
             <div className="flex gap-3 pt-2">
               <button
                 onClick={handleCopyPassword}
-                className="flex-grow flex items-center justify-center gap-2 bg-white text-[#131313] hover:bg-[#B5B5B5] py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
+                className="flex-grow flex items-center justify-center gap-2 bg-[#124559] text-white hover:bg-[#01161E] py-2.5 rounded-xl text-[13px] font-semibold cursor-pointer"
               >
                 {copiedText ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 <span>Copy Credentials</span>
@@ -116,99 +116,99 @@ const AddEmployee = () => {
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#B5B5B5] font-light">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Role Type</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Role Type</label>
                 <select
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 >
                   <option value="employee">Employee</option>
                   <option value="manager">Manager</option>
                 </select>
               </div>
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Full Name</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Full Name</label>
                 <input
                   type="text"
                   name="name"
-                  placeholder="John Doe"
+                  placeholder="Rahul Sharma"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
             </div>
 
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">Email Address</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Email Address</label>
               <input
                 type="email"
                 name="email"
-                placeholder="john@company.com"
+                placeholder="rahul@company.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Designation</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Designation</label>
                 <input
                   type="text"
                   name="designation"
                   placeholder="e.g. Lead Developer"
                   value={formData.designation}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 />
               </div>
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Department</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department</label>
                 <input
                   type="text"
                   name="department"
                   placeholder="e.g. Engineering"
                   value={formData.department}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Phone Number</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Phone Number</label>
                 <input
                   type="text"
                   name="phone"
                   placeholder="e.g. 9876543210"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 />
               </div>
               {formData.role === 'employee' ? (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
                   <input
                     type="date"
                     name="joiningDate"
                     value={formData.joiningDate}
                     onChange={handleChange}
-                    className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
                   />
                 </div>
               ) : (
                 <div className="flex flex-col space-y-1">
-                  <label className="text-[10px] font-bold text-[#646464] uppercase">Joining Date</label>
-                  <div className="bg-[#0D0D0D]/40 border border-[#1C1C1C] text-xs text-[#646464]/80 rounded-lg p-2.5 select-none leading-normal">
+                  <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
+                  <div className="bg-[#F8FAFC]/40 border border-[#E2E8F0] text-xs text-[#94A3B8]/80 rounded-lg p-2.5 select-none leading-normal">
                     Immediate (Manager)
                   </div>
                 </div>
@@ -218,7 +218,7 @@ const AddEmployee = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-white hover:bg-[#B5B5B5] text-[#131313] py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+              className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
             >
               {submitting ? (
                 <>

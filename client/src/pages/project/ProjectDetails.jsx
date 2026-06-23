@@ -58,8 +58,8 @@ const ProjectDetails = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-white" />
+      <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
         <span className="text-xs">Loading project details...</span>
       </div>
     );
@@ -68,11 +68,11 @@ const ProjectDetails = () => {
   if (!project) {
     return (
       <div className="space-y-4">
-        <button onClick={() => navigate('/projects')} className="flex items-center space-x-1.5 text-xs text-[#B5B5B5] hover:text-white transition">
+        <button onClick={() => navigate('/projects')} className="flex items-center space-x-1.5 text-xs text-[#598392] hover:text-[#01161E] transition">
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Projects</span>
         </button>
-        <div className="p-6 text-center text-[#646464] text-xs bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+        <div className="p-6 text-center text-[#94A3B8] text-xs bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
           Project not found.
         </div>
       </div>
@@ -82,25 +82,25 @@ const ProjectDetails = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/projects')} className="p-2 bg-[#131313] border border-[#1C1C1C] rounded-lg text-[#B5B5B5] hover:text-white transition cursor-pointer">
+        <button onClick={() => navigate('/projects')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">{project.name}</h1>
-          <p className="text-xs text-[#B5B5B5] mt-0.5 font-light">Lead: {project.manager?.name || 'Unassigned'}</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">{project.name}</h1>
+          <p className="text-xs text-[#598392] mt-0.5 font-light">Lead: {project.manager?.name || 'Unassigned'}</p>
         </div>
       </div>
 
       {/* Tabs list */}
-      <div className="flex border-b border-[#1C1C1C] overflow-x-auto pb-px">
+      <div className="flex border-b border-[#E2E8F0] overflow-x-auto pb-px">
         {['Overview', 'Tasks', 'Files', 'Comments', 'Members', 'Activity Logs'].map(tab => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
             className={`px-5 py-3 border-b-2 text-xs font-semibold uppercase tracking-wider transition-all shrink-0 cursor-pointer ${
               activeTab === tab
-                ? 'border-white text-white'
-                : 'border-transparent text-[#646464] hover:text-[#B5B5B5]'
+                ? 'border-white text-[#01161E]'
+                : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
             }`}
           >
             {tab}
@@ -109,21 +109,21 @@ const ProjectDetails = () => {
       </div>
 
       {/* Tab Panels */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 min-h-[250px]">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 min-h-[250px]">
         {activeTab === 'Overview' && (
-          <div className="space-y-4 text-xs font-light text-[#B5B5B5]">
-            <h3 className="font-semibold text-white text-sm">Sprint Scope</h3>
+          <div className="space-y-4 text-xs font-light text-[#598392]">
+            <h3 className="font-semibold text-[#01161E] text-sm">Sprint Scope</h3>
             <p className="leading-relaxed max-w-2xl">{project.description || 'No description provided for this project.'}</p>
             <div className="grid grid-cols-2 gap-4 max-w-md pt-4 text-xs">
               <div className="space-y-1">
-                <span className="text-[#646464] block uppercase font-bold text-[10px]">Deadline</span>
-                <span className="text-white flex items-center gap-1.5 font-mono">
+                <span className="text-[#94A3B8] block uppercase font-bold text-[10px]">Deadline</span>
+                <span className="text-[#01161E] flex items-center gap-1.5 font-mono">
                   <Clock className="h-3.5 w-3.5" />
                   {project.deadline ? new Date(project.deadline).toLocaleDateString() : 'No deadline'}
                 </span>
               </div>
               <div className="space-y-1">
-                <span className="text-[#646464] block uppercase font-bold text-[10px]">Status</span>
+                <span className="text-[#94A3B8] block uppercase font-bold text-[10px]">Status</span>
                 <span className="inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-500/10 text-blue-400 border border-blue-500/20">
                   {project.status}
                 </span>
@@ -134,18 +134,18 @@ const ProjectDetails = () => {
 
         {activeTab === 'Tasks' && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm">Project Tasks ({tasks.length})</h3>
+            <h3 className="font-semibold text-[#01161E] text-sm">Project Tasks ({tasks.length})</h3>
             {tasks.length === 0 ? (
-              <p className="text-xs text-[#646464] py-8 font-light">No tasks assigned to this project yet.</p>
+              <p className="text-xs text-[#94A3B8] py-8 font-light">No tasks assigned to this project yet.</p>
             ) : (
-              <div className="divide-y divide-[#1C1C1C] text-xs">
+              <div className="divide-y divide-[#FFFFFF] text-xs">
                 {tasks.map(task => (
-                  <div key={task._id} className="py-3.5 flex items-center justify-between text-[#B5B5B5]">
+                  <div key={task._id} className="py-3.5 flex items-center justify-between text-[#598392]">
                     <div>
-                      <p className="font-medium text-white">{task.title}</p>
-                      <p className="text-[10px] text-[#646464] mt-0.5">Assignee: {task.assignee?.name || 'Unassigned'}</p>
+                      <p className="font-medium text-[#01161E]">{task.title}</p>
+                      <p className="text-[10px] text-[#94A3B8] mt-0.5">Assignee: {task.assignee?.name || 'Unassigned'}</p>
                     </div>
-                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-neutral-800 text-[#B5B5B5]">
+                    <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded bg-neutral-800 text-[#598392]">
                       {task.status.replace('_', ' ')}
                     </span>
                   </div>
@@ -157,14 +157,14 @@ const ProjectDetails = () => {
 
         {activeTab === 'Files' && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm">Shared Attachments</h3>
-            <div className="space-y-3.5 text-xs text-[#B5B5B5]">
-              <div className="p-3 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl flex items-center justify-between">
+            <h3 className="font-semibold text-[#01161E] text-sm">Shared Attachments</h3>
+            <div className="space-y-3.5 text-xs text-[#598392]">
+              <div className="p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex items-center justify-between">
                 <div className="flex items-center space-x-2.5">
-                  <FileText className="h-4 w-4 text-[#B5B5B5]" />
+                  <FileText className="h-4 w-4 text-[#598392]" />
                   <span>SprintSpecification.pdf</span>
                 </div>
-                <span className="text-[10px] text-[#646464]">1.2 MB</span>
+                <span className="text-[10px] text-[#94A3B8]">1.2 MB</span>
               </div>
             </div>
           </div>
@@ -172,14 +172,14 @@ const ProjectDetails = () => {
 
         {activeTab === 'Comments' && (
           <div className="space-y-6">
-            <h3 className="font-semibold text-white text-sm">Project Log Comments</h3>
+            <h3 className="font-semibold text-[#01161E] text-sm">Project Log Comments</h3>
             
             <div className="space-y-4">
               {comments.map(c => (
-                <div key={c.id} className="bg-[#0D0D0D] border border-[#1C1C1C] p-4 rounded-xl text-xs space-y-1 text-[#B5B5B5]">
+                <div key={c.id} className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl text-xs space-y-1 text-[#598392]">
                   <div className="flex justify-between font-semibold">
-                    <span className="text-white">{c.author}</span>
-                    <span className="text-[10px] text-[#646464]">{c.date}</span>
+                    <span className="text-[#01161E]">{c.author}</span>
+                    <span className="text-[10px] text-[#94A3B8]">{c.date}</span>
                   </div>
                   <p className="font-light">{c.text}</p>
                 </div>
@@ -192,9 +192,9 @@ const ProjectDetails = () => {
                 placeholder="Write a comment..."
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
-                className="flex-grow bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                className="flex-grow bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg px-4 py-2.5 focus:outline-none focus:border-[#124559]"
               />
-              <button type="submit" className="p-2.5 bg-white text-[#131313] hover:bg-[#B5B5B5] rounded-lg cursor-pointer">
+              <button type="submit" className="p-2.5 bg-[#124559] text-white hover:bg-[#01161E] rounded-xl cursor-pointer">
                 <Send className="h-4 w-4" />
               </button>
             </form>
@@ -203,14 +203,14 @@ const ProjectDetails = () => {
 
         {activeTab === 'Members' && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm">Sprint Team</h3>
-            <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
-              <div className="flex items-center space-x-3 p-3 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl">
-                <div className="h-7 w-7 rounded-full bg-[#1C1C1C] border border-[#3C3C3C] flex items-center justify-center font-bold">
+            <h3 className="font-semibold text-[#01161E] text-sm">Sprint Team</h3>
+            <div className="space-y-3.5 text-xs text-[#598392] font-light">
+              <div className="flex items-center space-x-3 p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl">
+                <div className="h-7 w-7 rounded-full bg-[#FFFFFF] border border-[#E2E8F0] flex items-center justify-center font-bold">
                   {project.manager?.name.slice(0, 2)}
                 </div>
                 <div>
-                  <p className="font-medium text-white">{project.manager?.name}</p>
+                  <p className="font-medium text-[#01161E]">{project.manager?.name}</p>
                   <p className="text-[9px] text-yellow-400 font-bold uppercase">PROJECT LEAD</p>
                 </div>
               </div>
@@ -220,13 +220,13 @@ const ProjectDetails = () => {
 
         {activeTab === 'Activity Logs' && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm">Milestone Changes Log</h3>
-            <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light">
+            <h3 className="font-semibold text-[#01161E] text-sm">Milestone Changes Log</h3>
+            <div className="space-y-3.5 text-xs text-[#598392] font-light">
               <div className="flex items-center space-x-3 p-2">
-                <Activity className="h-4 w-4 text-[#646464]" />
+                <Activity className="h-4 w-4 text-[#94A3B8]" />
                 <div>
-                  <p className="text-white font-medium">Project status was changed to {project.status}</p>
-                  <p className="text-[10px] text-[#646464]">By system on setup</p>
+                  <p className="text-[#01161E] font-medium">Project status was changed to {project.status}</p>
+                  <p className="text-[10px] text-[#94A3B8]">By system on setup</p>
                 </div>
               </div>
             </div>

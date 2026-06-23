@@ -56,8 +56,8 @@ const PlatformSettings = () => {
 
   if (loading) {
     return (
-      <div className="p-14 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-white" />
+      <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
         <span className="text-sm font-light">Loading configuration...</span>
       </div>
     );
@@ -66,19 +66,19 @@ const PlatformSettings = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold text-white tracking-tight">Platform Settings</h1>
-        <p className="text-sm text-[#B5B5B5] mt-1.5 font-light">Configure base environment constraints, billing details, database backups, and secure admin keys.</p>
+        <h1 className="text-3xl font-semibold text-[#01161E] tracking-tight">Platform Settings</h1>
+        <p className="text-sm text-[#598392] mt-1.5 font-light">Configure base environment constraints, billing details, database backups, and secure admin keys.</p>
       </div>
 
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 hover-card">
-        <form onSubmit={handleSave} className="space-y-7 text-sm text-[#B5B5B5] font-light">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 hover-card">
+        <form onSubmit={handleSave} className="space-y-7 text-sm text-[#598392] font-light">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col space-y-2">
-              <label className="text-xs font-bold text-[#646464] uppercase">Backup Schedule</label>
+              <label className="text-xs font-bold text-[#94A3B8] uppercase">Backup Schedule</label>
               <select 
                 value={backupSchedule}
                 onChange={(e) => setBackupSchedule(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
               >
                 <option value="hourly">Every Hour</option>
                 <option value="daily">Daily (Midnight)</option>
@@ -87,23 +87,23 @@ const PlatformSettings = () => {
             </div>
             
             <div className="flex flex-col space-y-2">
-              <label className="text-xs font-bold text-[#646464] uppercase">API Rate Limit</label>
+              <label className="text-xs font-bold text-[#94A3B8] uppercase">API Rate Limit</label>
               <input 
                 type="text" 
                 value={rateLimit}
                 onChange={(e) => setRateLimit(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200" 
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200" 
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col space-y-2">
-              <label className="text-xs font-bold text-[#646464] uppercase">Super Admin MFA</label>
+              <label className="text-xs font-bold text-[#94A3B8] uppercase">Super Admin MFA</label>
               <select 
                 value={mfaRequired}
                 onChange={(e) => setMfaRequired(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
               >
                 <option value="enabled">Force Enabled</option>
                 <option value="disabled">Optional</option>
@@ -111,11 +111,11 @@ const PlatformSettings = () => {
             </div>
 
             <div className="flex flex-col space-y-2">
-              <label className="text-xs font-bold text-[#646464] uppercase">Global Sandbox Mode</label>
+              <label className="text-xs font-bold text-[#94A3B8] uppercase">Global Sandbox Mode</label>
               <select 
                 value={sandboxMode}
                 onChange={(e) => setSandboxMode(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-sm text-white rounded-lg p-3 focus:outline-none focus:border-[#B5B5B5] transition-all duration-200"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
               >
                 <option value="off">Off (Production)</option>
                 <option value="on">On (Mock Transactions)</option>
@@ -126,7 +126,7 @@ const PlatformSettings = () => {
           <button 
             type="submit" 
             disabled={submitting}
-            className="bg-white hover:bg-[#B5B5B5] disabled:opacity-50 text-[#131313] px-7 py-3 rounded-lg text-sm font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+            className="bg-[#124559] hover:bg-[#01161E] disabled:opacity-50 text-white px-7 py-3 rounded-lg text-sm font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
           >
             {submitting ? (
               <>

@@ -62,28 +62,28 @@ const Profile = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-white tracking-tight">Account Profile</h1>
-        <p className="text-xs text-[#B5B5B5] mt-0.5 font-light font-sans">Manage your personal settings, display information, and account password.</p>
+        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Account Profile</h1>
+        <p className="text-xs text-[#598392] mt-0.5 font-light font-sans">Manage your personal settings, display information, and account password.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Profile Details & Info Form */}
-        <div className="lg:col-span-5 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-6">
+        <div className="lg:col-span-5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-6">
           <div className="flex flex-col items-center text-center space-y-3">
-            <div className="h-16 w-16 rounded-full bg-[#1C1C1C] border-2 border-[#3C3C3C] flex items-center justify-center text-xl font-bold text-white uppercase shadow-md">
+            <div className="h-16 w-16 rounded-full bg-[#FFFFFF] border-2 border-[#E2E8F0] flex items-center justify-center text-xl font-bold text-[#01161E] uppercase shadow-md">
               {user?.name ? user.name.slice(0, 2) : 'US'}
             </div>
             <div>
-              <h2 className="text-lg font-medium text-white tracking-tight">{user?.name}</h2>
-              <span className="text-[10px] text-[#B5B5B5] font-bold bg-[#1C1C1C] px-2 py-0.5 rounded-full border border-[#3C3C3C]/50 uppercase tracking-widest mt-1 inline-block">
+              <h2 className="text-lg font-medium text-[#01161E] tracking-tight">{user?.name}</h2>
+              <span className="text-[10px] text-[#598392] font-bold bg-[#FFFFFF] px-2 py-0.5 rounded-full border border-[#E2E8F0]/50 uppercase tracking-widest mt-1 inline-block">
                 {user?.role ? user.role.replace('_', ' ') : ''}
               </span>
             </div>
           </div>
 
-          <form onSubmit={handleProfileSubmit} className="border-t border-[#1C1C1C] pt-6 space-y-4 text-xs font-light text-[#B5B5B5]">
+          <form onSubmit={handleProfileSubmit} className="border-t border-[#E2E8F0] pt-6 space-y-4 text-xs font-light text-[#598392]">
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase flex items-center gap-1.5">
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase flex items-center gap-1.5">
                 <User className="h-3 w-3" />
                 Full Name
               </label>
@@ -91,13 +91,13 @@ const Profile = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 required
               />
             </div>
 
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase flex items-center gap-1.5">
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase flex items-center gap-1.5">
                 <Smartphone className="h-3 w-3" />
                 Phone Number
               </label>
@@ -106,30 +106,30 @@ const Profile = () => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 placeholder="Not provided"
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
               />
             </div>
 
             <div className="flex items-center space-x-3 pt-2">
-              <Mail className="h-4 w-4 text-[#646464] shrink-0" />
+              <Mail className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <div className="truncate">
-                <span className="text-[9px] text-[#646464] uppercase font-bold tracking-wider block">Email Address</span>
-                <span className="text-[#B5B5B5] font-medium">{user?.email}</span>
+                <span className="text-[9px] text-[#94A3B8] uppercase font-bold tracking-wider block">Email Address</span>
+                <span className="text-[#598392] font-medium">{user?.email}</span>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              <Briefcase className="h-4 w-4 text-[#646464] shrink-0" />
+              <Briefcase className="h-4 w-4 text-[#94A3B8] shrink-0" />
               <div>
-                <span className="text-[9px] text-[#646464] uppercase font-bold tracking-wider block">Designation</span>
-                <span className="text-[#B5B5B5] font-medium">{user?.designation || 'Staff Member'}</span>
+                <span className="text-[9px] text-[#94A3B8] uppercase font-bold tracking-wider block">Designation</span>
+                <span className="text-[#598392] font-medium">{user?.designation || 'Staff Member'}</span>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={savingProfile}
-              className="w-full bg-white hover:bg-[#B5B5B5] text-[#131313] py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-4"
+              className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-4"
             >
               {savingProfile ? (
                 <>
@@ -144,45 +144,45 @@ const Profile = () => {
         </div>
 
         {/* Change Password Card */}
-        <div className="lg:col-span-7 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
+        <div className="lg:col-span-7 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4">
           <div>
-            <h2 className="text-base font-semibold text-white tracking-tight">Security & Credentials</h2>
-            <p className="text-[10px] text-[#646464] mt-0.5">Change your account password securely.</p>
+            <h2 className="text-base font-semibold text-[#01161E] tracking-tight">Security & Credentials</h2>
+            <p className="text-[10px] text-[#94A3B8] mt-0.5">Change your account password securely.</p>
           </div>
 
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">Current Password</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Current Password</label>
               <input
                 type="password"
                 placeholder="••••••••"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                 required
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">New Password</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">New Password</label>
                 <input
                   type="password"
                   placeholder="••••••••"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Confirm Password</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Confirm Password</label>
                 <input
                   type="password"
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
@@ -191,7 +191,7 @@ const Profile = () => {
             <button
               type="submit"
               disabled={updatingPassword}
-              className="w-full bg-[#1C1C1C] border border-[#3C3C3C] text-white hover:bg-[#3C3C3C]/30 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
+              className="w-full bg-[#FFFFFF] border border-[#E2E8F0] text-[#01161E] hover:bg-[#E2E8F0]/30 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
             >
               {updatingPassword ? (
                 <>

@@ -107,19 +107,19 @@ const LeaveRequests = () => {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-semibold text-white tracking-tight">Leave Approvals Desk</h1>
-            <p className="text-xs text-[#B5B5B5] mt-1 font-light">Review and manage company employees leave applications.</p>
+            <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Leave Approvals Desk</h1>
+            <p className="text-xs text-[#598392] mt-1 font-light">Review and manage company employees leave applications.</p>
           </div>
 
-          <div className="flex bg-[#131313] border border-[#1C1C1C] rounded-lg p-0.5">
+          <div className="flex bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-0.5">
             {['Pending', 'Approved', 'Rejected', 'all'].map(status => (
               <button
                 key={status}
                 onClick={() => setStatusFilter(status)}
                 className={`px-3 py-1.5 rounded-md text-[10px] font-semibold uppercase tracking-wider transition-all cursor-pointer ${
                   statusFilter === status 
-                    ? 'bg-[#3C3C3C] text-white' 
-                    : 'text-[#646464] hover:text-[#B5B5B5]'
+                    ? 'bg-[#E2E8F0] text-[#01161E]' 
+                    : 'text-[#94A3B8] hover:text-[#598392]'
                 }`}
               >
                 {status === 'all' ? 'All' : status}
@@ -129,20 +129,20 @@ const LeaveRequests = () => {
         </div>
 
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading leave requests...</span>
           </div>
         ) : filteredLeaves.length === 0 ? (
-          <div className="p-12 text-center text-[#B5B5B5] text-xs font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+          <div className="p-12 text-center text-[#598392] text-xs font-light bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
             No {statusFilter !== 'all' ? statusFilter.toLowerCase() : ''} leave requests found.
           </div>
         ) : (
-          <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl overflow-hidden">
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-[#1C1C1C]/40 border-b border-[#1C1C1C] text-[#646464] font-semibold uppercase tracking-wider text-[10px]">
+                  <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[10px]">
                     <th className="px-6 py-4">Employee</th>
                     <th className="px-6 py-4">Type</th>
                     <th className="px-6 py-4">Reason</th>
@@ -151,16 +151,16 @@ const LeaveRequests = () => {
                     <th className="px-6 py-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1C1C1C] text-[#B5B5B5] font-light">
+                <tbody className="divide-y divide-[#FFFFFF] text-[#598392] font-light">
                   {filteredLeaves.map((req) => (
-                    <tr key={req._id} className="hover:bg-[#1C1C1C]/20 transition-all">
+                    <tr key={req._id} className="hover:bg-[#EFF6E0]/40 transition-all">
                       <td className="px-6 py-4">
                         <div className="space-y-0.5">
-                          <p className="font-semibold text-white">{req.user?.name || 'Unknown'}</p>
-                          <p className="text-[10px] text-[#646464]">{req.user?.designation || 'Staff'}</p>
+                          <p className="font-semibold text-[#01161E]">{req.user?.name || 'Unknown'}</p>
+                          <p className="text-[10px] text-[#94A3B8]">{req.user?.designation || 'Staff'}</p>
                         </div>
                       </td>
-                      <td className="px-6 py-4 font-medium text-white">{req.type}</td>
+                      <td className="px-6 py-4 font-medium text-[#01161E]">{req.type}</td>
                       <td className="px-6 py-4 max-w-xs truncate">{req.reason}</td>
                       <td className="px-6 py-4 font-mono text-[10px]">
                         {new Date(req.startDate).toLocaleDateString()} to {new Date(req.endDate).toLocaleDateString()}
@@ -189,7 +189,7 @@ const LeaveRequests = () => {
                             </button>
                           </div>
                         ) : (
-                          <span className="text-[10px] text-[#646464] font-medium italic">
+                          <span className="text-[10px] text-[#94A3B8] font-medium italic">
                             By {req.approvedBy?.name || 'Admin'}
                           </span>
                         )}
@@ -209,20 +209,20 @@ const LeaveRequests = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
       {/* Left Submit Form */}
-      <div className="lg:col-span-5 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 h-max">
+      <div className="lg:col-span-5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 h-max">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-tight">Request Leave</h2>
-          <p className="text-[10px] text-[#646464] mt-0.5">Submit a formal request for manager verification</p>
+          <h2 className="text-base font-semibold text-[#01161E] tracking-tight">Request Leave</h2>
+          <p className="text-[10px] text-[#94A3B8] mt-0.5">Submit a formal request for manager verification</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Leave Type</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Leave Type</label>
             <select
               name="type"
               value={formData.type}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none focus:border-[#124559]"
             >
               <option value="Casual Leave">Casual Leave</option>
               <option value="Medical Leave">Medical Leave</option>
@@ -232,38 +232,38 @@ const LeaveRequests = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">Start Date</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Start Date</label>
               <input
                 type="date"
                 name="startDate"
                 value={formData.startDate}
                 onChange={handleChange}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none focus:border-[#124559]"
                 required
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="text-[10px] font-bold text-[#646464] uppercase">End Date</label>
+              <label className="text-[10px] font-bold text-[#94A3B8] uppercase">End Date</label>
               <input
                 type="date"
                 name="endDate"
                 value={formData.endDate}
                 onChange={handleChange}
-                className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-[#B5B5B5] rounded-lg p-2.5 focus:outline-none focus:border-[#B5B5B5]"
+                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none focus:border-[#124559]"
                 required
               />
             </div>
           </div>
 
           <div className="flex flex-col space-y-1">
-            <label className="text-[10px] font-bold text-[#646464] uppercase">Reason</label>
+            <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Reason</label>
             <textarea
               name="reason"
               placeholder="Provide a brief explanation..."
               rows={3}
               value={formData.reason}
               onChange={handleChange}
-              className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none resize-none focus:border-[#B5B5B5]"
+              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none resize-none focus:border-[#124559]"
               required
             ></textarea>
           </div>
@@ -271,7 +271,7 @@ const LeaveRequests = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-white hover:bg-[#B5B5B5] text-[#131313] py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
+            className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5"
           >
             {submitting ? (
               <>
@@ -286,27 +286,27 @@ const LeaveRequests = () => {
       </div>
 
       {/* Right Requests History */}
-      <div className="lg:col-span-7 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4">
+      <div className="lg:col-span-7 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4">
         <div>
-          <h2 className="text-base font-semibold text-white tracking-tight">Request History</h2>
-          <p className="text-[10px] text-[#646464] mt-0.5">Track review decisions and status</p>
+          <h2 className="text-base font-semibold text-[#01161E] tracking-tight">Request History</h2>
+          <p className="text-[10px] text-[#94A3B8] mt-0.5">Track review decisions and status</p>
         </div>
 
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-            <Loader2 className="h-5 w-5 animate-spin text-white" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+            <Loader2 className="h-5 w-5 animate-spin text-[#01161E]" />
             <span className="text-xs">Loading request history...</span>
           </div>
         ) : leaves.length === 0 ? (
-          <p className="text-xs text-[#B5B5B5] text-center py-12 font-light">No leave applications logged yet.</p>
+          <p className="text-xs text-[#598392] text-center py-12 font-light">No leave applications logged yet.</p>
         ) : (
-          <div className="divide-y divide-[#1C1C1C]">
+          <div className="divide-y divide-[#FFFFFF]">
             {leaves.map((req) => (
-              <div key={req._id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#B5B5B5]">
+              <div key={req._id} className="py-4 flex items-center justify-between gap-4 text-xs font-light text-[#598392]">
                 <div className="space-y-1">
-                  <p className="font-semibold text-white">{req.type}</p>
-                  <p className="text-[10px] text-[#646464]">{req.reason}</p>
-                  <p className="text-[10px] text-[#B5B5B5] font-mono">
+                  <p className="font-semibold text-[#01161E]">{req.type}</p>
+                  <p className="text-[10px] text-[#94A3B8]">{req.reason}</p>
+                  <p className="text-[10px] text-[#598392] font-mono">
                     {new Date(req.startDate).toLocaleDateString()} to {new Date(req.endDate).toLocaleDateString()}
                   </p>
                 </div>
@@ -316,7 +316,7 @@ const LeaveRequests = () => {
                     {req.status}
                   </span>
                   {req.approvedBy && (
-                    <span className="text-[9px] text-[#646464] italic">
+                    <span className="text-[9px] text-[#94A3B8] italic">
                       Reviewed by {req.approvedBy.name}
                     </span>
                   )}

@@ -137,11 +137,11 @@ const Dashboard = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1C1C1C] border border-[#3C3C3C] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
-          <p className="font-semibold text-white font-mono">{label || 'Task Summary'}</p>
+        <div className="bg-[#FFFFFF] border border-[#E2E8F0] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
+          <p className="font-semibold text-[#01161E] font-mono">{label || 'Task Summary'}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color || entry.fill }} className="font-light">
-              {entry.name}: <span className="font-semibold text-white">{entry.value}</span>
+              {entry.name}: <span className="font-semibold text-[#01161E]">{entry.value}</span>
             </p>
           ))}
         </div>
@@ -151,15 +151,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Welcome banner */}
-      <div className="bg-gradient-to-r from-[#1C1C1C] to-[#131313] border border-[#1C1C1C] rounded-2xl p-6 relative overflow-hidden">
-        <div className="absolute right-0 top-0 h-full w-1/3 bg-white/5 blur-3xl rounded-full pointer-events-none"></div>
-        <div className="relative z-10 space-y-1">
-          <span className="text-[10px] font-bold text-[#646464] uppercase tracking-widest font-mono">WORKSPACE HOME</span>
-          <h1 className="text-xl font-medium text-white tracking-tight">Welcome back, {user?.name}!</h1>
-          <p className="text-xs text-[#B5B5B5] font-light leading-relaxed">
-            Here is an overview of what is happening in your workspace today. Manage projects, tasks, and employees.
+      <div className="bg-gradient-to-br from-[#124559] via-[#0f3645] to-[#01161E] border border-[#124559]/20 rounded-[24px] p-8 relative overflow-hidden shadow-md shadow-[#124559]/5">
+        <div className="absolute right-[-10%] top-[-20%] h-[300px] w-[300px] bg-white/10 blur-[80px] rounded-full pointer-events-none"></div>
+        <div className="absolute left-[30%] bottom-[-20%] h-[200px] w-[200px] bg-[#AEC3B0]/10 blur-[60px] rounded-full pointer-events-none"></div>
+        <div className="relative z-10 space-y-2">
+          <span className="text-[9px] font-bold text-[#AEC3B0] uppercase tracking-[0.2em] font-mono">WORKSPACE HOME</span>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight font-heading">Welcome back, {user?.name}!</h1>
+          <p className="text-xs text-[#AEC3B0] font-light leading-relaxed max-w-2xl">
+            Here is an overview of what is happening in your workspace today. Manage projects, tasks, and employees seamlessly.
           </p>
         </div>
       </div>
@@ -167,33 +168,33 @@ const Dashboard = () => {
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Employees', value: totalEmployees, subtitle: 'Managers & Staff', icon: <Users className="h-5 w-5 text-blue-400" />, link: '/employees' },
-          { label: 'Active Projects', value: totalProjects, subtitle: 'Sprints in progress', icon: <FolderGit2 className="h-5 w-5 text-yellow-400" />, link: '/projects' },
-          { label: 'Open Tasks', value: openTasksCount, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5 text-green-400" />, link: '/tasks' },
-          { label: 'Daily Attendance', value: `${attendanceRate}%`, subtitle: `${todayCheckedInCount} Checked-in Today`, icon: <Clock className="h-5 w-5 text-purple-400" />, link: '/attendance' }
+          { label: 'Total Employees', value: totalEmployees, subtitle: 'Managers & Staff', icon: <Users className="h-5 w-5" />, link: '/employees' },
+          { label: 'Active Projects', value: totalProjects, subtitle: 'Sprints in progress', icon: <FolderGit2 className="h-5 w-5" />, link: '/projects' },
+          { label: 'Open Tasks', value: openTasksCount, subtitle: 'Assigned to team', icon: <CheckSquare className="h-5 w-5" />, link: '/tasks' },
+          { label: 'Daily Attendance', value: `${attendanceRate}%`, subtitle: `${todayCheckedInCount} Checked-in Today`, icon: <Clock className="h-5 w-5" />, link: '/attendance' }
         ].map((card, idx) => (
           <div 
             key={idx} 
             onClick={() => navigate(card.link)}
-            className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all cursor-pointer hover-card"
+            className="bg-white border border-[#E2E8F0]/80 rounded-[20px] p-5 flex flex-col justify-between hover-card shadow-premium cursor-pointer"
           >
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-bold text-[#646464] uppercase tracking-wider">{card.label}</span>
-              <div className="h-8 w-8 rounded-lg bg-[#1C1C1C] flex items-center justify-center border border-[#3C3C3C]/40">
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-[10px] font-bold text-[#94A3B8] uppercase tracking-wider">{card.label}</span>
+              <div className="h-9 w-9 rounded-xl bg-[#124559]/5 flex items-center justify-center border border-[#124559]/10 text-[#124559] shadow-sm">
                 {card.icon}
               </div>
             </div>
             <div>
-              <p className="text-2xl font-semibold text-white tracking-tight">{loading ? '...' : card.value}</p>
-              <p className="text-[10px] text-[#646464] mt-0.5 font-light">{card.subtitle}</p>
+              <p className="text-2xl font-bold text-[#01161E] tracking-tight">{loading ? '...' : card.value}</p>
+              <p className="text-[10px] text-[#94A3B8] mt-0.5 font-medium">{card.subtitle}</p>
             </div>
           </div>
         ))}
       </div>
 
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-          <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+          <Loader2 className="h-6 w-6 animate-spin text-[#124559]" />
           <span className="text-xs font-light">Loading workspace reports...</span>
         </div>
       ) : (
@@ -201,15 +202,15 @@ const Dashboard = () => {
           {/* Active Projects and Task Status Row */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Left column */}
-            <div className="lg:col-span-8 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card">
-              <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+            <div className="lg:col-span-8 bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 space-y-4 shadow-premium hover-card">
+              <div className="flex justify-between items-center border-b border-[#E2E8F0]/60 pb-4">
                 <div>
-                  <h3 className="font-semibold text-white text-sm">Active Projects</h3>
-                  <p className="text-[10px] text-[#646464]">Current deliverables and deadlines</p>
+                  <h3 className="font-bold text-[#01161E] text-[15px] font-heading">Active Projects</h3>
+                  <p className="text-[10px] text-[#94A3B8] font-medium mt-0.5">Current deliverables and deadlines</p>
                 </div>
                 <button 
                   onClick={() => navigate('/projects')}
-                  className="text-[10px] text-[#B5B5B5] hover:text-white font-semibold flex items-center gap-0.5 cursor-pointer"
+                  className="text-[10px] text-[#124559] hover:text-[#01161E] font-bold flex items-center gap-1 cursor-pointer transition-colors"
                 >
                   <span>View All</span>
                   <ArrowUpRight className="h-3 w-3" />
@@ -217,31 +218,31 @@ const Dashboard = () => {
               </div>
 
               {projectListWithProgress.length === 0 ? (
-                <p className="text-xs text-[#646464] py-8 text-center font-light">No projects added yet.</p>
+                <p className="text-sm text-[#94A3B8] py-8 text-center font-light">No projects added yet.</p>
               ) : (
-                <div className="divide-y divide-[#1C1C1C] text-xs">
+                <div className="divide-y divide-slate-100 text-xs">
                   {projectListWithProgress.map((p) => (
                     <div key={p.id} className="py-4 flex items-center justify-between gap-4">
                       <div className="flex-grow max-w-xs">
-                        <p className="font-medium text-white">{p.name}</p>
-                        <p className="text-[10px] text-[#646464] mt-0.5">Lead: {p.manager}</p>
+                        <p className="font-semibold text-[#01161E] text-sm">{p.name}</p>
+                        <p className="text-[10px] text-[#94A3B8] font-medium mt-0.5">Lead: {p.manager}</p>
                       </div>
                       <div className="w-48 hidden sm:block">
-                        <div className="flex justify-between text-[10px] text-[#646464] mb-1">
+                        <div className="flex justify-between text-[10px] text-[#94A3B8] mb-1 font-medium font-sans">
                           <span>Progress</span>
-                          <span>{p.progress}%</span>
+                          <span className="text-[#01161E] font-bold">{p.progress}%</span>
                         </div>
-                        <div className="h-1.5 bg-[#1C1C1C] border border-[#3C3C3C]/30 rounded-full overflow-hidden">
-                          <div className="bg-[#B5B5B5] h-full transition-all duration-300" style={{ width: `${p.progress}%` }}></div>
+                        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/20">
+                          <div className="bg-gradient-to-r from-[#124559] to-[#01161E] h-full rounded-full transition-all duration-300" style={{ width: `${p.progress}%` }}></div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                        <span className={`badge-status ${
                           p.status === 'Completed'
-                            ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                            ? 'badge-success'
                             : p.status === 'Planning'
-                            ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                            : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                            ? 'badge-warning'
+                            : 'badge-info'
                         }`}>
                           {p.status}
                         </span>
@@ -253,19 +254,19 @@ const Dashboard = () => {
             </div>
 
             {/* Right column: Task Distribution */}
-            <div className="lg:col-span-4 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card flex flex-col justify-between">
+            <div className="lg:col-span-4 bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 space-y-4 shadow-premium hover-card flex flex-col justify-between">
               <div>
-                <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+                <div className="flex justify-between items-center border-b border-[#E2E8F0]/60 pb-4">
                   <div>
-                    <h3 className="font-semibold text-white text-sm">Task Status Distribution</h3>
-                    <p className="text-[10px] text-[#646464]">Sprint task load metrics</p>
+                    <h3 className="font-bold text-[#01161E] text-[15px] font-heading">Task Distribution</h3>
+                    <p className="text-[10px] text-[#94A3B8] font-medium mt-0.5">Sprint task load metrics</p>
                   </div>
-                  <TrendingUp className="h-4 w-4 text-green-400" />
+                  <TrendingUp className="h-4 w-4 text-[#124559]" />
                 </div>
 
-                <div className="h-48 w-full flex items-center justify-center mt-2">
+                <div className="h-48 w-full flex items-center justify-center mt-2 relative">
                   {taskStatusData.length === 0 ? (
-                    <p className="text-xs text-[#646464] font-light">No tasks to display.</p>
+                    <p className="text-xs text-[#94A3B8] font-light">No tasks to display.</p>
                   ) : (
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
@@ -273,8 +274,8 @@ const Dashboard = () => {
                           data={taskStatusData}
                           cx="50%"
                           cy="50%"
-                          innerRadius={50}
-                          outerRadius={70}
+                          innerRadius={55}
+                          outerRadius={75}
                           paddingAngle={3}
                           dataKey="value"
                         >
@@ -290,14 +291,14 @@ const Dashboard = () => {
               </div>
 
               {/* Status Legends */}
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#B5B5B5] pt-2 border-t border-[#1C1C1C]">
+              <div className="grid grid-cols-2 gap-2.5 text-[11px] text-[#598392] pt-3 border-t border-slate-100">
                 {taskStatusData.length === 0 ? (
-                  <p className="col-span-2 text-center text-[#646464] font-light py-2">Create tasks to track sprint status.</p>
+                  <p className="col-span-2 text-center text-[#94A3B8] font-light py-2">Create tasks to track sprint status.</p>
                 ) : (
                   taskStatusData.map((item, idx) => (
                     <div key={idx} className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }}></span>
-                      <span className="truncate">{item.name} ({item.value})</span>
+                      <span className="h-2 w-2 rounded-full shrink-0 shadow-sm" style={{ backgroundColor: item.color }}></span>
+                      <span className="truncate text-xs font-semibold text-[#598392]">{item.name} ({item.value})</span>
                     </div>
                   ))
                 )}
@@ -307,58 +308,58 @@ const Dashboard = () => {
 
           {/* Bottom row: 7-Day Attendance rate trend */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <div className="lg:col-span-8 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card">
-              <div className="flex justify-between items-center border-b border-[#1C1C1C] pb-4">
+            <div className="lg:col-span-8 bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 space-y-4 shadow-premium hover-card">
+              <div className="flex justify-between items-center border-b border-[#E2E8F0]/60 pb-4">
                 <div>
-                  <h3 className="font-semibold text-white text-sm">7-Day Attendance Rate Trend</h3>
-                  <p className="text-[10px] text-[#646464]">Staff engagement and presence history</p>
+                  <h3 className="font-bold text-[#01161E] text-[15px] font-heading">7-Day Attendance Rate</h3>
+                  <p className="text-[10px] text-[#94A3B8] font-medium mt-0.5">Staff engagement and presence history</p>
                 </div>
-                <Calendar className="h-4 w-4 text-[#B5B5B5]" />
+                <Calendar className="h-4 w-4 text-[#124559]" />
               </div>
-              <div className="h-60 w-full">
+              <div className="h-60 w-full mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={attendanceTrendData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorAttendance" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.25}/>
-                        <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#124559" stopOpacity={0.25}/>
+                        <stop offset="95%" stopColor="#124559" stopOpacity={0}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1C1C1C" vertical={false} />
-                    <XAxis dataKey="date" stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#646464" fontSize={10} domain={[0, 100]} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
+                    <XAxis dataKey="date" stroke="#94A3B8" fontSize={9} tickLine={false} axisLine={false} />
+                    <YAxis stroke="#94A3B8" fontSize={9} domain={[0, 100]} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Area type="monotone" dataKey="Attendance Rate (%)" stroke="#8b5cf6" strokeWidth={1.5} fillOpacity={1} fill="url(#colorAttendance)" />
+                    <Area type="monotone" dataKey="Attendance Rate (%)" stroke="#124559" strokeWidth={2} fillOpacity={1} fill="url(#colorAttendance)" />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
             </div>
 
             {/* Quick Metrics stats summary */}
-            <div className="lg:col-span-4 bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card flex flex-col justify-between">
-              <div className="border-b border-[#1C1C1C] pb-4">
-                <h3 className="font-semibold text-white text-sm">Productivity Velocity</h3>
-                <p className="text-[10px] text-[#646464]">Current sprint productivity rate</p>
+            <div className="lg:col-span-4 bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 space-y-5 shadow-premium hover-card flex flex-col justify-between">
+              <div className="border-b border-[#E2E8F0]/60 pb-4">
+                <h3 className="font-bold text-[#01161E] text-[15px] font-heading">Sprint Performance</h3>
+                <p className="text-[10px] text-[#94A3B8] font-medium mt-0.5">Current sprint productivity rate</p>
               </div>
 
-              <div className="text-center p-5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl my-auto">
-                <p className="text-[9px] text-[#646464] uppercase font-bold tracking-wider">Overall Task Velocity</p>
-                <p className="text-3xl font-semibold text-white mt-1">{taskVelocityRate}%</p>
-                <p className="text-[10px] text-green-400 mt-1 font-medium">Sprint completion rate</p>
+              <div className="text-center p-6 bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9]/50 border border-slate-100 rounded-2xl my-auto shadow-inner">
+                <p className="text-[9px] text-[#94A3B8] uppercase font-bold tracking-wider">Overall Task Velocity</p>
+                <p className="text-4xl font-extrabold text-[#01161E] mt-1 tracking-tight">{taskVelocityRate}%</p>
+                <p className="text-[10px] text-green-500 mt-1 font-semibold">Sprint progress target</p>
               </div>
 
-              <div className="space-y-3.5 text-xs text-[#B5B5B5] font-light pt-4 border-t border-[#1C1C1C]">
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-[#646464]">Completed Tasks</span>
-                  <span className="text-white font-medium">{completedTasksCount} / {totalTasksCount}</span>
+              <div className="space-y-3.5 text-xs text-[#598392] font-semibold pt-4 border-t border-slate-100">
+                <div className="flex justify-between">
+                  <span className="text-[#94A3B8]">Completed Tasks</span>
+                  <span className="text-[#01161E]">{completedTasksCount} / {totalTasksCount}</span>
                 </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-[#646464]">Pending Approvals</span>
-                  <span className="text-white font-medium">{pendingLeavesCount} leaves</span>
+                <div className="flex justify-between">
+                  <span className="text-[#94A3B8]">Pending Approvals</span>
+                  <span className="text-[#01161E]">{pendingLeavesCount} leaves</span>
                 </div>
-                <div className="flex justify-between text-[10px]">
-                  <span className="text-[#646464]">Active Projects</span>
-                  <span className="text-white font-medium">{totalProjects}</span>
+                <div className="flex justify-between">
+                  <span className="text-[#94A3B8]">Active Projects</span>
+                  <span className="text-[#01161E]">{totalProjects}</span>
                 </div>
               </div>
             </div>

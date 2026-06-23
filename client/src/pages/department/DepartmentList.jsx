@@ -84,14 +84,14 @@ const DepartmentList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Workspace Departments</h1>
-          <p className="text-xs text-[#B5B5B5] mt-1 font-light">Organize employees and projects into logical divisions.</p>
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Workspace Departments</h1>
+          <p className="text-xs text-[#598392] mt-1 font-light">Organize employees and projects into logical divisions.</p>
         </div>
         
         {user?.role === 'company_admin' && (
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center space-x-2 bg-white text-[#131313] hover:bg-[#B5B5B5] px-4 py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-[#124559] text-white hover:bg-[#01161E] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
           >
             <PlusCircle className="h-4 w-4" />
             <span>Add Department</span>
@@ -100,56 +100,56 @@ const DepartmentList = () => {
       </div>
 
       {/* Search Bar */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-4 flex items-center">
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-4 flex items-center">
         <div className="relative flex-grow max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#646464]" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
           <input
             type="text"
             placeholder="Search departments by name or code..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#B5B5B5]"
+            className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#124559]"
           />
         </div>
       </div>
 
       {/* Department Grid */}
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center text-[#B5B5B5] space-y-2">
-          <Loader2 className="h-6 w-6 animate-spin text-white" />
+        <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
+          <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
           <span className="text-xs">Loading departments...</span>
         </div>
       ) : filteredDeps.length === 0 ? (
-        <div className="p-12 text-center text-[#B5B5B5] text-xs font-light bg-[#131313] border border-[#1C1C1C] rounded-2xl">
+        <div className="p-12 text-center text-[#598392] text-xs font-light bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
           No departments registered in this company workspace yet.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredDeps.map((d) => (
-            <div key={d._id} className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-5 space-y-3 hover:border-[#3C3C3C] transition-all flex flex-col justify-between">
+            <div key={d._id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-5 space-y-3 hover:border-[#E2E8F0] transition-all flex flex-col justify-between">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <Network className="h-6 w-6 text-[#B5B5B5]" />
-                  <span className="font-mono text-[10px] text-[#646464] font-bold">{d.code}</span>
+                  <Network className="h-6 w-6 text-[#598392]" />
+                  <span className="font-mono text-[10px] text-[#94A3B8] font-bold">{d.code}</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white text-sm mt-1">{d.name}</h3>
-                  <p className="text-[10px] text-[#646464] mt-0.5 font-light">
+                  <h3 className="font-semibold text-[#01161E] text-sm mt-1">{d.name}</h3>
+                  <p className="text-[10px] text-[#94A3B8] mt-0.5 font-light">
                     Manager: {d.manager?.name || 'Unassigned'}
                   </p>
                 </div>
               </div>
-              <div className="pt-3 border-t border-[#1C1C1C] flex justify-end space-x-3 text-xs">
+              <div className="pt-3 border-t border-[#E2E8F0] flex justify-end space-x-3 text-xs">
                 <Link
                   to={`/departments/${d._id}`}
-                  className="text-[#B5B5B5] hover:text-white font-semibold cursor-pointer"
+                  className="text-[#598392] hover:text-[#01161E] font-semibold cursor-pointer"
                 >
                   Details
                 </Link>
                 {user?.role === 'company_admin' && (
                   <Link
                     to={`/departments/edit/${d._id}`}
-                    className="text-white hover:text-[#B5B5B5] font-semibold cursor-pointer"
+                    className="text-[#01161E] hover:text-[#598392] font-semibold cursor-pointer"
                   >
                     Edit
                   </Link>
@@ -163,12 +163,12 @@ const DepartmentList = () => {
       {/* Add Department Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#131313] border border-[#1C1C1C] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
-            <div className="p-6 border-b border-[#1C1C1C] flex justify-between items-center">
-              <h3 className="font-semibold text-white text-sm">Add New Department</h3>
+          <div className="bg-[#F8FAFC] border border-[#E2E8F0] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
+            <div className="p-6 border-b border-[#E2E8F0] flex justify-between items-center">
+              <h3 className="font-semibold text-[#01161E] text-sm">Add New Department</h3>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-[#646464] hover:text-white text-xs font-semibold cursor-pointer"
+                className="text-[#94A3B8] hover:text-[#01161E] text-xs font-semibold cursor-pointer"
               >
                 Close
               </button>
@@ -176,38 +176,38 @@ const DepartmentList = () => {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Department Name</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department Name</label>
                 <input
                   type="text"
                   name="name"
                   placeholder="e.g. Engineering"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
                   required
                 />
               </div>
 
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Department Code</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department Code</label>
                 <input
                   type="text"
                   name="code"
                   placeholder="e.g. ENG"
                   value={formData.code}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none uppercase"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none uppercase"
                   required
                 />
               </div>
 
               <div className="flex flex-col space-y-1">
-                <label className="text-[10px] font-bold text-[#646464] uppercase">Department Manager / Lead</label>
+                <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department Manager / Lead</label>
                 <select
                   name="manager"
                   value={formData.manager}
                   onChange={handleChange}
-                  className="bg-[#0D0D0D] border border-[#1C1C1C] text-xs text-white rounded-lg p-2.5 focus:outline-none pl-2 bg-[#131313]"
+                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none pl-2 bg-[#F8FAFC]"
                 >
                   <option value="">Unassigned</option>
                   {users.map(u => (

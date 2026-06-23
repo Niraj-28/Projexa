@@ -69,11 +69,11 @@ const Platform = () => {
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-[#1C1C1C] border border-[#3C3C3C] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
-          <p className="font-semibold text-white font-mono">{label}</p>
+        <div className="bg-[#FFFFFF] border border-[#E2E8F0] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
+          <p className="font-semibold text-[#01161E] font-mono">{label}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color || entry.fill }} className="font-light">
-              {entry.name}: <span className="font-semibold text-white">{entry.value}</span>
+              {entry.name}: <span className="font-semibold text-[#01161E]">{entry.value}</span>
             </p>
           ))}
         </div>
@@ -87,44 +87,40 @@ const Platform = () => {
       {/* Title Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-white tracking-tight">Super Admin Platform Hub</h1>
-          <p className="text-xs text-[#B5B5B5] mt-1 font-light">Monitor system performance, system load, and company workspace creation.</p>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded-full text-[10px] font-bold tracking-wider uppercase self-start md:self-auto font-mono">
-          <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse"></span>
-          System Status: Healthy
+          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Super Admin Platform Hub</h1>
+          <p className="text-xs text-[#598392] mt-1 font-light">Monitor system performance, system load, and company workspace creation.</p>
         </div>
       </div>
 
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
           <div className="p-3 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl">
             <Building2 className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">Companies</span>
-            <p className="text-xl font-semibold text-white mt-0.5">{loading ? '...' : stats.companies}</p>
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">Companies</span>
+            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{loading ? '...' : stats.companies}</p>
           </div>
         </div>
 
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
           <div className="p-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl">
             <Users className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">Total Users</span>
-            <p className="text-xl font-semibold text-white mt-0.5">{loading ? '...' : stats.users}</p>
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">Total Users</span>
+            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{loading ? '...' : stats.users}</p>
           </div>
         </div>
 
-        <div className="bg-[#131313] border border-[#1C1C1C] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl flex items-center gap-4 hover-card card-animate">
           <div className="p-3 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-xl">
             <CheckSquare className="h-5 w-5" />
           </div>
           <div>
-            <span className="text-[10px] text-[#646464] font-bold uppercase tracking-wider block">Total Tasks</span>
-            <p className="text-xl font-semibold text-white mt-0.5">{loading ? '...' : stats.tasks}</p>
+            <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">Total Tasks</span>
+            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{loading ? '...' : stats.tasks}</p>
           </div>
         </div>
       </div>
@@ -132,10 +128,10 @@ const Platform = () => {
       {/* Charts section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Platform Growth */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
           <div>
-            <h3 className="text-xs font-bold text-[#646464] uppercase tracking-wider">Platform Onboarding Growth</h3>
-            <p className="text-xs text-[#B5B5B5] font-light mt-0.5">Companies & User registrations over past 6 months</p>
+            <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Platform Onboarding Growth</h3>
+            <p className="text-xs text-[#598392] font-light mt-0.5">Companies & User registrations over past 6 months</p>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -150,9 +146,9 @@ const Platform = () => {
                     <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1C1C1C" vertical={false} />
-                <XAxis dataKey="name" stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
-                <YAxis stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#FFFFFF" vertical={false} />
+                <XAxis dataKey="name" stroke="#94A3B8" fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#94A3B8" fontSize={10} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip />} />
                 <Legend iconSize={8} iconType="circle" wrapperStyle={{ fontSize: 10, paddingTop: 10 }} />
                 <Area type="monotone" dataKey="Users" stroke="#10b981" strokeWidth={1.5} fillOpacity={1} fill="url(#colorUsers)" />
@@ -163,19 +159,19 @@ const Platform = () => {
         </div>
 
         {/* Chart 2: Resource Allocation */}
-        <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-4 hover-card">
+        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
           <div>
-            <h3 className="text-xs font-bold text-[#646464] uppercase tracking-wider">Workspace Database Metrics</h3>
-            <p className="text-xs text-[#B5B5B5] font-light mt-0.5">Total database document distribution</p>
+            <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Workspace Database Metrics</h3>
+            <p className="text-xs text-[#598392] font-light mt-0.5">Total database document distribution</p>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={resourceData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1C1C1C" vertical={false} />
-                <XAxis dataKey="name" stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
-                <YAxis stroke="#646464" fontSize={10} tickLine={false} axisLine={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#FFFFFF" vertical={false} />
+                <XAxis dataKey="name" stroke="#94A3B8" fontSize={10} tickLine={false} axisLine={false} />
+                <YAxis stroke="#94A3B8" fontSize={10} tickLine={false} axisLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="Count" fill="#B5B5B5" radius={[4, 4, 0, 0]} maxBarSize={40}>
+                <Bar dataKey="Count" fill="#124559" radius={[4, 4, 0, 0]} maxBarSize={40}>
                   {resourceData.map((entry, index) => (
                     <circle key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -187,27 +183,27 @@ const Platform = () => {
       </div>
 
       {/* System Resources */}
-      <div className="bg-[#131313] border border-[#1C1C1C] rounded-2xl p-6 space-y-5 hover-card">
-        <div className="flex items-center gap-2 border-b border-[#1C1C1C] pb-4">
-          <Server className="h-4 w-4 text-[#B5B5B5]" />
-          <h3 className="text-xs font-bold text-white uppercase tracking-wider">System Information</h3>
+      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-5 hover-card">
+        <div className="flex items-center gap-2 border-b border-[#E2E8F0] pb-4">
+          <Server className="h-4 w-4 text-[#598392]" />
+          <h3 className="text-xs font-bold text-[#01161E] uppercase tracking-wider">System Information</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light text-[#B5B5B5]">
-          <div className="flex justify-between p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
-            <span className="flex items-center gap-1.5"><Activity className="h-3.5 w-3.5 text-[#646464]" /> Server Engine</span>
-            <span className="text-white font-mono font-medium">Node.js / Express</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light text-[#598392]">
+          <div className="flex justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover-row">
+            <span className="flex items-center gap-1.5"><Activity className="h-3.5 w-3.5 text-[#94A3B8]" /> Server Engine</span>
+            <span className="text-[#01161E] font-mono font-medium">Node.js / Express</span>
           </div>
-          <div className="flex justify-between p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
-            <span className="flex items-center gap-1.5"><Cpu className="h-3.5 w-3.5 text-[#646464]" /> Active Sprints</span>
-            <span className="text-white font-mono font-medium">{stats.projects}</span>
+          <div className="flex justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover-row">
+            <span className="flex items-center gap-1.5"><Cpu className="h-3.5 w-3.5 text-[#94A3B8]" /> Active Sprints</span>
+            <span className="text-[#01161E] font-mono font-medium">{stats.projects}</span>
           </div>
-          <div className="flex justify-between p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
-            <span className="flex items-center gap-1.5"><Database className="h-3.5 w-3.5 text-[#646464]" /> Database Connection</span>
-            <span className="text-white font-mono font-medium">MongoDB Atlas</span>
+          <div className="flex justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover-row">
+            <span className="flex items-center gap-1.5"><Database className="h-3.5 w-3.5 text-[#94A3B8]" /> Database Connection</span>
+            <span className="text-[#01161E] font-mono font-medium">MongoDB Atlas</span>
           </div>
-          <div className="flex justify-between p-3.5 bg-[#0D0D0D] border border-[#1C1C1C] rounded-xl hover-row">
-            <span className="flex items-center gap-1.5"><Server className="h-3.5 w-3.5 text-[#646464]" /> Platform Build</span>
-            <span className="text-white font-mono font-medium">WorkArea v1.0.0-rc4</span>
+          <div className="flex justify-between p-3.5 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl hover-row">
+            <span className="flex items-center gap-1.5"><Server className="h-3.5 w-3.5 text-[#94A3B8]" /> Platform Build</span>
+            <span className="text-[#01161E] font-mono font-medium">WorkArena v1.0.0-rc4</span>
           </div>
         </div>
       </div>
