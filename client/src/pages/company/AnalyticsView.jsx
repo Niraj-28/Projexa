@@ -40,8 +40,8 @@ const AnalyticsView = () => {
 
   if (loading) {
     return (
-      <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+      <div className="p-14 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#0F172A]" />
         <span className="text-sm font-light">Loading performance metrics...</span>
       </div>
     );
@@ -78,10 +78,10 @@ const AnalyticsView = () => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-[#FFFFFF] border border-[#E2E8F0] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
-          <p className="font-semibold text-[#01161E] font-mono">{label}</p>
+          <p className="font-semibold text-[#0F172A] font-mono">{label}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color || entry.fill }} className="font-light">
-              {entry.name}: <span className="font-semibold text-[#01161E]">{entry.value}</span>
+              {entry.name}: <span className="font-semibold text-[#0F172A]">{entry.value}</span>
             </p>
           ))}
         </div>
@@ -94,33 +94,33 @@ const AnalyticsView = () => {
     <div className="space-y-8">
       {/* Title block */}
       <div>
-        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">System Analytics</h1>
-        <p className="text-xs text-[#598392] mt-1 font-light">Monitor active user sessions, response time, server load, and workspace registrations.</p>
+        <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">System Analytics</h1>
+        <p className="text-xs text-[#64748B] mt-1 font-light">Monitor active user sessions, response time, server load, and workspace registrations.</p>
       </div>
 
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
           <div className="p-3 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl">
             <Users className="h-5 w-5" />
           </div>
           <div>
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">Daily Active Users (DAU)</span>
-            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{data?.dau || 0}</p>
+            <p className="text-xl font-semibold text-[#0F172A] mt-0.5">{data?.dau || 0}</p>
           </div>
         </div>
 
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
-          <div className="p-3 bg-[#124559]/10 text-[#124559] border border-[#124559]/20 rounded-xl">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+          <div className="p-3 bg-[#5A42EC]/10 text-[#5A42EC] border border-[#5A42EC]/20 rounded-xl">
             <Users className="h-5 w-5" />
           </div>
           <div>
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">Weekly Active Users (WAU)</span>
-            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{data?.wau || 0}</p>
+            <p className="text-xl font-semibold text-[#0F172A] mt-0.5">{data?.wau || 0}</p>
           </div>
         </div>
 
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
           <div className="p-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl">
             <Activity className="h-5 w-5" />
           </div>
@@ -134,10 +134,10 @@ const AnalyticsView = () => {
       {/* Visual Analytics section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* User Session Traffic Trend */}
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
           <div>
             <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">User Session Traffic</h3>
-            <p className="text-xs text-[#598392] font-light mt-0.5">DAU/WAU login engagement levels over last 7 days</p>
+            <p className="text-xs text-[#64748B] font-light mt-0.5">DAU/WAU login engagement levels over last 7 days</p>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -165,13 +165,13 @@ const AnalyticsView = () => {
         </div>
 
         {/* Server Performance Resources */}
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
           <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-4">
             <div>
               <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">OS Server Resources</h3>
-              <p className="text-xs text-[#598392] font-light mt-0.5">CPU, RAM, and Disk space utilization percentage</p>
+              <p className="text-xs text-[#64748B] font-light mt-0.5">CPU, RAM, and Disk space utilization percentage</p>
             </div>
-            <Server className="h-4 w-4 text-[#598392]" />
+            <Server className="h-4 w-4 text-[#64748B]" />
           </div>
           
           <div className="h-60 w-full">
@@ -181,7 +181,7 @@ const AnalyticsView = () => {
                 <XAxis dataKey="name" stroke="#94A3B8" fontSize={10} tickLine={false} axisLine={false} />
                 <YAxis stroke="#94A3B8" fontSize={10} domain={[0, 100]} tickLine={false} axisLine={false} tickFormatter={v => `${v}%`} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="Usage" fill="#124559" radius={[4, 4, 0, 0]} maxBarSize={45}>
+                <Bar dataKey="Usage" fill="#111111" radius={[4, 4, 0, 0]} maxBarSize={45}>
                   {performanceData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
@@ -190,11 +190,11 @@ const AnalyticsView = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="grid grid-cols-3 gap-2 pt-2 text-[10px] text-[#598392] border-t border-[#E2E8F0] text-center">
+          <div className="grid grid-cols-3 gap-2 pt-2 text-[10px] text-[#64748B] border-t border-[#E2E8F0] text-center">
             {performanceData.map((res, index) => (
               <div key={index} className="space-y-0.5">
                 <span className="text-[#94A3B8] font-medium block">{res.name}</span>
-                <span className="text-[#01161E] font-mono font-semibold">{res.label}</span>
+                <span className="text-[#0F172A] font-mono font-semibold">{res.label}</span>
               </div>
             ))}
           </div>

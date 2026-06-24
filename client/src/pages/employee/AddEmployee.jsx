@@ -71,19 +71,19 @@ const AddEmployee = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/employees')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
+        <button onClick={() => navigate('/employees')} className="p-2 bg-[#F4F5F9] border border-[#E2E8F0] rounded-xl text-[#64748B] hover:text-[#0F172A] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Onboard Staff</h1>
-          <p className="text-xs text-[#598392] mt-0.5 font-light">Create credentials for a new manager or employee.</p>
+          <h1 className="text-2xl font-bold text-[#0F172A] tracking-tight font-heading">Onboard Staff</h1>
+          <p className="text-xs text-[#64748B] mt-0.5 font-light">Create credentials for a new manager or employee.</p>
         </div>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
+      <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 shadow-sm">
         {createdTempInfo ? (
           <div className="space-y-4">
-            <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 p-4 rounded-xl flex items-start gap-3 text-xs">
+            <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 p-4 rounded-xl flex items-start gap-3 text-xs">
               <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="font-bold">Credentials Generated Successfully</p>
@@ -93,7 +93,7 @@ const AddEmployee = () => {
               </div>
             </div>
 
-            <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl font-mono text-xs text-[#598392] space-y-1.5">
+            <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-4 rounded-2xl font-mono text-xs text-[#64748B] space-y-1.5">
               <p className="text-[10px] text-[#94A3B8] uppercase font-sans font-bold">Workspace Credentials</p>
               <p><span className="text-[#94A3B8]">Email:</span> {createdTempInfo.email}</p>
               <p><span className="text-[#94A3B8]">Password:</span> {createdTempInfo.password}</p>
@@ -102,21 +102,21 @@ const AddEmployee = () => {
             <div className="flex gap-3 pt-2">
               <button
                 onClick={handleCopyPassword}
-                className="flex-grow flex items-center justify-center gap-2 bg-[#124559] text-white hover:bg-[#01161E] py-2.5 rounded-xl text-[13px] font-semibold cursor-pointer"
+                className="flex-grow flex items-center justify-center gap-2 bg-[#5A42EC] text-white hover:bg-[#4831D4] py-2.5 rounded-xl text-[13px] font-semibold shadow-sm shadow-[#5A42EC]/20 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
               >
                 {copiedText ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 <span>Copy Credentials</span>
               </button>
               <button
                 onClick={() => navigate('/employees')}
-                className="auth-btn-google px-6 text-xs"
+                className="bg-white border border-[#E2E8F0] text-[#64748B] hover:bg-[#F4F5F9] hover:text-[#0F172A] px-6 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer"
               >
                 Done
               </button>
             </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
+          <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#64748B] font-light">
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col space-y-1">
                 <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Role Type</label>
@@ -124,7 +124,7 @@ const AddEmployee = () => {
                   name="role"
                   value={formData.role}
                   onChange={handleChange}
-                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
                 >
                   <option value="employee">Employee</option>
                   <option value="manager">Manager</option>
@@ -138,7 +138,7 @@ const AddEmployee = () => {
                   placeholder="Rahul Sharma"
                   value={formData.name}
                   onChange={handleChange}
-                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                   required
                 />
               </div>
@@ -152,7 +152,7 @@ const AddEmployee = () => {
                 placeholder="rahul@company.com"
                 value={formData.email}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                 required
               />
             </div>
@@ -166,7 +166,7 @@ const AddEmployee = () => {
                   placeholder="e.g. Lead Developer"
                   value={formData.designation}
                   onChange={handleChange}
-                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -177,7 +177,7 @@ const AddEmployee = () => {
                   placeholder="e.g. Engineering"
                   value={formData.department}
                   onChange={handleChange}
-                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                 />
               </div>
             </div>
@@ -191,7 +191,7 @@ const AddEmployee = () => {
                   placeholder="e.g. 9876543210"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                 />
               </div>
               {formData.role === 'employee' ? (
@@ -202,13 +202,13 @@ const AddEmployee = () => {
                     name="joiningDate"
                     value={formData.joiningDate}
                     onChange={handleChange}
-                    className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
+                    className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#64748B] rounded-xl p-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
                   />
                 </div>
               ) : (
                 <div className="flex flex-col space-y-1">
                   <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
-                  <div className="bg-[#F8FAFC]/40 border border-[#E2E8F0] text-xs text-[#94A3B8]/80 rounded-lg p-2.5 select-none leading-normal">
+                  <div className="bg-[#F4F5F9] border border-[#E2E8F0]/60 text-xs text-[#94A3B8] rounded-xl p-2.5 select-none leading-normal">
                     Immediate (Manager)
                   </div>
                 </div>
@@ -218,7 +218,7 @@ const AddEmployee = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+              className="w-full bg-[#5A42EC] hover:bg-[#4831D4] hover:scale-[1.01] active:scale-[0.99] text-white py-2.5 rounded-xl text-xs font-bold shadow-sm shadow-[#5A42EC]/20 transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-2"
             >
               {submitting ? (
                 <>

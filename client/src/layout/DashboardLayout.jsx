@@ -110,32 +110,32 @@ const DashboardLayout = ({ children }) => {
   };
 
   return (
-    <div className="app-shell min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden bg-[#F8FAFC] text-[#01161E] font-sans">
+    <div className="app-shell min-h-screen flex flex-col md:flex-row md:h-screen md:overflow-hidden bg-[#F5F5F5] text-[#111111] font-sans">
       {/* Sidebar */}
-      <aside className="w-full md:w-[272px] md:min-w-[272px] md:max-w-[272px] bg-white border-b md:border-b-0 md:border-r border-[#E2E8F0]/80 flex flex-col shrink-0 shadow-[1px_0_10px_rgba(18,69,89,0.02)] z-20">
+      <aside className="w-full md:w-[272px] md:min-w-[272px] md:max-w-[272px] bg-white border-b md:border-b-0 md:border-r border-[#E5E5E5]/80 flex flex-col shrink-0 shadow-[1px_0_10px_rgba(0,0,0,0.02)] z-20">
         {/* Brand Logo */}
-        <div className="h-[72px] px-6 border-b border-[#E2E8F0]/80 flex items-center bg-white">
+        <div className="h-[72px] px-6 border-b border-[#E5E5E5]/80 flex items-center bg-white">
           <Logo light={false} className="cursor-pointer hover:opacity-90 transition-opacity" onClick={handleLogoRedirect} />
         </div>
 
         {/* Workspace Display floating card */}
         {user?.company && (
-          <div className="mx-4 mt-5 p-3.5 rounded-2xl bg-gradient-to-b from-[#F8FAFC] to-white border border-[#E2E8F0]/80 shadow-[0_4px_20px_-4px_rgba(18,69,89,0.05)]">
-            <span className="text-[9px] font-bold text-[#94A3B8] uppercase tracking-[0.1em] block">Active Workspace</span>
+          <div className="mx-4 mt-5 p-3.5 rounded-xl bg-[#F5F5F5] border border-[#E5E5E5] shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+            <span className="text-[9px] font-bold text-[#A3A3A3] uppercase tracking-[0.1em] block">Active Workspace</span>
             <div className="flex items-center space-x-2.5 mt-2">
-              <div className="h-8 w-8 rounded-xl bg-[#124559]/10 flex items-center justify-center border border-[#124559]/20 text-[#124559]">
+              <div className="h-8 w-8 rounded-xl bg-[#111111]/5 flex items-center justify-center border border-[#111111]/10 text-[#111111]">
                 <Briefcase className="h-4 w-4" />
               </div>
               <div className="min-w-0">
-                <span className="text-xs text-[#01161E] truncate font-bold block leading-tight">{user.company.name}</span>
-                <span className="text-[10px] text-[#94A3B8] font-mono block truncate mt-0.5">/{user.company.workspaceUrl}</span>
+                <span className="text-xs text-[#111111] truncate font-bold block leading-tight">{user.company.name}</span>
+                <span className="text-[10px] text-[#A3A3A3] font-mono block truncate mt-0.5">/{user.company.workspaceUrl}</span>
               </div>
             </div>
           </div>
         )}
 
         {/* Navigation Menu */}
-        <nav className="flex-grow px-4 py-5 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
+        <nav className="flex-grow px-4 py-5 space-y-1 overflow-y-auto min-h-0">
           {menuItems.map((item) => {
             const isActive = location.pathname === item.path ||
               (item.path === '/company/profile' && location.pathname.startsWith('/company'));
@@ -143,12 +143,12 @@ const DashboardLayout = ({ children }) => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 group ${isActive
-                  ? 'bg-gradient-to-r from-[#124559] to-[#01161E] text-white font-semibold shadow-md shadow-[#124559]/25 scale-[1.02]'
-                  : 'text-[#598392] hover:bg-[#124559]/5 hover:text-[#01161E]'
+                className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-200 group ${isActive
+                  ? 'bg-[#111111] text-white shadow-sm shadow-black/10 scale-[1.01]'
+                  : 'text-[#737373] hover:bg-[#F5F5F5] hover:text-[#111111]'
                   }`}
               >
-                <span className={`transition-colors duration-200 ${isActive ? 'text-white/90' : 'text-[#94A3B8] group-hover:text-[#598392]'}`}>{item.icon}</span>
+                <span className={`transition-colors duration-200 ${isActive ? 'text-white' : 'text-[#A3A3A3] group-hover:text-[#737373]'}`}>{item.icon}</span>
                 <span>{item.label}</span>
               </Link>
             );
@@ -159,12 +159,12 @@ const DashboardLayout = ({ children }) => {
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col min-w-0 overflow-hidden relative">
         {/* Top Header (Glassmorphic) */}
-        <header className="h-[72px] min-h-[72px] max-h-[72px] px-8 border-b border-[#E2E8F0]/80 bg-white/70 backdrop-blur-md flex items-center justify-between relative z-30 shrink-0 shadow-[0_1px_3px_rgba(18,69,89,0.01)]">
+        <header className="h-[72px] min-h-[72px] max-h-[72px] px-8 border-b border-[#E5E5E5]/80 bg-white/70 backdrop-blur-md flex items-center justify-between relative z-30 shrink-0 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
           <div>
-            <h2 className="text-[15px] font-bold tracking-tight text-[#01161E] capitalize leading-tight">
+            <h2 className="text-[15px] font-bold tracking-tight text-[#111111] capitalize leading-tight">
               {location.pathname.substring(1).replace('-', ' ').replace('/', ' / ') || 'Home'}
             </h2>
-            <p className="text-[10px] text-[#94A3B8] font-semibold mt-0.5 tracking-wide">Workspace overview</p>
+            <p className="text-[10px] text-[#A3A3A3] font-semibold mt-0.5 tracking-wide">Workspace overview</p>
           </div>
 
           <div className="flex items-center space-x-5">
@@ -174,43 +174,43 @@ const DashboardLayout = ({ children }) => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200 cursor-pointer text-sm font-semibold text-[#01161E] focus:outline-none"
+                className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200 cursor-pointer text-sm font-semibold text-[#111111] focus:outline-none"
               >
-                <div className="h-10 w-10 rounded-4xl bg-gradient-to-br from-[#124559] to-[#01161E] flex items-center justify-center text-[15 px] font-bold uppercase text-white shadow-sm shadow-[#124559]/20">
+                <div className="h-10 w-10 rounded-4xl bg-[#111111] flex items-center justify-center text-[15px] font-bold uppercase text-white shadow-sm shadow-black/10">
                   {user?.name ? user.name.slice(0, 2) : 'US'}
                 </div>
-                <span className="max-w-[140px] truncate hidden sm:block text-[16px] font-bold text-[#01161E]">{user?.name?.split(' ')[0]}</span>
-                <ChevronDown className={`h-4 w-4 text-[#94A3B8] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
+                <span className="max-w-[140px] truncate hidden sm:block text-[16px] font-bold text-[#111111]">{user?.name?.split(' ')[0]}</span>
+                <ChevronDown className={`h-4 w-4 text-[#A3A3A3] transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {dropdownOpen && (
-                <div className="absolute right-0 mt-2.5 w-56 bg-white border border-[#E2E8F0] rounded-xl shadow-xl shadow-black/5 py-1.5 z-50 animate-in fade-in duration-100">
-                  <div className="px-4 py-3 border-b border-[#E2E8F0]">
-                    <p className="text-xs font-bold text-[#01161E] truncate">{user?.name}</p>
-                    <p className="text-[10px] font-semibold text-[#94A3B8] truncate mt-0.5">{user?.email}</p>
+                <div className="absolute right-0 mt-2.5 w-56 bg-white border border-[#E5E5E5] rounded-xl shadow-xl shadow-black/5 py-1.5 z-50 animate-in fade-in duration-100">
+                  <div className="px-4 py-3 border-b border-[#E5E5E5]">
+                    <p className="text-xs font-bold text-[#111111] truncate">{user?.name}</p>
+                    <p className="text-[10px] font-semibold text-[#A3A3A3] truncate mt-0.5">{user?.email}</p>
                   </div>
 
                   <div className="py-1">
                     <Link
                       to="/profile"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center space-x-2.5 px-4 py-2.5 text-xs text-[#598392] hover:text-[#01161E] hover:bg-[#F8FAFC] transition-colors font-medium"
+                      className="flex items-center space-x-2.5 px-4 py-2.5 text-xs text-[#737373] hover:text-[#111111] hover:bg-[#F5F5F5] transition-colors font-medium"
                     >
-                      <User className="h-4 w-4 text-[#94A3B8]" />
+                      <User className="h-4 w-4 text-[#A3A3A3]" />
                       <span>Profile Settings</span>
                     </Link>
 
                     <Link
                       to="/notifications"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center space-x-2.5 px-4 py-2.5 text-xs text-[#598392] hover:text-[#01161E] hover:bg-[#F8FAFC] transition-colors font-medium"
+                      className="flex items-center space-x-2.5 px-4 py-2.5 text-xs text-[#737373] hover:text-[#111111] hover:bg-[#F5F5F5] transition-colors font-medium"
                     >
-                      <Bell className="h-4 w-4 text-[#94A3B8]" />
+                      <Bell className="h-4 w-4 text-[#A3A3A3]" />
                       <span>Notifications</span>
                     </Link>
                   </div>
 
-                  <div className="border-t border-[#E2E8F0] my-1"></div>
+                  <div className="border-t border-[#E5E5E5] my-1"></div>
 
                   <button
                     onClick={() => {
@@ -229,10 +229,10 @@ const DashboardLayout = ({ children }) => {
         </header>
 
         {/* Inner Scroll Container with Ambient Backdrop Glows */}
-        <div className="flex-grow overflow-y-auto p-6 lg:p-8 bg-[#F8FAFC] relative">
-          {/* Depth Glow Elements */}
-          <div className="absolute top-[10%] right-[10%] w-[380px] h-[380px] bg-[#124559]/5 rounded-full blur-[110px] pointer-events-none z-0"></div>
-          <div className="absolute bottom-[10%] left-[5%] w-[380px] h-[380px] bg-[#AEC3B0]/10 rounded-full blur-[110px] pointer-events-none z-0"></div>
+        <div className="flex-grow overflow-y-auto p-6 lg:p-8 bg-[#F5F5F5] relative">
+          {/* Subtle Depth Glow */}
+          <div className="absolute top-[10%] right-[10%] w-[380px] h-[380px] bg-black/[0.015] rounded-full blur-[110px] pointer-events-none z-0"></div>
+          <div className="absolute bottom-[10%] left-[5%] w-[380px] h-[380px] bg-black/[0.01] rounded-full blur-[110px] pointer-events-none z-0"></div>
 
           <div className="max-w-7xl mx-auto relative z-10">
             <div className="page-transition">

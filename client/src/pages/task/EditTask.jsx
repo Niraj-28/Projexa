@@ -76,8 +76,8 @@ const EditTask = () => {
 
   if (loading) {
     return (
-      <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+      <div className="p-12 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#5A42EC]" />
         <span className="text-xs">Loading task details...</span>
       </div>
     );
@@ -86,17 +86,17 @@ const EditTask = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/tasks')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
+        <button onClick={() => navigate('/tasks')} className="p-2 bg-white border border-[#E2E8F0] rounded-lg text-[#64748B] hover:text-[#0F172A] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Edit Task</h1>
-          <p className="text-xs text-[#598392] mt-0.5 font-light">Modify sprint task specifications and status.</p>
+          <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">Edit Task</h1>
+          <p className="text-xs text-[#64748B] mt-0.5 font-light">Modify sprint task specifications and status.</p>
         </div>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#64748B] font-light">
           <div className="flex flex-col space-y-1">
             <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Task Title</label>
             <input
@@ -104,7 +104,7 @@ const EditTask = () => {
               name="title"
               value={formData.title}
               onChange={handleChange}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+              className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               required
             />
           </div>
@@ -116,7 +116,7 @@ const EditTask = () => {
               rows={3}
               value={formData.description}
               onChange={handleChange}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none resize-none"
+              className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none resize-none focus:border-[#5A42EC] transition-all"
             ></textarea>
           </div>
 
@@ -127,7 +127,7 @@ const EditTask = () => {
                 name="assignee"
                 value={formData.assignee}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none pl-2 bg-[#F8FAFC]"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none pl-2 focus:border-[#5A42EC] transition-all"
               >
                 <option value="">Unassigned</option>
                 {users.map(u => (
@@ -142,7 +142,7 @@ const EditTask = () => {
                 name="dueDate"
                 value={formData.dueDate}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#64748B] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               />
             </div>
           </div>
@@ -154,7 +154,7 @@ const EditTask = () => {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -168,7 +168,7 @@ const EditTask = () => {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               >
                 <option value="to_do">To Do</option>
                 <option value="in_progress">In Progress</option>
@@ -181,7 +181,7 @@ const EditTask = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+            className="w-full bg-[#5A42EC] hover:bg-[#4831D4] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
           >
             {submitting ? 'Saving...' : 'Save Changes'}
           </button>

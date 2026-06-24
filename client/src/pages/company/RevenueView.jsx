@@ -75,8 +75,8 @@ const RevenueView = () => {
 
   if (loading) {
     return (
-      <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+      <div className="p-14 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#0F172A]" />
         <span className="text-sm font-light">Loading revenue details...</span>
       </div>
     );
@@ -118,10 +118,10 @@ const RevenueView = () => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-[#FFFFFF] border border-[#E2E8F0] px-3.5 py-2.5 rounded-xl shadow-2xl text-xs space-y-1">
-          <p className="font-semibold text-[#01161E] font-mono">{label || 'Value'}</p>
+          <p className="font-semibold text-[#0F172A] font-mono">{label || 'Value'}</p>
           {payload.map((entry, index) => (
             <p key={index} style={{ color: entry.color || entry.fill }} className="font-light">
-              {entry.name}: <span className="font-semibold text-[#01161E]">{entry.name === 'Revenue' ? formatPrice(entry.value) : entry.value}</span>
+              {entry.name}: <span className="font-semibold text-[#0F172A]">{entry.name === 'Revenue' ? formatPrice(entry.value) : entry.value}</span>
             </p>
           ))}
         </div>
@@ -134,33 +134,33 @@ const RevenueView = () => {
     <div className="space-y-8">
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">System Revenue</h1>
-        <p className="text-xs text-[#598392] mt-1 font-light">Monitor monthly recurring revenue, active subscription tiers, and transaction statistics.</p>
+        <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">System Revenue</h1>
+        <p className="text-xs text-[#64748B] mt-1 font-light">Monitor monthly recurring revenue, active subscription tiers, and transaction statistics.</p>
       </div>
 
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
           <div className="bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl w-11 h-11 flex items-center justify-center select-none font-bold text-lg">
             ₹
           </div>
           <div>
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">MRR (Monthly)</span>
-            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{formatPrice(data?.mrr || 0)}</p>
+            <p className="text-xl font-semibold text-[#0F172A] mt-0.5">{formatPrice(data?.mrr || 0)}</p>
           </div>
         </div>
 
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
           <div className="p-3 bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded-xl">
             <CreditCard className="h-5 w-5" />
           </div>
           <div>
             <span className="text-[10px] text-[#94A3B8] font-bold uppercase tracking-wider block">ARR (Annual)</span>
-            <p className="text-xl font-semibold text-[#01161E] mt-0.5">{formatPrice(data?.arr || 0)}</p>
+            <p className="text-xl font-semibold text-[#0F172A] mt-0.5">{formatPrice(data?.arr || 0)}</p>
           </div>
         </div>
 
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] p-5 rounded-2xl hover-card card-animate flex items-center gap-4">
           <div className="p-3 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-xl">
             <Layers className="h-5 w-5" />
           </div>
@@ -174,10 +174,10 @@ const RevenueView = () => {
       {/* Visual Analytics section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Chart 1: Revenue Trajectory */}
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card">
           <div>
             <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Revenue Growth Performance</h3>
-            <p className="text-xs text-[#598392] font-light mt-0.5">Estimated MRR trajectory over the last 6 months</p>
+            <p className="text-xs text-[#64748B] font-light mt-0.5">Estimated MRR trajectory over the last 6 months</p>
           </div>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -193,12 +193,12 @@ const RevenueView = () => {
         </div>
 
         {/* Chart 2: Plan Distribution */}
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card flex flex-col justify-between">
+        <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-6 space-y-4 hover-card flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center border-b border-[#E2E8F0] pb-4">
               <div>
                 <h3 className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider">Subscription Tiers Share</h3>
-                <p className="text-xs text-[#598392] font-light mt-0.5">Ratio of active plans across workspaces</p>
+                <p className="text-xs text-[#64748B] font-light mt-0.5">Ratio of active plans across workspaces</p>
               </div>
             </div>
 
@@ -229,7 +229,7 @@ const RevenueView = () => {
           </div>
 
           {/* Plan Legends */}
-          <div className="grid grid-cols-3 gap-2 text-[10px] text-[#598392] pt-2 border-t border-[#E2E8F0]">
+          <div className="grid grid-cols-3 gap-2 text-[10px] text-[#64748B] pt-2 border-t border-[#E2E8F0]">
             {planData.length === 0 ? (
               <p className="col-span-3 text-center text-[#94A3B8] font-light py-2">No tiers present.</p>
             ) : (
@@ -245,8 +245,8 @@ const RevenueView = () => {
       </div>
 
       {/* Transaction History */}
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 hover-card">
-        <h3 className="text-xs font-bold text-[#01161E] uppercase tracking-wider mb-5">Transaction History (Onboardings)</h3>
+      <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-6 hover-card">
+        <h3 className="text-xs font-bold text-[#0F172A] uppercase tracking-wider mb-5">Transaction History (Onboardings)</h3>
         {data?.transactions?.length === 0 ? (
           <p className="text-xs text-[#94A3B8] py-6 text-center font-light">No transaction activity recorded yet.</p>
         ) : (
@@ -265,19 +265,19 @@ const RevenueView = () => {
                   <tr key={txn.id} className="hover-row transition-colors duration-150 group">
                     {/* Left: Workspace Name */}
                     <td className="py-4 pl-2">
-                      <span className="font-semibold text-[#01161E] text-xs block">{txn.company}</span>
+                      <span className="font-semibold text-[#0F172A] text-xs block">{txn.company}</span>
                     </td>
                     {/* Center: Transaction ID */}
-                    <td className="py-4 text-center text-[11px] font-medium text-[#598392] font-mono">
+                    <td className="py-4 text-center text-[11px] font-medium text-[#64748B] font-mono">
                       {txn.id}
                     </td>
                     {/* Center: Plan */}
-                    <td className="py-4 text-center text-xs font-semibold text-[#01161E]">
+                    <td className="py-4 text-center text-xs font-semibold text-[#0F172A]">
                       {txn.plan}
                     </td>
                     {/* Right: Amount & Date */}
                     <td className="py-4 pr-2 text-right">
-                      <p className="font-bold text-[#01161E] text-xs">{txn.amount}</p>
+                      <p className="font-bold text-[#0F172A] text-xs">{txn.amount}</p>
                       <p className="text-[10px] text-[#94A3B8] mt-0.5">{txn.date}</p>
                     </td>
                   </tr>

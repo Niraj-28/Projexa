@@ -76,17 +76,17 @@ const CreateTask = () => {
   return (
     <div className="space-y-6 max-w-xl">
       <div className="flex items-center space-x-3">
-        <button onClick={() => navigate('/tasks')} className="p-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg text-[#598392] hover:text-[#01161E] transition cursor-pointer">
+        <button onClick={() => navigate('/tasks')} className="p-2 bg-white border border-[#E2E8F0] rounded-lg text-[#64748B] hover:text-[#0F172A] transition cursor-pointer">
           <ArrowLeft className="h-4 w-4" />
         </button>
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Create Sprint Task</h1>
-          <p className="text-xs text-[#598392] mt-0.5 font-light">Add new deliverable card to product backlog.</p>
+          <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">Create Sprint Task</h1>
+          <p className="text-xs text-[#64748B] mt-0.5 font-light">Add new deliverable card to product backlog.</p>
         </div>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6">
-        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#598392] font-light">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-4 text-xs text-[#64748B] font-light">
           <div className="flex flex-col space-y-1">
             <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Task Title</label>
             <input
@@ -95,7 +95,7 @@ const CreateTask = () => {
               placeholder="e.g. Verify database schema indexes"
               value={formData.title}
               onChange={handleChange}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+              className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               required
             />
           </div>
@@ -108,7 +108,7 @@ const CreateTask = () => {
               rows={3}
               value={formData.description}
               onChange={handleChange}
-              className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none resize-none"
+              className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none resize-none focus:border-[#5A42EC] transition-all"
             ></textarea>
           </div>
 
@@ -119,7 +119,7 @@ const CreateTask = () => {
                 name="project"
                 value={formData.project}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
                 required
               >
                 <option value="">Select Project</option>
@@ -134,7 +134,7 @@ const CreateTask = () => {
                 name="assignee"
                 value={formData.assignee}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               >
                 <option value="">Unassigned</option>
                 {users.map(u => (
@@ -151,7 +151,7 @@ const CreateTask = () => {
                 name="priority"
                 value={formData.priority}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#0F172A] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
@@ -166,7 +166,7 @@ const CreateTask = () => {
                 name="dueDate"
                 value={formData.dueDate}
                 onChange={handleChange}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-xs text-[#64748B] rounded-lg p-2.5 focus:outline-none focus:border-[#5A42EC] transition-all"
               />
             </div>
           </div>
@@ -174,7 +174,7 @@ const CreateTask = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-[#124559] hover:bg-[#01161E] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
+            className="w-full bg-[#5A42EC] hover:bg-[#4831D4] text-white py-2.5 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer flex items-center justify-center gap-1.5 mt-2"
           >
             {submitting ? 'Creating...' : 'Create Task'}
           </button>

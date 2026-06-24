@@ -9,8 +9,8 @@ const CompanyNavTabs = () => {
         className={({ isActive }) =>
           `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-[#124559] text-[#01161E] font-bold'
-              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
+              ? 'border-[#111111] text-[#111111] font-bold'
+              : 'border-transparent text-[#A3A3A3] hover:text-[#737373]'
           }`
         }
       >
@@ -21,8 +21,8 @@ const CompanyNavTabs = () => {
         className={({ isActive }) =>
           `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-[#124559] text-[#01161E] font-bold'
-              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
+              ? 'border-[#111111] text-[#111111] font-bold'
+              : 'border-transparent text-[#A3A3A3] hover:text-[#737373]'
           }`
         }
       >
@@ -33,8 +33,8 @@ const CompanyNavTabs = () => {
         className={({ isActive }) =>
           `px-5 py-3 text-[13px] font-semibold border-b-2 transition-all cursor-pointer ${
             isActive
-              ? 'border-[#124559] text-[#01161E] font-bold'
-              : 'border-transparent text-[#94A3B8] hover:text-[#598392]'
+              ? 'border-[#111111] text-[#111111] font-bold'
+              : 'border-transparent text-[#A3A3A3] hover:text-[#737373]'
           }`
         }
       >

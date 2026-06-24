@@ -84,41 +84,41 @@ const TeamList = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Team Members</h1>
-        <p className="text-xs text-[#598392] mt-1 font-light">View attendance status and contact details of your project team.</p>
+        <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">Team Members</h1>
+        <p className="text-xs text-[#64748B] mt-1 font-light">View attendance status and contact details of your project team.</p>
       </div>
 
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
-          <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+        <div className="p-12 flex flex-col items-center justify-center text-[#64748B] space-y-2 bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl">
+          <Loader2 className="h-6 w-6 animate-spin text-[#0F172A]" />
           <span className="text-xs">Loading team status...</span>
         </div>
       ) : team.length === 0 ? (
-        <div className="p-12 text-center text-[#94A3B8] text-xs font-light bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl">
+        <div className="p-12 text-center text-[#94A3B8] text-xs font-light bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl">
           No other team members found in this company workspace.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {team.map((t) => (
-            <div key={t.id} className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-5 space-y-4 hover:border-[#E2E8F0] transition-all">
+            <div key={t.id} className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl p-5 space-y-4 hover:border-[#E2E8F0] transition-all">
               <div className="flex items-center space-x-3.5">
-                <div className="h-10 w-10 rounded-full bg-[#FFFFFF] border border-[#E2E8F0] flex items-center justify-center font-bold text-[#01161E] uppercase text-sm">
+                <div className="h-10 w-10 rounded-full bg-[#FFFFFF] border border-[#E2E8F0] flex items-center justify-center font-bold text-[#0F172A] uppercase text-sm">
                   {t.name.slice(0, 2)}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-[#01161E] text-sm">{t.name}</h3>
+                  <h3 className="font-semibold text-[#0F172A] text-sm">{t.name}</h3>
                   <p className="text-[10px] text-[#94A3B8]">{t.role}</p>
                 </div>
               </div>
 
-              <div className="border-t border-[#E2E8F0] pt-3 space-y-2 text-xs text-[#598392] font-light">
+              <div className="border-t border-[#E2E8F0] pt-3 space-y-2 text-xs text-[#64748B] font-light">
                 <div className="flex justify-between">
                   <span className="text-[#94A3B8]">Email</span>
-                  <span className="text-[#01161E]">{t.email}</span>
+                  <span className="text-[#0F172A]">{t.email}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#94A3B8]">Phone</span>
-                  <span className="text-[#01161E]">{t.phone}</span>
+                  <span className="text-[#0F172A]">{t.phone}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#94A3B8]">Status</span>
@@ -129,12 +129,12 @@ const TeamList = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#94A3B8]">Checked In</span>
-                  <span className="text-[#01161E]">{t.checkIn}</span>
+                  <span className="text-[#0F172A]">{t.checkIn}</span>
                 </div>
                 {t.checkOut && (
                   <div className="flex justify-between">
                     <span className="text-[#94A3B8]">Checked Out</span>
-                    <span className="text-[#01161E]">{t.checkOut}</span>
+                    <span className="text-[#0F172A]">{t.checkOut}</span>
                   </div>
                 )}
               </div>

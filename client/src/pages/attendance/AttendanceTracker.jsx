@@ -16,11 +16,11 @@ const AttendanceTracker = () => {
       const res = await api.get('/attendance');
       if (res.data && res.data.success) {
         setLogs(res.data.logs);
-        
+
         // Check if there is an active check-in today (today's log without checkOut time)
         const today = new Date().toISOString().split('T')[0];
         const activeTodayLog = res.data.logs.find(log => log.date === today && !log.checkOut);
-        
+
         setCheckedIn(!!activeTodayLog);
       }
     } catch (error) {
@@ -67,27 +67,27 @@ const AttendanceTracker = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Attendance Tracker</h1>
-          <p className="text-xs text-[#598392] mt-1 font-light font-sans">Verify active shifts, check in/out, and review attendance logs.</p>
+          <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight font-heading">Attendance Tracker</h1>
+          <p className="text-xs text-[#64748B] mt-1 font-light font-sans">Verify active shifts, check in/out, and review attendance logs.</p>
         </div>
-        
+
         {/* Navigation Tabs */}
-        <div className="flex bg-[#F8FAFC] border border-[#E2E8F0] rounded-lg p-0.5">
+        <div className="flex bg-[#F4F5F9] border border-[#E2E8F0] rounded-xl p-1">
           <Link
             to="/attendance"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all bg-[#E2E8F0] text-[#01161E]"
+            className="px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all bg-white text-[#5A42EC] shadow-sm"
           >
             Tracker
           </Link>
           <Link
             to="/attendance/history"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
+            className="px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all text-[#64748B] hover:text-[#0F172A] hover:bg-white/40"
           >
             History
           </Link>
           <Link
             to="/attendance/reports"
-            className="px-3.5 py-1.5 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all text-[#94A3B8] hover:text-[#598392]"
+            className="px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all text-[#64748B] hover:text-[#0F172A] hover:bg-white/40"
           >
             Reports
           </Link>
@@ -95,70 +95,74 @@ const AttendanceTracker = () => {
       </div>
 
       {/* Clock In Widget */}
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
         <div className="flex items-center space-x-4">
-          <div className={`p-4 rounded-xl border ${checkedIn ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-400 border-red-500/20'}`}>
+          <div className={`p-4 rounded-2xl border ${checkedIn ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 'bg-rose-500/10 text-rose-600 border-rose-500/20'}`}>
             <Clock className="h-6 w-6" />
           </div>
           <div>
-            <h3 className="font-semibold text-[#01161E] text-base">Shift Status: {checkedIn ? 'Active' : 'Inactive'}</h3>
-            <p className="text-xs text-[#598392] font-light">Log your check-in time for daily verification.</p>
+            <h3 className="font-bold text-[#0F172A] text-base font-heading">Shift Status: {checkedIn ? 'Active' : 'Inactive'}</h3>
+            <p className="text-xs text-[#64748B] font-light">Log your check-in time for daily verification.</p>
           </div>
         </div>
 
         <button
           onClick={handleCheckInOut}
           disabled={actionLoading}
-          className={`px-6 py-3 rounded-lg text-xs font-semibold shadow transition-all cursor-pointer disabled:opacity-50 ${
-            checkedIn
-              ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/10'
-              : 'bg-[#124559] hover:bg-[#01161E] text-white shadow-[#124559]/10'
-          }`}
+          className={`px-6 py-3 rounded-xl text-xs font-semibold shadow-sm transition-all cursor-pointer disabled:opacity-50 hover:scale-[1.02] active:scale-[0.98] ${checkedIn
+            ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20'
+            : 'bg-[#5A42EC] hover:bg-[#4831D4] text-white shadow-[#5A42EC]/20'
+            }`}
         >
           {actionLoading ? 'Processing...' : checkedIn ? 'Check Out' : 'Check In'}
         </button>
       </div>
 
       {/* Logs Table */}
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl overflow-hidden">
-        <div className="p-4 border-b border-[#E2E8F0] bg-[#FFFFFF]/20">
-          <h3 className="font-semibold text-[#01161E] text-xs">Recent Shift Logs</h3>
+      <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] overflow-hidden shadow-sm">
+        <div className="px-6 py-4 border-b border-[#E2E8F0]/60">
+          <h3 className="font-bold text-[#0F172A] text-[15px] font-heading">Recent Shift Logs</h3>
         </div>
 
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#5A42EC]" />
             <span className="text-xs">Loading shift records...</span>
           </div>
         ) : logs.length === 0 ? (
-          <div className="p-12 text-center text-[#598392] text-xs font-light">
+          <div className="p-12 text-center text-[#64748B] text-xs font-light">
             No attendance records found for your account.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[10px]">
+                <tr className="bg-[#F5F5F5] border-b border-[#E2E8F0]/60 text-[#64748B] font-bold uppercase tracking-wider text-[10px]">
                   <th className="px-6 py-4">Date</th>
                   <th className="px-6 py-4">Check In</th>
                   <th className="px-6 py-4">Check Out</th>
                   <th className="px-6 py-4">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FFFFFF] text-[#598392] font-light">
+              <tbody className="divide-y divide-[#F5F5F%]/40 text-[#64748B]">
                 {logs.map((log) => (
-                  <tr key={log._id} className="hover:bg-[#EFF6E0]/40 transition-all">
-                    <td className="px-6 py-4 font-mono">{log.date}</td>
-                    <td className="px-6 py-4">{log.checkIn}</td>
-                    <td className="px-6 py-4">{log.checkOut || '--'}</td>
+                  <tr key={log._id} className="hover:bg-[#F5F5F5]/5 transition-all">
+                    <td className="px-6 py-4 font-mono font-bold text-[#0F172A]">{log.date}</td>
+                    <td className="px-6 py-4 font-medium">{log.checkIn}</td>
+                    <td className="px-6 py-4 font-medium">{log.checkOut || '--'}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
-                        log.status === 'Active' 
-                          ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20' 
-                          : log.status === 'Late' 
-                          ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                          : 'bg-green-500/10 text-green-400 border border-green-500/20'
-                      }`}>
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${log.status === 'Active'
+                        ? 'bg-blue-500/10 text-blue-600 border border-blue-500/20'
+                        : log.status === 'Late'
+                          ? 'bg-amber-500/10 text-amber-600 border border-amber-500/20'
+                          : 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/20'
+                        }`}>
+                        <span className={`h-1.5 w-1.5 rounded-full ${log.status === 'Active'
+                          ? 'bg-blue-500'
+                          : log.status === 'Late'
+                            ? 'bg-amber-500'
+                            : 'bg-emerald-500'
+                          }`}></span>
                         {log.status}
                       </span>
                     </td>

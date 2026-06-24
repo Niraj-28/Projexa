@@ -48,15 +48,15 @@ const NotificationsView = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold text-[#01161E] tracking-tight font-heading">Notifications</h1>
-        <p className="text-xs text-[#598392] mt-1.5 font-light">Stay updated with task milestones, leaves approvals, and attendance alerts.</p>
+        <h1 className="text-3xl font-extrabold text-[#0F172A] tracking-tight font-heading">Notifications</h1>
+        <p className="text-xs text-[#64748B] mt-1.5 font-light">Stay updated with task milestones, leaves approvals, and attendance alerts.</p>
       </div>
 
       <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] p-6 hover-card shadow-premium">
         <div className="space-y-4">
           {loading ? (
-            <div className="p-12 flex flex-col items-center justify-center text-[#598392] gap-2 text-xs font-semibold">
-              <Loader2 className="h-5 w-5 animate-spin text-[#124559]" />
+            <div className="p-12 flex flex-col items-center justify-center text-[#64748B] gap-2 text-xs font-semibold">
+              <Loader2 className="h-5 w-5 animate-spin text-[#5A42EC]" />
               <span>Loading notifications...</span>
             </div>
           ) : alerts.length === 0 ? (
@@ -79,17 +79,17 @@ const NotificationsView = () => {
                       {/* Left: Event Title and Type */}
                       <td className="py-4 pl-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-xl bg-[#124559]/5 border border-[#124559]/10 flex items-center justify-center shrink-0 shadow-sm">
+                          <div className="h-9 w-9 rounded-xl bg-[#5A42EC]/5 border border-[#5A42EC]/10 flex items-center justify-center shrink-0 shadow-sm">
                             {iconForType(alert.type)}
                           </div>
                           <div>
-                            <span className="font-bold text-[#01161E] text-[13px] block leading-tight">{alert.title}</span>
+                            <span className="font-bold text-[#0F172A] text-[13px] block leading-tight">{alert.title}</span>
                             <span className="text-[9px] text-[#94A3B8] font-bold uppercase tracking-wider block mt-0.5">{alert.type}</span>
                           </div>
                         </div>
                       </td>
                       {/* Center: Description message (centered as requested) */}
-                      <td className="py-4 text-center text-xs font-semibold text-[#598392] max-w-sm px-4 leading-relaxed">
+                      <td className="py-4 text-center text-xs font-semibold text-[#64748B] max-w-sm px-4 leading-relaxed">
                         {alert.message}
                       </td>
                       {/* Right: Time */}

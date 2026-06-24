@@ -62,22 +62,22 @@ const ReportsView = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Workspace Reports</h1>
-          <p className="text-xs text-[#598392] mt-1 font-light">Generate, download, and review detailed workspace metrics and analytics.</p>
+          <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight">Workspace Reports</h1>
+          <p className="text-xs text-[#64748B] mt-1 font-light">Generate, download, and review detailed workspace metrics and analytics.</p>
         </div>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 space-y-4">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 space-y-4 shadow-sm">
         <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
-          <h3 className="font-semibold text-[#01161E] text-sm">Reports Desk</h3>
+          <h3 className="font-semibold text-[#0F172A] text-sm">Reports Desk</h3>
           <Filter className="h-4 w-4 text-[#94A3B8]" />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light text-[#598392]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-light text-[#64748B]">
           {reportTiers.map((r, idx) => (
-            <div key={idx} className="p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl flex items-center justify-between gap-4">
+            <div key={idx} className="p-4 bg-[#F4F5F9] border border-[#E2E8F0] rounded-xl flex items-center justify-between gap-4">
               <div className="space-y-1 min-w-0 flex-1">
-                <Link to={r.route} className="font-medium text-[#01161E] hover:text-[#598392] flex items-center gap-1">
+                <Link to={r.route} className="font-medium text-[#0F172A] hover:text-[#5A42EC] flex items-center gap-1">
                   <span>{r.title}</span>
                   <ArrowUpRight className="h-3.5 w-3.5 shrink-0" />
                 </Link>
@@ -85,7 +85,7 @@ const ReportsView = () => {
               </div>
               <button 
                 onClick={() => handleExport(r.exportUrl, r.filename)}
-                className="text-[10px] font-bold text-[#01161E] hover:text-[#598392] uppercase bg-[#FFFFFF] hover:bg-[#2C2C2C] border border-[#E2E8F0]/40 px-3 py-2 rounded-lg transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
+                className="text-[10px] font-bold text-[#64748B] hover:text-[#5A42EC] hover:border-[#5A42EC] uppercase bg-white border border-[#E2E8F0] px-3 py-2 rounded-lg transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
               >
                 <Download className="h-3.5 w-3.5" />
                 <span>Export</span>

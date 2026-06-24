@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: #F8FAFC;
+  --color-bg-primary: #F5F5F5; /* Light warm grey */
   --color-bg-surface: #FFFFFF;
   --color-bg-surface-raised: #FFFFFF;
-  --color-border-grey: #E2E8F0;
-  --color-border-grey-hover: #AEC3B0;
-  --color-text-primary: #01161E; /* Dark Slate/Teal */
-  --color-text-secondary: #598392; /* Muted Blue/Teal */
-  --color-text-tertiary: #94A3B8;
-  --color-brand-primary: #124559; /* Steel Blue */
-  --color-brand-primary-hover: #01161E;
-  --color-accent-bg: rgba(18, 69, 89, 0.05);
-  --color-cta-bg: #124559;
+  --color-border-grey: #E5E5E5; /* Neutral grey border */
+  --color-border-grey-hover: #D4D4D4;
+  --color-text-primary: #111111; /* Near-black */
+  --color-text-secondary: #737373; /* Neutral 500 */
+  --color-text-tertiary: #A3A3A3; /* Neutral 400 */
+  --color-brand-primary: #111111; /* Black brand */
+  --color-brand-primary-hover: #000000;
+  --color-accent-bg: rgba(0, 0, 0, 0.03);
+  --color-cta-bg: #111111;
   --color-cta-text: #FFFFFF;
 
   --font-sans: "Plus Jakarta Sans", "Poppins", sans-serif;
@@ -24,16 +24,16 @@ html {
 }
 
 :root {
-  --text: #01161E; /* Dark Slate/Teal */
-  --text-h: #01161E; /* Dark Slate/Teal */
-  --bg: #F8FAFC; /* Light gray */
-  --surface: #FFFFFF; /* Pure White */
+  --text: #111111;
+  --text-h: #111111;
+  --bg: #F5F5F5;
+  --surface: #FFFFFF;
   --surface-raised: #FFFFFF;
-  --border: #E2E8F0; /* Slate 200 border */
-  --border-hover: #AEC3B0; /* Soft Sage border */
-  --secondary-text: #598392; /* Muted Teal/Blue */
-  --primary: #124559; /* Steel Blue */
-  --primary-hover: #01161E;
+  --border: #E5E5E5;
+  --border-hover: #D4D4D4;
+  --secondary-text: #737373;
+  --primary: #111111;
+  --primary-hover: #000000;
   
   --sans: 'Plus Jakarta Sans', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --heading: 'Plus Jakarta Sans', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -73,13 +73,13 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-/* Glassmorphic light cards */
+/* Light glassmorphic cards */
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.04);
+  border: 1px solid #E5E5E5;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.02);
   border-radius: 12px;
 }
 
@@ -88,16 +88,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-card-hover:hover {
-  border-color: #AEC3B0;
-  background: rgba(255, 255, 255, 0.95);
+  border-color: #D4D4D4;
+  background: rgba(255, 255, 255, 0.98);
   transform: translateY(-2px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.06);
 }
 
-/* Custom inputs in Light Mode */
+/* Custom inputs */
 .custom-input {
   background-color: #FFFFFF;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #E5E5E5;
   color: var(--text-h);
   border-radius: 8px;
   transition: all 0.2s ease;
@@ -105,9 +105,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .custom-input:focus {
   outline: none;
-  border-color: var(--primary);
+  border-color: #111111;
   background-color: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(18, 69, 89, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 /* Custom scrollbars */
@@ -121,67 +121,67 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E2E8F0;
+  background: #D4D4D4;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #AEC3B0;
+  background: #A3A3A3;
 }
 
 /* Light dot-grid pattern */
 .linear-grid-bg {
-  background-image: radial-gradient(rgba(1, 22, 30, 0.04) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Primary buttons - Steel Blue */
+/* Primary buttons - Black */
 .linear-btn-primary {
-  background: #124559;
+  background: #111111;
   color: #FFFFFF;
   font-weight: 500;
-  border-radius: 9999px; /* Pill */
-  border: 1px solid rgba(18, 69, 89, 0.2);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-btn-primary:hover {
-  background: #01161E;
+  background: #000000;
   transform: scale(1.02);
-  box-shadow: 0 4px 12px rgba(18, 69, 89, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-/* Brand/blue accent button */
+/* Brand accent button */
 .linear-btn-brand {
-  background: linear-gradient(180deg, #124559 0%, #01161E 100%);
+  background: #111111;
   color: #FFFFFF;
   font-weight: 500;
-  border-radius: 9999px; /* Pill */
-  border: 1px solid rgba(18, 69, 89, 0.2);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 12px rgba(18, 69, 89, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-btn-brand:hover {
-  background: linear-gradient(180deg, #01161E 0%, #01161E 100%);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 18px rgba(18, 69, 89, 0.35);
+  background: #000000;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   transform: scale(1.02);
 }
 
 /* Secondary outline button */
 .linear-btn-secondary {
-  background: rgba(255, 255, 255, 0.8);
-  color: #598392;
-  border: 1px solid #E2E8F0;
-  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #737373;
+  border: 1px solid #E5E5E5;
+  border-radius: 12px;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .linear-btn-secondary:hover {
-  background: rgba(239, 246, 224, 0.3);
-  border-color: #AEC3B0;
-  color: #01161E;
+  background: #F5F5F5;
+  border-color: #D4D4D4;
+  color: #111111;
 }
 
 /* Section styling */
@@ -253,9 +253,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hover-card:hover {
-  border-color: rgba(1, 22, 30, 0.08) !important;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(1, 22, 30, 0.05);
+  border-color: #D4D4D4 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 /* Smooth hover row */
@@ -264,12 +263,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hover-row:hover {
-  background: rgba(1, 22, 30, 0.02);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 /* Custom Auth Page Styling */
 .auth-bg-dots {
-  background-image: radial-gradient(rgba(89, 131, 146, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -278,21 +277,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .auth-input-wrapper:focus-within svg {
-  color: #124559 !important;
+  color: #111111 !important;
 }
 
 .auth-card {
   background: #FFFFFF;
-  border: 1px solid #E2E8F0;
+  border: 1px solid #E5E5E5;
   border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(1, 22, 30, 0.04);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
 }
 
 .auth-input {
   background: rgba(255, 255, 255, 0.65) !important;
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(226, 232, 240, 0.8) !important;
-  color: #01161E !important;
+  border: 1px solid rgba(229, 229, 229, 0.8) !important;
+  color: #111111 !important;
   height: 44px;
   border-radius: 10px;
   padding: 0 14px 0 40px !important;
@@ -302,13 +301,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .auth-input:focus {
   outline: none;
-  border-color: #124559 !important;
+  border-color: #111111 !important;
   background-color: #FFFFFF !important;
-  box-shadow: 0 0 0 4px rgba(18, 69, 89, 0.08) !important;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06) !important;
 }
 
 .auth-btn-primary {
-  background: linear-gradient(135deg, #124559, #01161E) !important;
+  background: #111111 !important;
   color: #FFFFFF !important;
   font-weight: 600;
   height: 44px;
@@ -320,12 +319,13 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   gap: 8px;
   font-size: 13px;
-  box-shadow: 0 4px 12px rgba(18, 69, 89, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .auth-btn-primary:hover {
+  background: #000000 !important;
   transform: translateY(-1.5px);
-  box-shadow: 0 8px 24px rgba(1, 22, 30, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .auth-btn-primary:active {
@@ -333,10 +333,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .auth-btn-google {
-  background: rgba(255, 255, 255, 0.8) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(6px);
-  border: 1px solid #E2E8F0 !important;
-  color: #01161E !important;
+  border: 1px solid #E5E5E5 !important;
+  color: #111111 !important;
   font-weight: 500;
   height: 44px;
   border-radius: 10px;
@@ -351,9 +351,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .auth-btn-google:hover {
   background: #FFFFFF !important;
-  border-color: #CBD5E1 !important;
+  border-color: #D4D4D4 !important;
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 16px rgba(148, 163, 184, 0.12);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .auth-btn-google:active {
@@ -362,41 +362,40 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Workspace application polish */
 .app-shell {
-  background: #FFFFFF;
+  background: #F5F5F5;
 }
 
 .app-shell aside,
 .app-shell header {
-  background: #F8FAFC !important;
-}
-
-.app-shell main > div:last-child {
   background: #FFFFFF !important;
 }
 
-.app-shell [class*="bg-"][class*="#F8FAFC"][class*="border"],
-.app-shell [class*="bg-"][class*="#FFFFFF"][class*="border"] {
-  border-color: #E2E8F0 !important;
-  box-shadow: 0 14px 40px rgba(1, 22, 30, 0.02);
+.app-shell main > div:last-child {
+  background: #F5F5F5 !important;
+}
+
+.app-shell [class*="bg-"][class*="border"] {
+  border-color: #E5E5E5 !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.01);
 }
 
 .app-shell [class*="rounded-2xl"] {
-  border-radius: 10px !important;
+  border-radius: 12px !important;
 }
 
 .app-shell input,
 .app-shell select,
 .app-shell textarea {
-  border-color: #E2E8F0 !important;
+  border-color: #E5E5E5 !important;
   background-color: #FFFFFF !important;
-  color: #01161E !important;
+  color: #111111 !important;
 }
 
 .app-shell input:focus,
 .app-shell select:focus,
 .app-shell textarea:focus {
-  border-color: #124559 !important;
-  box-shadow: 0 0 0 3px rgba(18, 69, 89, 0.15);
+  border-color: #111111 !important;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 /* ── Professional Typography Scale ── */
@@ -433,12 +432,12 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #94A3B8;
+  color: #A3A3A3;
 }
 
 .app-shell table td {
   font-size: 0.8125rem;
-  color: #01161E;
+  color: #111111;
 }
 
 /* Buttons */
@@ -451,7 +450,7 @@ h1, h2, h3, h4, h5, h6 {
 .app-shell label {
   font-size: 0.8125rem;
   font-weight: 500;
-  color: #01161E;
+  color: #111111;
 }
 
 /* Inputs */
@@ -499,14 +498,14 @@ h1, h2, h3, h4, h5, h6 {
 /* Better focus ring */
 .app-shell *:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(18, 69, 89, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
   border-radius: inherit;
 }
 
 /* Modal improvements */
 .app-shell [class*="fixed"][class*="inset-0"] {
   backdrop-filter: blur(8px);
-  background-color: rgba(5, 8, 17, 0.4) !important;
+  background-color: rgba(0, 0, 0, 0.35) !important;
 }
 
 /* Smooth hover transitions for all interactive elements */
@@ -524,17 +523,17 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Frosted glass cards */
 .glass-card-premium {
-  background: rgba(255, 255, 255, 0.82) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(226, 232, 240, 0.8) !important;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01) !important;
+  border: 1px solid rgba(229, 229, 229, 0.8) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.01) !important;
   border-radius: 20px !important;
 }
 
 /* Premium shadows */
 .shadow-premium {
-  box-shadow: 0 10px 30px -10px rgba(18, 69, 89, 0.08), 0 1px 3px rgba(18, 69, 89, 0.03) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.02) !important;
 }
 
 /* Redefined Hover Card micro-animations */
@@ -543,9 +542,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hover-card:hover {
-  transform: translateY(-4px) !important;
-  box-shadow: 0 20px 35px -10px rgba(18, 69, 89, 0.12), 0 4px 12px rgba(18, 69, 89, 0.02) !important;
-  border-color: rgba(18, 69, 89, 0.2) !important;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+  border-color: #D4D4D4 !important;
 }
 
 /* Cohesive status badges */
@@ -604,7 +602,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .app-shell tbody tr:hover {
-  background-color: rgba(18, 69, 89, 0.02) !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
 }
 
 /* Custom premium scrollbar styling */
@@ -614,15 +612,229 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F8FAFC;
+  background: #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #D4D4D4;
   border-radius: 9999px;
-  border: 2px solid #F8FAFC;
+  border: 2px solid #F5F5F5;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #A3A3A3;
+}
+
+/* Modal backdrop and card spring entrance animations */
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalBounceIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-backdrop-animate {
+  animation: backdropFadeIn 0.25s ease-out forwards;
+}
+
+.modal-card-animate {
+  animation: modalBounceIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   BLACK & WHITE LIGHT THEME - COLOR OVERRIDES
+   Maps all legacy/violet hex codes to a clean B&W palette
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* 1. Brand Violet (#5A42EC) -> Black (#111111) */
+.bg-\[\#5A42EC\], [class*="bg-[#5A42EC]"] {
+  background-color: #111111 !important;
+}
+.hover\:bg-\[\#5A42EC\]:hover, [class*="hover:bg-[#5A42EC]"]:hover {
+  background-color: #000000 !important;
+}
+.text-\[\#5A42EC\], [class*="text-[#5A42EC]"] {
+  color: #111111 !important;
+}
+.hover\:text-\[\#5A42EC\]:hover, [class*="hover:text-[#5A42EC]"]:hover {
+  color: #000000 !important;
+}
+.border-\[\#5A42EC\], [class*="border-[#5A42EC]"] {
+  border-color: #111111 !important;
+}
+.focus\:border-\[\#5A42EC\]:focus, [class*="focus:border-[#5A42EC]"]:focus {
+  border-color: #111111 !important;
+}
+.focus\:ring-\[\#5A42EC\/10\]:focus, [class*="focus:ring-[#5A42EC/10]"]:focus {
+  --tw-ring-color: rgba(0, 0, 0, 0.08) !important;
+}
+.shadow-\[\#5A42EC\/20\], [class*="shadow-[#5A42EC/20]"] {
+  --tw-shadow-color: rgba(0, 0, 0, 0.06) !important;
+}
+.from-\[\#5A42EC\], [class*="from-[#5A42EC]"] {
+  --tw-gradient-from: #111111 !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(0, 0, 0, 0)) !important;
+}
+.to-\[\#5A42EC\], [class*="to-[#5A42EC]"] {
+  --tw-gradient-to: #333333 !important;
+}
+
+/* 2. Violet Hover (#4831D4) -> Pure Black */
+.bg-\[\#4831D4\], [class*="bg-[#4831D4]"] {
+  background-color: #000000 !important;
+}
+
+/* 3. Lilac-Grey Background (#F4F5F9) -> Warm Light Grey (#F5F5F5) */
+.bg-\[\#F4F5F9\], [class*="bg-[#F4F5F9]"] {
+  background-color: #F5F5F5 !important;
+}
+.hover\:bg-\[\#F4F5F9\]:hover, [class*="hover:bg-[#F4F5F9]"]:hover {
+  background-color: #F0F0F0 !important;
+}
+
+/* 4. Slate Text (#0F172A) -> Near-Black (#111111) */
+.text-\[\#0F172A\], [class*="text-[#0F172A]"] {
+  color: #111111 !important;
+}
+
+/* 5. Slate Grey (#64748B) -> Neutral Grey (#737373) */
+.text-\[\#64748B\], [class*="text-[#64748B]"] {
+  color: #737373 !important;
+}
+.hover\:text-\[\#64748B\]:hover, [class*="hover:text-[#64748B]"]:hover {
+  color: #525252 !important;
+}
+
+/* 6. Tertiary text (#94A3B8) -> Light Neutral (#A3A3A3) */
+.text-\[\#94A3B8\], [class*="text-[#94A3B8]"] {
+  color: #A3A3A3 !important;
+}
+
+/* 7. Borders (#E2E8F0) -> Neutral Border (#E5E5E5) */
+.border-\[\#E2E8F0\], [class*="border-[#E2E8F0]"] {
+  border-color: #E5E5E5 !important;
+}
+.divide-\[\#E2E8F0\], [class*="divide-[#E2E8F0]"] > * + * {
+  border-color: #E5E5E5 !important;
+}
+
+/* 8. Legacy teal overrides (#124559 -> #111111) */
+.bg-\[\#124559\], [class*="bg-[#124559]"] {
+  background-color: #111111 !important;
+}
+.hover\:bg-\[\#124559\]:hover, [class*="hover:bg-[#124559]"]:hover {
+  background-color: #000000 !important;
+}
+.text-\[\#124559\], [class*="text-[#124559]"] {
+  color: #111111 !important;
+}
+.border-\[\#124559\], [class*="border-[#124559]"] {
+  border-color: #111111 !important;
+}
+.focus\:border-\[\#124559\]:focus, [class*="focus:border-[#124559]"]:focus {
+  border-color: #111111 !important;
+}
+.from-\[\#124559\], [class*="from-[#124559]"] {
+  --tw-gradient-from: #111111 !important;
+}
+
+/* 9. Legacy dark (#01161E -> #111111) */
+.bg-\[\#01161E\], [class*="bg-[#01161E]"] {
+  background-color: #111111 !important;
+}
+.text-\[\#01161E\], [class*="text-[#01161E]"] {
+  color: #111111 !important;
+}
+.hover\:text-\[\#01161E\]:hover, [class*="hover:text-[#01161E]"]:hover {
+  color: #000000 !important;
+}
+.to-\[\#01161E\], [class*="to-[#01161E]"] {
+  --tw-gradient-to: #000000 !important;
+}
+
+/* 10. Legacy muted (#598392 -> #737373) */
+.text-\[\#598392\], [class*="text-[#598392]"] {
+  color: #737373 !important;
+}
+.hover\:text-\[\#598392\]:hover, [class*="hover:text-[#598392]"]:hover {
+  color: #111111 !important;
+}
+
+/* 11. Legacy soft green (#AEC3B0 -> #D4D4D4) */
+.bg-\[\#AEC3B0\], [class*="bg-[#AEC3B0]"] {
+  background-color: #D4D4D4 !important;
+}
+.border-\[\#AEC3B0\], [class*="border-[#AEC3B0]"] {
+  border-color: #D4D4D4 !important;
+}
+.hover\:border-\[\#AEC3B0\]:hover, [class*="hover:border-[#AEC3B0]"]:hover {
+  border-color: #A3A3A3 !important;
+}
+
+/* 12. Legacy light green (#EFF6E0 -> #F5F5F5) */
+.bg-\[\#EFF6E0\], [class*="bg-[#EFF6E0]"] {
+  background-color: #F5F5F5 !important;
+}
+.hover\:bg-\[\#EFF6E0\]:hover, [class*="hover:bg-[#EFF6E0]"]:hover {
+  background-color: #EBEBEB !important;
+}
+.hover\:bg-\[\#EFF6E0\/40\]:hover, [class*="hover:bg-[#EFF6E0]/40"]:hover {
+  background-color: rgba(245, 245, 245, 0.5) !important;
+}
+.text-\[\#EFF6E0\], [class*="text-[#EFF6E0]"] {
+  color: #E5E5E5 !important;
+}
+
+/* 13. F8FAFC background -> #F5F5F5 */
+.bg-\[\#F8FAFC\], [class*="bg-[#F8FAFC]"] {
+  background-color: #F5F5F5 !important;
+}
+
+/* 14. Lilac violet accents (#ECE9FF, #C0B6FC) -> Light grey/neutral */
+.bg-\[\#ECE9FF\], [class*="bg-[#ECE9FF]"] {
+  background-color: #F0F0F0 !important;
+}
+.text-\[\#C0B6FC\], [class*="text-[#C0B6FC]"] {
+  color: #A3A3A3 !important;
+}
+
+/* 15. Gradient overrides for landing page */
+.bg-gradient-to-r.from-\[\#124559\].to-\[\#01161E\], [class*="bg-gradient-to-r"][class*="from-[#124559]"][class*="to-[#01161E]"] {
+  background-image: linear-gradient(to right, #111111, #000000) !important;
+}
+
+/* 16. Hover row highlights (monochrome) */
+.hover-card:hover {
+  border-color: #D4D4D4 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+.hover-row:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+.app-shell tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* 17. CBD5E1 border -> D4D4D4 */
+.border-\[\#CBD5E1\], [class*="border-[#CBD5E1]"] {
+  border-color: #D4D4D4 !important;
+}
+
+/* 18. Slate border-100 */
+.border-slate-100 {
+  border-color: #F5F5F5 !important;
+}
+
+/* 19. Selection colors */
+.selection\:bg-\[\#AEC3B0\], [class*="selection:bg-[#AEC3B0]"] {
+  --tw-selection-bg: #D4D4D4 !important;
 }

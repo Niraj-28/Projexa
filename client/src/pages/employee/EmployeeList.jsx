@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
-import { UserPlus, Search, Shield, User, Smartphone, Calendar, AlertCircle, Copy, Check, Loader2 } from 'lucide-react';
+import { UserPlus, Search, Shield, User, Smartphone, Calendar, AlertCircle, Copy, Check, Loader2, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const EmployeeList = () => {
@@ -10,12 +11,12 @@ const EmployeeList = () => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   // Modal State
   const [showAddModal, setShowAddModal] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
   const [createdTempInfo, setCreatedTempInfo] = useState(null);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -59,7 +60,7 @@ const EmployeeList = () => {
     try {
       setSubmitting(true);
       let endpoint = formData.role === 'manager' ? '/users/create-manager' : '/users/create-employee';
-      
+
       const payload = {
         name: formData.name,
         email: formData.email,
@@ -76,7 +77,7 @@ const EmployeeList = () => {
           email: formData.email,
           password: response.data.tempPassword || 'Temp@123',
         });
-        
+
         // Reset form except role
         setFormData({
           name: '',
@@ -87,7 +88,7 @@ const EmployeeList = () => {
           joiningDate: '',
           role: 'employee',
         });
-        
+
         fetchMembers();
       }
     } catch (error) {
@@ -100,7 +101,7 @@ const EmployeeList = () => {
 
   const handleDeactivate = async (id) => {
     if (!window.confirm('Are you sure you want to deactivate/delete this member?')) return;
-    
+
     try {
       const response = await api.delete(`/users/${id}`);
       if (response.data && response.data.success) {
@@ -114,7 +115,7 @@ const EmployeeList = () => {
 
   const handleActivate = async (id) => {
     if (!window.confirm('Are you sure you want to reactivate this member?')) return;
-    
+
     try {
       const response = await api.put(`/users/${id}`, { isActive: true });
       if (response.data && response.data.success) {
@@ -146,17 +147,17 @@ const EmployeeList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-[#01161E] tracking-tight">Company Employees</h1>
-          <p className="text-sm text-[#598392] mt-1 font-light">Manage and onboard managers and employees into your workspace.</p>
+          <h1 className="text-2xl font-semibold text-[#0F172A] tracking-tight font-heading">Company Employees</h1>
+          <p className="text-sm text-[#64748B] mt-1 font-light">Manage and onboard managers and employees into your workspace.</p>
         </div>
-        
+
         {currentUser?.role === 'company_admin' || currentUser?.role === 'manager' ? (
           <button
             onClick={() => {
               setCreatedTempInfo(null);
               setShowAddModal(true);
             }}
-            className="flex items-center space-x-2 bg-[#124559] text-white hover:bg-[#01161E] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
+            className="flex items-center space-x-2 bg-[#5A42EC] text-white hover:bg-[#4831D4] px-5 py-2.5 rounded-xl text-[13px] font-semibold shadow-sm transition-all cursor-pointer"
           >
             <UserPlus className="h-4 w-4" />
             <span>Add Employee</span>
@@ -166,28 +167,28 @@ const EmployeeList = () => {
 
       {/* Stats Quick Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Total Staff</span>
-          <p className="text-2xl font-medium text-[#01161E] mt-1">{members.length}</p>
+        <div className="p-1">
+          <span className="text-[11px] text-[#94A3B8] font-bold uppercase tracking-wider">Total Staff</span>
+          <p className="text-3xl font-extrabold text-[#0F172A] mt-1">{members.length}</p>
         </div>
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-5 rounded-xl">
-          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Managers</span>
-          <p className="text-2xl font-medium text-[#01161E] mt-1">
+        <div className="p-1">
+          <span className="text-[11px] text-[#94A3B8] font-bold uppercase tracking-wider">Managers</span>
+          <p className="text-3xl font-extrabold text-[#0F172A] mt-1">
             {members.filter((m) => m.role === 'manager').length}
           </p>
         </div>
-        <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl">
-          <span className="text-[11px] text-[#94A3B8] font-semibold uppercase tracking-wider">Active Status</span>
-          <p className="text-2xl font-medium text-green-400 mt-1">
+        <div className="p-1">
+          <span className="text-[11px] text-[#94A3B8] font-bold uppercase tracking-wider">Active Status</span>
+          <p className="text-3xl font-extrabold text-green-500 mt-1">
             {members.filter((m) => m.isActive).length} / {members.length}
           </p>
         </div>
       </div>
 
       {/* Filters and List */}
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl overflow-hidden">
+      <div className="bg-white border border-[#E2E8F0]/80 rounded-[20px] shadow-sm overflow-hidden">
         {/* Search Bar */}
-        <div className="p-4 border-b border-[#E2E8F0] flex items-center">
+        <div className="p-4 border-b border-[#E2E8F0]/60 flex items-center bg-white">
           <div className="relative flex-grow max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#94A3B8]" />
             <input
@@ -195,26 +196,26 @@ const EmployeeList = () => {
               placeholder="Search by name, email, or role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-[13px] text-[#01161E] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#124559]"
+              className="w-full bg-[#F4F5F9] border border-[#E2E8F0] text-[13px] text-[#0F172A] rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Table */}
         {loading ? (
-          <div className="p-12 flex flex-col items-center justify-center text-[#598392] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+          <div className="p-12 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#5A42EC]" />
             <span className="text-xs">Loading employees...</span>
           </div>
         ) : filteredMembers.length === 0 ? (
-          <div className="p-12 text-center text-[#598392] text-xs">
+          <div className="p-12 text-center text-[#64748B] text-xs">
             No employees found matching filter.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-[13px] border-collapse">
               <thead>
-                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[11px]">
+                <tr className="bg-[#F4F5F9] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-[11px]">
                   <th className="px-6 py-4">Name</th>
                   <th className="px-6 py-4">Role</th>
                   <th className="px-6 py-4">Designation</th>
@@ -222,38 +223,31 @@ const EmployeeList = () => {
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FFFFFF]">
+              <tbody className="divide-y divide-[#F4F5F9]">
                 {filteredMembers.map((member) => (
-                  <tr key={member._id} className="hover:bg-[#EFF6E0]/40 transition-all">
+                  <tr key={member._id} className="hover:bg-[#111111]/5 transition-all">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-[#01161E] text-sm">{member.name}</p>
+                        <p className="font-medium text-[#0F172A] text-sm">{member.name}</p>
                         <p className="text-[11px] text-[#94A3B8]">{member.email}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider ${
-                        member.role === 'company_admin'
-                          ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                          : member.role === 'manager'
-                          ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'
-                          : 'bg-green-500/10 text-green-400 border border-green-500/20'
-                      }`}>
-                        {member.role === 'company_admin' && <Shield className="h-2.5 w-2.5" />}
-                        {member.role === 'manager' && <Shield className="h-2.5 w-2.5" />}
-                        {member.role === 'employee' && <User className="h-2.5 w-2.5" />}
+                      <span className={`inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider ${member.role === 'company_admin'
+                        ? 'text-blue-600'
+                        : member.role === 'manager'
+                          ? 'text-amber-600'
+                          : 'text-emerald-600'
+                        }`}>
                         {member.role.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-[#598392] font-light">
+                    <td className="px-6 py-4 text-[#64748B] font-semibold">
                       {member.designation || 'Staff'}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold ${
-                        member.isActive
-                          ? 'bg-green-500/10 text-green-400'
-                          : 'bg-red-500/10 text-red-400'
-                      }`}>
+                      <span className={`badge-status ${member.isActive ? 'badge-success' : 'badge-failed'}`}>
+                        <span className="h-1.5 w-1.5 rounded-full bg-current shrink-0"></span>
                         {member.isActive ? 'ACTIVE' : 'DEACTIVATED'}
                       </span>
                     </td>
@@ -261,7 +255,7 @@ const EmployeeList = () => {
                       <div className="flex items-center justify-end space-x-3">
                         <Link
                           to={`/employees/${member._id}`}
-                          className="text-[#598392] hover:text-[#01161E] font-semibold cursor-pointer"
+                          className="text-[#64748B] hover:text-[#5A42EC] font-semibold cursor-pointer"
                         >
                           Details
                         </Link>
@@ -270,7 +264,7 @@ const EmployeeList = () => {
                             {(currentUser?.role === 'company_admin' || (currentUser?.role === 'manager' && member.role === 'employee')) && (
                               <Link
                                 to={`/employees/edit/${member._id}`}
-                                className="text-[#01161E] hover:text-[#598392] font-semibold cursor-pointer"
+                                className="text-[#0F172A] hover:text-[#5A42EC] font-semibold cursor-pointer"
                               >
                                 Edit
                               </Link>
@@ -279,14 +273,14 @@ const EmployeeList = () => {
                               member.isActive ? (
                                 <button
                                   onClick={() => handleDeactivate(member._id)}
-                                  className="text-red-400 hover:text-red-300 font-semibold cursor-pointer"
+                                  className="text-red-500 hover:text-red-600 font-semibold cursor-pointer"
                                 >
                                   Deactivate
                                 </button>
                               ) : (
                                 <button
                                   onClick={() => handleActivate(member._id)}
-                                  className="text-green-400 hover:text-green-300 font-semibold cursor-pointer"
+                                  className="text-green-500 hover:text-green-600 font-semibold cursor-pointer"
                                 >
                                   Activate
                                 </button>
@@ -305,27 +299,30 @@ const EmployeeList = () => {
       </div>
 
       {/* Onboarding Add Member Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#F8FAFC] border border-[#E2E8F0] w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative">
-            <div className="p-6 border-b border-[#E2E8F0] flex justify-between items-center">
-              <h3 className="font-semibold text-[#01161E] text-base">Onboard New Team Member</h3>
+      {showAddModal && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/35 backdrop-blur-sm modal-backdrop-animate">
+          <div className="bg-white w-full max-w-md rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.12)] flex flex-col max-h-[90vh] overflow-hidden relative border border-slate-100 modal-card-animate">
+            {/* Top gradient line */}
+            <div className="h-[3.5px] bg-gradient-to-r from-[#5A42EC] via-[#94A3B8] to-[#E2E8F0] shrink-0"></div>
+
+            <div className="p-6 border-b border-slate-100 flex justify-between items-center shrink-0">
+              <h3 className="font-extrabold text-[#0F172A] text-base tracking-tight font-heading">Onboard New Team Member</h3>
               <button
                 onClick={() => {
                   setShowAddModal(false);
                   setCreatedTempInfo(null);
                 }}
-                className="text-[#94A3B8] hover:text-[#01161E] text-xs font-semibold cursor-pointer"
+                className="h-8 w-8 rounded-full border border-slate-100 flex items-center justify-center text-[#94A3B8] hover:text-[#0F172A] hover:bg-slate-50 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
               >
-                Close
+                <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="p-6">
+            <div className="p-6 overflow-y-auto min-h-0 flex-1">
               {createdTempInfo ? (
                 /* Success Temporary Password Screen */
                 <div className="space-y-4">
-                  <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 p-4 rounded-xl flex items-start gap-3">
+                  <div className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 p-4 rounded-xl flex items-start gap-3">
                     <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
                     <div className="text-xs space-y-1">
                       <p className="font-bold">Copy Temporary Credentials</p>
@@ -335,7 +332,7 @@ const EmployeeList = () => {
                     </div>
                   </div>
 
-                  <div className="bg-[#F8FAFC] border border-[#E2E8F0] p-4 rounded-xl font-mono text-xs text-[#598392] relative space-y-1.5">
+                  <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl font-mono text-xs text-[#64748B] relative space-y-1.5">
                     <p className="text-[10px] text-[#94A3B8] uppercase font-sans font-bold">Welcome to WorkArena</p>
                     <p><span className="text-[#94A3B8]">Email:</span> {createdTempInfo.email}</p>
                     <p><span className="text-[#94A3B8]">Password:</span> {createdTempInfo.password}</p>
@@ -344,7 +341,7 @@ const EmployeeList = () => {
                   <div className="flex gap-3">
                     <button
                       onClick={handleCopyPassword}
-                      className="flex-grow flex items-center justify-center gap-2 bg-[#124559] text-white hover:bg-[#01161E] py-2.5 rounded-xl text-[13px] font-semibold cursor-pointer"
+                      className="flex-grow flex items-center justify-center gap-2 bg-[#5A42EC] hover:bg-[#4831D4] hover:scale-[1.01] active:scale-[0.99] text-white py-2.5 rounded-xl text-xs font-bold transition-all duration-250 cursor-pointer shadow-sm shadow-[#5A42EC]/10"
                     >
                       {copiedText ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                       <span>Copy Credentials</span>
@@ -354,7 +351,7 @@ const EmployeeList = () => {
                         setShowAddModal(false);
                         setCreatedTempInfo(null);
                       }}
-                      className="auth-btn-google px-4"
+                      className="bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:scale-[1.01] active:scale-[0.99] py-2.5 px-6 rounded-xl text-xs font-bold transition-all duration-250 cursor-pointer flex items-center justify-center"
                     >
                       Done
                     </button>
@@ -365,12 +362,14 @@ const EmployeeList = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Role Type</label>
+                      <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                        <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Role Type
+                      </label>
                       <select
                         name="role"
                         value={formData.role}
                         onChange={handleChange}
-                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                        className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
                       >
                         {currentUser?.role === 'company_admin' && (
                           <option value="manager">Manager</option>
@@ -379,84 +378,98 @@ const EmployeeList = () => {
                       </select>
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Full Name</label>
+                      <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                        <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Full Name
+                      </label>
                       <input
                         type="text"
                         name="name"
                         placeholder="Rahul Sharma"
                         value={formData.name}
                         onChange={handleChange}
-                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                        className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                         required
                       />
                     </div>
                   </div>
 
                   <div className="flex flex-col space-y-1">
-                    <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Email Address</label>
+                    <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                      <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Email Address
+                    </label>
                     <input
                       type="email"
                       name="email"
                       placeholder="rahul@company.com"
                       value={formData.email}
                       onChange={handleChange}
-                      className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                      className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                       required
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Designation</label>
+                      <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                        <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Designation
+                      </label>
                       <input
                         type="text"
                         name="designation"
                         placeholder="e.g. Lead Designer"
                         value={formData.designation}
                         onChange={handleChange}
-                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                        className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                       />
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Department</label>
+                      <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                        <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Department
+                      </label>
                       <input
                         type="text"
                         name="department"
                         placeholder="e.g. Engineering"
                         value={formData.department}
                         onChange={handleChange}
-                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                        className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Phone Number</label>
+                      <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                        <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Phone Number
+                      </label>
                       <input
                         type="text"
                         name="phone"
                         placeholder="e.g. 9876543210"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#01161E] rounded-lg p-2.5 focus:outline-none"
+                        className="w-full bg-white border border-[#E2E8F0] text-xs text-[#0F172A] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200"
                       />
                     </div>
                     {formData.role === 'employee' ? (
                       <div className="flex flex-col space-y-1">
-                        <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
+                        <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                          <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Joining Date
+                        </label>
                         <input
                           type="date"
                           name="joiningDate"
                           value={formData.joiningDate}
                           onChange={handleChange}
-                          className="bg-[#F8FAFC] border border-[#E2E8F0] text-xs text-[#598392] rounded-lg p-2.5 focus:outline-none"
+                          className="w-full bg-white border border-[#E2E8F0] text-xs text-[#64748B] rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
                         />
                       </div>
                     ) : (
                       <div className="flex flex-col space-y-1">
-                        <label className="text-[10px] font-bold text-[#94A3B8] uppercase">Joining Date</label>
-                        <div className="bg-[#F8FAFC]/40 border border-[#E2E8F0] text-xs text-[#94A3B8]/80 rounded-lg p-2.5 select-none leading-normal">
+                        <label className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider">
+                          <span className="inline-block w-1 h-1 rounded-full bg-[#5A42EC]/40 mr-1.5 align-middle"></span>Joining Date
+                        </label>
+                        <div className="w-full bg-slate-50 border border-slate-100 text-xs text-[#94A3B8] rounded-xl px-3.5 py-2.5 select-none leading-normal">
                           Immediate (Manager)
                         </div>
                       </div>
@@ -467,18 +480,18 @@ const EmployeeList = () => {
                     <button
                       type="button"
                       onClick={() => setShowAddModal(false)}
-                      className="flex-1 auth-btn-google text-xs"
+                      className="flex-1 bg-white border border-slate-200 text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:scale-[1.01] active:scale-[0.99] py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-250 cursor-pointer flex items-center justify-center"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 auth-btn-primary disabled:opacity-50 text-xs"
+                      className="flex-1 bg-[#5A42EC] hover:bg-[#4831D4] hover:scale-[1.01] active:scale-[0.99] text-white py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-250 cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-50 shadow-sm shadow-[#5A42EC]/10"
                     >
                       {submitting ? (
                         <>
-                          <Loader2 className="h-3 w-3 animate-spin" />
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
                           <span>Creating...</span>
                         </>
                       ) : (
@@ -490,7 +503,8 @@ const EmployeeList = () => {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

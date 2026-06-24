@@ -56,8 +56,8 @@ const PlatformSettings = () => {
 
   if (loading) {
     return (
-      <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+      <div className="p-14 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+        <Loader2 className="h-6 w-6 animate-spin text-[#5A42EC]" />
         <span className="text-sm font-light">Loading configuration...</span>
       </div>
     );
@@ -66,19 +66,19 @@ const PlatformSettings = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold text-[#01161E] tracking-tight">Platform Settings</h1>
-        <p className="text-sm text-[#598392] mt-1.5 font-light">Configure base environment constraints, billing details, database backups, and secure admin keys.</p>
+        <h1 className="text-3xl font-semibold text-[#0F172A] tracking-tight">Platform Settings</h1>
+        <p className="text-sm text-[#64748B] mt-1.5 font-light">Configure base environment constraints, billing details, database backups, and secure admin keys.</p>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-6 hover-card">
-        <form onSubmit={handleSave} className="space-y-7 text-sm text-[#598392] font-light">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl p-6 shadow-sm">
+        <form onSubmit={handleSave} className="space-y-7 text-sm text-[#64748B] font-light">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col space-y-2">
               <label className="text-xs font-bold text-[#94A3B8] uppercase">Backup Schedule</label>
               <select 
                 value={backupSchedule}
                 onChange={(e) => setBackupSchedule(e.target.value)}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg p-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200"
               >
                 <option value="hourly">Every Hour</option>
                 <option value="daily">Daily (Midnight)</option>
@@ -92,7 +92,7 @@ const PlatformSettings = () => {
                 type="text" 
                 value={rateLimit}
                 onChange={(e) => setRateLimit(e.target.value)}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200" 
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg p-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200" 
               />
             </div>
           </div>
@@ -103,7 +103,7 @@ const PlatformSettings = () => {
               <select 
                 value={mfaRequired}
                 onChange={(e) => setMfaRequired(e.target.value)}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg p-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200"
               >
                 <option value="enabled">Force Enabled</option>
                 <option value="disabled">Optional</option>
@@ -115,7 +115,7 @@ const PlatformSettings = () => {
               <select 
                 value={sandboxMode}
                 onChange={(e) => setSandboxMode(e.target.value)}
-                className="bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg p-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
+                className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg p-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200"
               >
                 <option value="off">Off (Production)</option>
                 <option value="on">On (Mock Transactions)</option>
@@ -126,7 +126,7 @@ const PlatformSettings = () => {
           <button 
             type="submit" 
             disabled={submitting}
-            className="bg-[#124559] hover:bg-[#01161E] disabled:opacity-50 text-white px-7 py-3 rounded-lg text-sm font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+            className="bg-[#5A42EC] hover:bg-[#4831D4] disabled:opacity-50 text-white px-7 py-3 rounded-lg text-sm font-semibold shadow transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
           >
             {submitting ? (
               <>

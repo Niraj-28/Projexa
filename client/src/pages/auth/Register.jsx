@@ -114,10 +114,10 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-[#050811] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
+    <div className="h-screen w-screen bg-[#F4F5F9] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
       {/* Background spillover glow elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#124559]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#AEC3B0]/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#5A42EC]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#C0B6FC]/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
       {/* Main Floating Card Container (Fixed height to prevent scrolling) */}
       <div className="w-full max-w-[1000px] h-[580px] bg-white rounded-[28px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl relative z-10 p-2.5 gap-4">
@@ -140,9 +140,9 @@ const Register = () => {
             </div>
             {step < 3 && (
               <div className="w-full flex items-center justify-between mb-2 text-[9px] max-w-[240px] mx-auto">
-                <span className={`font-semibold uppercase tracking-wider ${step === 1 ? 'text-[#01161E]' : 'text-[#94A3B8]'}`}>1. Details</span>
+                <span className={`font-semibold uppercase tracking-wider ${step === 1 ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`}>1. Details</span>
                 <div className="h-px bg-[#E2E8F0] flex-grow mx-2"></div>
-                <span className={`font-semibold uppercase tracking-wider ${step === 2 ? 'text-[#01161E]' : 'text-[#94A3B8]'}`}>2. Workspace</span>
+                <span className={`font-semibold uppercase tracking-wider ${step === 2 ? 'text-[#0F172A]' : 'text-[#94A3B8]'}`}>2. Workspace</span>
               </div>
             )}
           </div>
@@ -151,10 +151,10 @@ const Register = () => {
             {step === 1 && (
               <>
                 <div className="text-center mb-4">
-                  <h2 className="text-[25px] font-bold text-[#01161E] tracking-tight leading-none mb-1 font-heading">
+                  <h2 className="text-[25px] font-bold text-[#0F172A] tracking-tight leading-none mb-1 font-heading">
                     Create Account
                   </h2>
-                  <p className="text-[12px] text-[#598392] font-light">
+                  <p className="text-[12px] text-[#64748B] font-light">
                     Start your free journey
                   </p>
                 </div>
@@ -162,28 +162,28 @@ const Register = () => {
                 <form onSubmit={handleNextStep} className="space-y-3">
                   {/* Full Name */}
                   <div className="flex flex-col space-y-1">
-                    <label className="text-[11px] font-medium text-[#01161E]">Full Name</label>
+                    <label className="text-[11px] font-medium text-[#0F172A]">Full Name</label>
                     <input
                       type="text"
                       name="adminName"
                       placeholder="Enter your name"
                       value={formData.adminName}
                       onChange={handleChange}
-                      className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                      className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                       required
                     />
                   </div>
 
                   {/* Email */}
                   <div className="flex flex-col space-y-1">
-                    <label className="text-[11px] font-medium text-[#01161E]">Email</label>
+                    <label className="text-[11px] font-medium text-[#0F172A]">Email</label>
                     <input
                       type="email"
                       name="adminEmail"
                       placeholder="Enter your email"
                       value={formData.adminEmail}
                       onChange={handleChange}
-                      className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                      className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                       required
                     />
                   </div>
@@ -191,7 +191,7 @@ const Register = () => {
                   {/* Passwords */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[11px] font-medium text-[#01161E]">Password</label>
+                      <label className="text-[11px] font-medium text-[#0F172A]">Password</label>
                       <div className="relative">
                         <input
                           type={showPassword ? 'text' : 'password'}
@@ -199,20 +199,20 @@ const Register = () => {
                           placeholder="••••••••"
                           value={formData.password}
                           onChange={handleChange}
-                          className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                          className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                           required
                         />
                         <button
                           type="button"
                           onClick={() => setShowPassword(!showPassword)}
-                          className="absolute right-3 inset-y-0 flex items-center text-[#598392] hover:text-[#01161E]"
+                          className="absolute right-3 inset-y-0 flex items-center text-[#64748B] hover:text-[#0F172A]"
                         >
                           {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                         </button>
                       </div>
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[11px] font-medium text-[#01161E]">Confirm Password</label>
+                      <label className="text-[11px] font-medium text-[#0F172A]">Confirm Password</label>
                       <div className="relative">
                         <input
                           type={showConfirmPassword ? 'text' : 'password'}
@@ -220,13 +220,13 @@ const Register = () => {
                           placeholder="••••••••"
                           value={formData.confirmPassword}
                           onChange={handleChange}
-                          className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                          className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                           required
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 inset-y-0 flex items-center text-[#598392] hover:text-[#01161E]"
+                          className="absolute right-3 inset-y-0 flex items-center text-[#64748B] hover:text-[#0F172A]"
                         >
                           {showConfirmPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                         </button>
@@ -236,13 +236,13 @@ const Register = () => {
 
                   {/* Terms */}
                   <div className="flex items-center text-[10px] pt-0.5">
-                    <label className="flex items-center space-x-2 text-[#598392] cursor-pointer hover:text-[#01161E] transition duration-150">
+                    <label className="flex items-center space-x-2 text-[#64748B] cursor-pointer hover:text-[#0F172A] transition duration-150">
                       <input
                         type="checkbox"
                         name="agreeToTerms"
                         checked={formData.agreeToTerms}
                         onChange={handleChange}
-                        className="rounded border-[#E2E8F0] bg-white text-[#124559] focus:ring-0 focus:ring-offset-0 h-3.5 w-3.5"
+                        className="rounded border-[#E2E8F0] bg-white text-[#5A42EC] focus:ring-0 focus:ring-offset-0 h-3.5 w-3.5"
                         required
                       />
                       <span className="font-light">I agree to Terms & Conditions</span>
@@ -252,7 +252,7 @@ const Register = () => {
                   {/* Continue Button */}
                   <button
                     type="submit"
-                    className="w-full bg-[#124559] hover:bg-[#01161E] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+                    className="w-full bg-[#5A42EC] hover:bg-[#4831D4] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                   >
                     <span>Continue</span>
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -270,7 +270,7 @@ const Register = () => {
                 <button
                   type="button"
                   onClick={handleGoogleSignUp}
-                  className="w-full bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#01161E] rounded-xl py-2.5 font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm"
+                  className="w-full bg-white hover:bg-[#F4F5F9] border border-[#E2E8F0] text-[#0F172A] rounded-xl py-2.5 font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm cursor-pointer"
                 >
                   <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -286,10 +286,10 @@ const Register = () => {
             {step === 2 && (
               <>
                 <div className="text-center mb-6">
-                  <h2 className="text-[25px] font-bold text-[#01161E] tracking-tight leading-none mb-1.5 font-heading">
+                  <h2 className="text-[25px] font-bold text-[#0F172A] tracking-tight leading-none mb-1.5 font-heading">
                     Workspace Setup
                   </h2>
-                  <p className="text-[12px] text-[#598392] font-light">
+                  <p className="text-[12px] text-[#64748B] font-light">
                     Configure your team's workspace
                   </p>
                 </div>
@@ -297,9 +297,9 @@ const Register = () => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Workspace Name */}
                   <div className="flex flex-col space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#01161E]">Workspace Name</label>
+                    <label className="text-[11px] font-medium text-[#0F172A]">Workspace Name</label>
                     <div className="relative">
-                      <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#598392]">
+                      <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#64748B]">
                         <Building2 className="h-4 w-4" />
                       </div>
                       <input
@@ -308,7 +308,7 @@ const Register = () => {
                         placeholder="Company Name"
                         value={formData.companyName}
                         onChange={handleChange}
-                        className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                        className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                         required
                       />
                     </div>
@@ -316,9 +316,9 @@ const Register = () => {
 
                   {/* Company Email */}
                   <div className="flex flex-col space-y-1.5">
-                    <label className="text-[11px] font-medium text-[#01161E]">Company Email</label>
+                    <label className="text-[11px] font-medium text-[#0F172A]">Company Email</label>
                     <div className="relative">
-                      <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#598392]">
+                      <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#64748B]">
                         <Mail className="h-4 w-4" />
                       </div>
                       <input
@@ -327,7 +327,7 @@ const Register = () => {
                         placeholder="EMAIL ADDRESS"
                         value={formData.companyEmail}
                         onChange={handleChange}
-                        className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                        className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                         required
                       />
                     </div>
@@ -336,9 +336,9 @@ const Register = () => {
                   {/* Industry & Team Size */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[11px] font-medium text-[#01161E]">Industry</label>
+                      <label className="text-[11px] font-medium text-[#0F172A]">Industry</label>
                       <div className="relative">
-                        <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#598392]">
+                        <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#64748B]">
                           <Briefcase className="h-4 w-4" />
                         </div>
                         <input
@@ -347,21 +347,21 @@ const Register = () => {
                           placeholder="INDUSTRY"
                           value={formData.industry}
                           onChange={handleChange}
-                          className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                          className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                         />
                       </div>
                     </div>
                     <div className="flex flex-col space-y-1.5">
-                      <label className="text-[11px] font-medium text-[#01161E]">Team Size</label>
+                      <label className="text-[11px] font-medium text-[#0F172A]">Team Size</label>
                       <div className="relative">
-                        <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#598392]">
+                        <div className="absolute left-3.5 inset-y-0 flex items-center pointer-events-none text-[#64748B]">
                           <Users className="h-4 w-4" />
                         </div>
                         <select
                           name="teamSize"
                           value={formData.teamSize}
                           onChange={handleChange}
-                          className="w-full bg-[#F1F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#01161E] focus:outline-none focus:bg-white focus:border-[#124559] transition-all duration-200"
+                          className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-10 pr-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
                         >
                           <option value="1-5">1-5</option>
                           <option value="6-20">6-20</option>
@@ -377,7 +377,7 @@ const Register = () => {
                     <button
                       type="button"
                       onClick={handlePrevStep}
-                      className="flex-1 bg-white hover:bg-[#F8FAFC] border border-[#E2E8F0] text-[#01161E] rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+                      className="flex-1 bg-white hover:bg-[#F4F5F9] border border-[#E2E8F0] text-[#0F172A] rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                     >
                       <ArrowLeft className="h-3.5 w-3.5" />
                       <span>Back</span>
@@ -385,7 +385,7 @@ const Register = () => {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="flex-1 bg-[#124559] hover:bg-[#01161E] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+                      className="flex-1 bg-[#5A42EC] hover:bg-[#4831D4] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
                     >
                       {submitting ? (
                         <>
@@ -405,14 +405,14 @@ const Register = () => {
               <div className="space-y-4 text-center py-4">
                 <CheckCircle2 className="h-12 w-12 text-green-500 mx-auto animate-bounce" />
                 <div className="space-y-1.5">
-                  <h2 className="text-[25px] font-bold text-[#01161E] tracking-tight leading-none font-heading">
+                  <h2 className="text-[25px] font-bold text-[#0F172A] tracking-tight leading-none font-heading">
                     Welcome to WorkArena
                   </h2>
-                  <p className="text-[12px] text-[#598392] font-light max-w-xs mx-auto leading-relaxed">
+                  <p className="text-[12px] text-[#64748B] font-light max-w-xs mx-auto leading-relaxed">
                     Your workspace is ready. Start collaborating now.
                   </p>
                 </div>
-                <button onClick={() => navigate('/dashboard')} className="w-full bg-[#124559] hover:bg-[#01161E] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm">
+                <button onClick={() => navigate('/dashboard')} className="w-full bg-[#5A42EC] hover:bg-[#4831D4] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm cursor-pointer">
                   <span>Go to Dashboard</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>
@@ -423,9 +423,9 @@ const Register = () => {
           {/* Bottom Link */}
           {step < 3 && (
             <div className="text-center pt-1">
-              <p className="text-xs text-[#598392] font-light">
+              <p className="text-xs text-[#64748B] font-light">
                 Already have an account?{' '}
-                <Link to="/login" className="text-[#01161E] hover:underline font-bold transition duration-150 ml-1">
+                <Link to="/login" className="text-[#0F172A] hover:underline font-bold transition duration-150 ml-1">
                   Sign In
                 </Link>
               </p>

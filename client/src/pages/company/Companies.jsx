@@ -34,11 +34,11 @@ const Companies = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold text-[#01161E] tracking-tight">Registered Companies</h1>
-        <p className="text-sm text-[#598392] mt-1.5 font-light">Monitor workspace creation activity and administrator emails.</p>
+        <h1 className="text-3xl font-semibold text-[#0F172A] tracking-tight">Registered Companies</h1>
+        <p className="text-sm text-[#64748B] mt-1.5 font-light">Monitor workspace creation activity and administrator emails.</p>
       </div>
 
-      <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl overflow-hidden hover-card">
+      <div className="bg-[#F4F5F9] border border-[#E2E8F0] rounded-2xl overflow-hidden hover-card">
         {/* Search */}
         <div className="p-5 border-b border-[#E2E8F0] flex items-center">
           <div className="relative flex-grow max-w-lg">
@@ -48,26 +48,26 @@ const Companies = () => {
               placeholder="Search companies by name or slug..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-[#01161E] rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-[#124559] transition-all duration-200"
+              className="w-full bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Table */}
         {loading ? (
-          <div className="p-14 flex flex-col items-center justify-center text-[#598392] space-y-2">
-            <Loader2 className="h-6 w-6 animate-spin text-[#01161E]" />
+          <div className="p-14 flex flex-col items-center justify-center text-[#64748B] space-y-2">
+            <Loader2 className="h-6 w-6 animate-spin text-[#0F172A]" />
             <span className="text-sm">Loading companies...</span>
           </div>
         ) : filteredCompanies.length === 0 ? (
-          <div className="p-14 text-center text-[#598392] text-sm font-light">
+          <div className="p-14 text-center text-[#64748B] text-sm font-light">
             No companies registered on this platform yet.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm border-collapse">
               <thead>
-                <tr className="bg-[#F8FAFC] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-xs">
+                <tr className="bg-[#F4F5F9] border-b border-[#E2E8F0] text-[#94A3B8] font-semibold uppercase tracking-wider text-xs">
                   <th className="px-6 py-4">Company Name</th>
                   <th className="px-6 py-4">Workspace URL</th>
                   <th className="px-6 py-4">Admin</th>
@@ -76,31 +76,31 @@ const Companies = () => {
                   <th className="px-6 py-4 text-right">Open</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#FFFFFF]">
+              <tbody className="divide-y divide-[#F4F5F9]">
                 {filteredCompanies.map((c) => (
                   <tr key={c._id || c.id} className="hover-row">
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-3">
-                        <div className="h-9 w-9 rounded-lg bg-white/5 border border-[#E2E8F0] flex items-center justify-center text-[#598392]">
+                        <div className="h-9 w-9 rounded-lg bg-white/5 border border-[#E2E8F0] flex items-center justify-center text-[#64748B]">
                           <Building2 className="h-4.5 w-4.5" />
                         </div>
                         <div>
-                          <p className="font-semibold text-[#01161E]">{c.name}</p>
+                          <p className="font-semibold text-[#0F172A]">{c.name}</p>
                           <p className="text-xs text-[#94A3B8]">{c.industry || 'Tech'}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-mono text-[#598392]">
+                    <td className="px-6 py-4 font-mono text-[#64748B]">
                       /{c.workspaceUrl}
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <p className="text-[#01161E] font-medium">{c.adminName}</p>
+                        <p className="text-[#0F172A] font-medium">{c.adminName}</p>
                         <p className="text-xs text-[#94A3B8]">{c.adminEmail}</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold text-[#01161E] uppercase">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold text-[#0F172A] uppercase">
                         {c.subscriptionPlan || 'Free'}
                       </span>
                     </td>
@@ -113,7 +113,7 @@ const Companies = () => {
                     <td className="px-6 py-4 text-right">
                       <Link
                         to={`/platform/company/${c._id || c.id}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#01161E] hover:text-[#598392] transition-all duration-200"
+                        className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#0F172A] hover:text-[#64748B] transition-all duration-200"
                       >
                         View
                         <ArrowUpRight className="h-4 w-4" />
