@@ -72,10 +72,10 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-[#F4F5F9] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
+    <div className="h-screen w-screen bg-[#F5F5F5] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
       {/* Background spillover glow elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#5A52EC]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#C0B6FC]/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#111111]/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#737373]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
       {/* Main Floating Card Container (Fixed height to prevent scrolling) */}
       <div className="w-full max-w-[1000px] h-[580px] bg-white rounded-[28px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl relative z-10 p-2.5 gap-4">
@@ -96,10 +96,10 @@ const Login = () => {
             <div className="cursor-pointer mb-4" onClick={() => navigate('/')}>
               <Logo className="h-6 w-auto" />
             </div>
-            <h2 className="text-[26px] font-bold text-[#0F172A] tracking-tight leading-none mb-1.5 font-heading">
+            <h2 className="text-[26px] font-bold text-[#111111] tracking-tight leading-none mb-1.5 font-heading">
               Welcome Back
             </h2>
-            <p className="text-[12px] text-[#64748B] font-light">
+            <p className="text-[12px] text-[#737373] font-light">
               Enter your email and password to access your account
             </p>
           </div>
@@ -109,14 +109,14 @@ const Login = () => {
 
             {/* Email Field */}
             <div className="flex flex-col space-y-1">
-              <label className="text-[11px] font-medium text-[#0F172A]">Email</label>
+              <label className="text-[11px] font-medium text-[#111111]">Email</label>
               <div className="relative">
                 <input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
+                  className="w-full bg-[#F5F5F5] border border-[#E5E5E5] rounded-xl px-4 py-2.5 text-xs text-[#111111] focus:outline-none focus:bg-white focus:border-[#111111] focus:ring-2 focus:ring-[#111111]/10 transition-all duration-200"
                   required
                 />
               </div>
@@ -124,20 +124,20 @@ const Login = () => {
 
             {/* Password Field */}
             <div className="flex flex-col space-y-1">
-              <label className="text-[11px] font-medium text-[#0F172A]">Password</label>
+              <label className="text-[11px] font-medium text-[#111111]">Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
+                  className="w-full bg-[#F5F5F5] border border-[#E5E5E5] rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#111111] focus:outline-none focus:bg-white focus:border-[#111111] focus:ring-2 focus:ring-[#111111]/10 transition-all duration-200"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 inset-y-0 flex items-center text-[#64748B] hover:text-[#0F172A] transition duration-150"
+                  className="absolute right-3.5 inset-y-0 flex items-center text-[#737373] hover:text-[#111111] transition duration-150"
                 >
                   {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                 </button>
@@ -146,18 +146,18 @@ const Login = () => {
 
             {/* Remember me & Forgot Password */}
             <div className="flex items-center justify-between text-[11px] pt-0.5">
-              <label className="flex items-center space-x-2 text-[#64748B] cursor-pointer hover:text-[#0F172A] transition duration-150">
+              <label className="flex items-center space-x-2 text-[#737373] cursor-pointer hover:text-[#111111] transition duration-150">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-[#E2E8F0] bg-white text-[#5A42EC] focus:ring-0 focus:ring-offset-0 h-3.5 w-3.5"
+                  className="rounded border-[#E5E5E5] bg-white text-[#111111] focus:ring-0 focus:ring-offset-0 h-3.5 w-3.5"
                 />
                 <span className="font-light">Remember me</span>
               </label>
               <Link
                 to="/forgot-password"
-                className="text-[#0F172A] hover:underline transition duration-150 font-medium"
+                className="text-[#111111] hover:underline transition duration-150 font-medium"
               >
                 Forgot Password
               </Link>
@@ -168,7 +168,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#0c0c0fff] hover:bg-[#1a1a24ff] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
+                className="w-full bg-[#111111] hover:bg-[#000000] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
               >
                 {submitting ? (
                   <>
@@ -183,7 +183,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
-                className="w-full bg-white hover:bg-[#F4F5F9] border border-[#E2E8F0] text-[#0F172A] rounded-xl py-2.5 font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm cursor-pointer"
+                className="w-full bg-white hover:bg-[#F5F5F5] border border-[#E5E5E5] text-[#111111] rounded-xl py-2.5 font-medium text-xs transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm cursor-pointer"
               >
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -198,9 +198,9 @@ const Login = () => {
 
           {/* Bottom Link */}
           <div className="text-center pt-1">
-            <p className="text-xs text-[#64748B] font-light">
+            <p className="text-xs text-[#737373] font-light">
               Don't have an account?{' '}
-              <Link to="/register-company" className="text-[#0F172A] hover:underline font-bold transition duration-150 ml-1">
+              <Link to="/register-company" className="text-[#111111] hover:underline font-bold transition duration-150 ml-1">
                 Sign Up
               </Link>
             </p>

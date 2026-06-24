@@ -21,7 +21,8 @@ import {
   Bell,
   Settings,
   User,
-  ChevronDown
+  ChevronDown,
+  MessageSquare
 } from 'lucide-react';
 
 const DashboardLayout = ({ children }) => {
@@ -68,6 +69,7 @@ const DashboardLayout = ({ children }) => {
           { label: 'Leaves', path: '/leaves', icon: <CalendarRange className="h-[18px] w-[18px]" /> },
           { label: 'Reports', path: '/reports', icon: <FileBarChart2 className="h-[18px] w-[18px]" /> },
           { label: 'Notifications', path: '/notifications', icon: <Bell className="h-[18px] w-[18px]" /> },
+          { label: 'Chat', path: '/chat', icon: <MessageSquare className="h-[18px] w-[18px]" /> },
           { label: 'Settings', path: '/profile', icon: <Settings className="h-[18px] w-[18px]" /> },
         ];
       case 'manager':
@@ -77,7 +79,8 @@ const DashboardLayout = ({ children }) => {
           { label: 'Tasks', path: '/tasks', icon: <CheckSquare className="h-[18px] w-[18px]" /> },
           { label: 'Team', path: '/team', icon: <Users className="h-[18px] w-[18px]" /> },
           { label: 'Attendance', path: '/attendance', icon: <Clock3 className="h-[18px] w-[18px]" /> },
-          { label: 'Profile', path: '/profile', icon: <User2 className="h-[18px] w-[18px]" /> },
+          { label: 'Chat', path: '/chat', icon: <MessageSquare className="h-[18px] w-[18px]" /> },
+          { label: 'Settings', path: '/profile', icon: <Settings className="h-[18px] w-[18px]" /> },
         ];
       case 'employee':
         return [
@@ -85,8 +88,9 @@ const DashboardLayout = ({ children }) => {
           { label: 'My Tasks', path: '/my-tasks', icon: <CheckSquare className="h-[18px] w-[18px]" /> },
           { label: 'Attendance', path: '/attendance', icon: <Clock3 className="h-[18px] w-[18px]" /> },
           { label: 'Leaves', path: '/leaves', icon: <CalendarRange className="h-[18px] w-[18px]" /> },
-          { label: 'Profile', path: '/profile', icon: <User2 className="h-[18px] w-[18px]" /> },
           { label: 'Notifications', path: '/notifications', icon: <Bell className="h-[18px] w-[18px]" /> },
+          { label: 'Chat', path: '/chat', icon: <MessageSquare className="h-[18px] w-[18px]" /> },
+          { label: 'Settings', path: '/profile', icon: <Settings className="h-[18px] w-[18px]" /> },
         ];
       default:
         return [];

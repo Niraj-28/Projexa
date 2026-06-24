@@ -83,6 +83,7 @@ import Profile from '../pages/settings/Profile';
 import ProfileSettings from '../pages/settings/ProfileSettings';
 import SecuritySettings from '../pages/settings/SecuritySettings';
 import PasswordSettings from '../pages/settings/PasswordSettings';
+import Chat from '../pages/chat/Chat';
 
 // Protected Route Guard with Role Validation and Layout Wrapping
 const RoleGuardRoute = ({ children, allowedRoles }) => {
@@ -90,8 +91,8 @@ const RoleGuardRoute = ({ children, allowedRoles }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F4F5F9] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#5A42EC]"></div>
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#111111]"></div>
       </div>
     );
   }
@@ -120,8 +121,8 @@ const PublicRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F4F5F9] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#5A42EC]"></div>
+      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-[#111111]"></div>
       </div>
     );
   }
@@ -627,6 +628,16 @@ const AppRoutes = () => {
         element={
           <RoleGuardRoute allowedRoles={['super_admin', 'company_admin', 'manager', 'employee']}>
             <Profile />
+          </RoleGuardRoute>
+        }
+      />
+
+      {/* Workspace Chat Route */}
+      <Route
+        path="/chat"
+        element={
+          <RoleGuardRoute allowedRoles={['company_admin', 'manager', 'employee']}>
+            <Chat />
           </RoleGuardRoute>
         }
       />

@@ -140,6 +140,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Verify OTP code
+  const verifyOtp = async (email, otp) => {
+    try {
+      const response = await api.post('/auth/verify-otp', { email, otp });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || 'Invalid or expired OTP.';
+    }
+  };
+
+  // Reset forgotten password using token
+  const resetForgottenPassword = async (resetToken, newPassword) => {
+    try {
+      const response = await api.post('/auth/reset-forgotten-password', { resetToken, newPassword });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || 'Failed to reset password.';
+    }
+  };
+
   // Logout method
   const logout = async () => {
     try {
@@ -165,6 +185,8 @@ export const AuthProvider = ({ children }) => {
         updateProfile,
         updateCompany,
         forgotPassword,
+        verifyOtp,
+        resetForgottenPassword,
         logout,
       }}
     >

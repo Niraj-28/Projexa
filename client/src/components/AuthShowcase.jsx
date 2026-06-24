@@ -35,7 +35,7 @@ const AuthShowcase = ({ heading = "Organize Sprints & Track Progress", descripti
 
       {/* Top label */}
       <div className="relative z-10 flex items-center gap-3">
-        <span className="text-[10px] font-bold text-white/50 tracking-[0.2em] uppercase font-sans">WORKAREA PLATFORM</span>
+        <span className="text-[10px] font-bold text-white/50 tracking-[0.2em] uppercase font-sans">WORKARENA PLATFORM</span>
         <div className="h-[1px] bg-white/10 flex-grow"></div>
       </div>
 

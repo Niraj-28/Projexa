@@ -491,8 +491,13 @@ h1, h2, h3, h4, h5, h6 {
 .app-shell input[type="email"],
 .app-shell input[type="password"] {
   height: 40px;
-  padding-left: 2.5rem;
+  padding-left: 1rem;
   padding-right: 1rem;
+}
+
+/* Maintain padding-left for icon inputs */
+.app-shell input.pl-10 {
+  padding-left: 2.5rem !important;
 }
 
 /* Better focus ring */
@@ -838,3 +843,39 @@ h1, h2, h3, h4, h5, h6 {
 .selection\:bg-\[\#AEC3B0\], [class*="selection:bg-[#AEC3B0]"] {
   --tw-selection-bg: #D4D4D4 !important;
 }
+
+/* 20. Translucent / Opacity Overrides to prevent solid black-out on opacity classes */
+.bg-\[\#5A42EC\/5\], [class*="bg-[#5A42EC]/5"], [class*="bg-[#5A42EC]/[0.05]"] {
+  background-color: rgba(17, 17, 17, 0.05) !important;
+}
+.bg-\[\#5A42EC\/10\], [class*="bg-[#5A42EC]/10"], [class*="bg-[#5A42EC]/[0.1]"] {
+  background-color: rgba(17, 17, 17, 0.1) !important;
+}
+.bg-\[\#5A42EC\/15\], [class*="bg-[#5A42EC]/15"], [class*="bg-[#5A42EC]/[0.15]"] {
+  background-color: rgba(17, 17, 17, 0.15) !important;
+}
+.bg-\[\#5A42EC\/20\], [class*="bg-[#5A42EC]/20"], [class*="bg-[#5A42EC]/[0.2]"] {
+  background-color: rgba(17, 17, 17, 0.2) !important;
+}
+.bg-\[\#5A42EC\/40\], [class*="bg-[#5A42EC]/40"], [class*="bg-[#5A42EC]/[0.4]"] {
+  background-color: rgba(17, 17, 17, 0.4) !important;
+}
+.border-\[\#5A42EC\/10\], [class*="border-[#5A42EC]/10"], [class*="border-[#5A42EC]/[0.1]"] {
+  border-color: rgba(17, 17, 17, 0.1) !important;
+}
+.border-\[\#5A42EC\/20\], [class*="border-[#5A42EC]/20"], [class*="border-[#5A42EC]/[0.2]"] {
+  border-color: rgba(17, 17, 17, 0.2) !important;
+}
+.border-\[\#E2E8F0\/80\], [class*="border-[#E2E8F0]/80"] {
+  border-color: rgba(229, 229, 229, 0.8) !important;
+}
+.border-\[\#E2E8F0\/60\], [class*="border-[#E2E8F0]/60"] {
+  border-color: rgba(229, 229, 229, 0.6) !important;
+}
+.border-\[\#E2E8F0\/40\], [class*="border-[#E2E8F0]/40"] {
+  border-color: rgba(229, 229, 229, 0.4) !important;
+}
+.divide-\[\#E2E8F0\/40\], [class*="divide-[#E2E8F0]/40"] > * + * {
+  border-color: rgba(229, 229, 229, 0.4) !important;
+}
+

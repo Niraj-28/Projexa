@@ -40,10 +40,10 @@ const TemporaryPasswordChange = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-[#F4F5F9] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
+    <div className="h-screen w-screen bg-[#F5F5F5] flex items-center justify-center p-4 sm:p-6 overflow-hidden relative font-sans">
       {/* Background spillover glow elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#5A42EC]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#C0B6FC]/15 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-[550px] h-[550px] bg-[#111111]/5 rounded-full blur-[120px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-[-10%] right-[-10%] w-[550px] h-[550px] bg-[#737373]/10 rounded-full blur-[120px] pointer-events-none z-0"></div>
 
       {/* Main Floating Card Container (Fixed height to prevent scrolling) */}
       <div className="w-full max-w-[1000px] h-[580px] bg-white rounded-[28px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 shadow-2xl relative z-10 p-2.5 gap-4">
@@ -67,10 +67,10 @@ const TemporaryPasswordChange = () => {
             <div className="inline-flex p-2 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 mb-1.5">
               <ShieldAlert className="h-4 w-4" />
             </div>
-            <h2 className="text-[26px] font-bold text-[#0F172A] tracking-tight leading-none mb-1 font-heading">
+            <h2 className="text-[26px] font-bold text-[#111111] tracking-tight leading-none mb-1 font-heading">
               Change Password
             </h2>
-            <p className="text-[12px] text-[#64748B] font-light max-w-[320px]">
+            <p className="text-[12px] text-[#737373] font-light max-w-[320px]">
               Welcome, {user?.name}! Set a secure password to activate your account.
             </p>
           </div>
@@ -79,20 +79,20 @@ const TemporaryPasswordChange = () => {
             
             {/* New Password */}
             <div className="flex flex-col space-y-1">
-              <label className="text-[11px] font-medium text-[#0F172A]">New Password</label>
+              <label className="text-[11px] font-medium text-[#111111]">New Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="New Password (min 6 characters)"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
+                  className="w-full bg-[#F5F5F5] border border-[#E5E5E5] rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#111111] focus:outline-none focus:bg-white focus:border-[#111111] focus:ring-2 focus:ring-[#111111]/10 transition-all duration-200"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 inset-y-0 flex items-center text-[#64748B] hover:text-[#0F172A] transition duration-150"
+                  className="absolute right-3.5 inset-y-0 flex items-center text-[#737373] hover:text-[#111111] transition duration-150"
                 >
                   {showPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                 </button>
@@ -101,20 +101,20 @@ const TemporaryPasswordChange = () => {
 
             {/* Confirm Password */}
             <div className="flex flex-col space-y-1">
-              <label className="text-[11px] font-medium text-[#0F172A]">Confirm Password</label>
+              <label className="text-[11px] font-medium text-[#111111]">Confirm Password</label>
               <div className="relative">
                 <input
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full bg-[#F4F5F9]/60 border border-transparent rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#0F172A] focus:outline-none focus:bg-white focus:border-[#5A42EC] transition-all duration-200"
+                  className="w-full bg-[#F5F5F5] border border-[#E5E5E5] rounded-xl pl-4 pr-10 py-2.5 text-xs text-[#111111] focus:outline-none focus:bg-white focus:border-[#111111] focus:ring-2 focus:ring-[#111111]/10 transition-all duration-200"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3.5 inset-y-0 flex items-center text-[#64748B] hover:text-[#0F172A] transition duration-150"
+                  className="absolute right-3.5 inset-y-0 flex items-center text-[#737373] hover:text-[#111111] transition duration-150"
                 >
                   {showConfirmPassword ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                 </button>
@@ -126,14 +126,14 @@ const TemporaryPasswordChange = () => {
               <button
                 type="button"
                 onClick={logout}
-                className="flex-1 bg-white hover:bg-[#F4F5F9] border border-[#E2E8F0] text-[#0F172A] rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 shadow-sm cursor-pointer"
+                className="flex-1 bg-white hover:bg-[#F5F5F5] border border-[#E5E5E5] text-[#111111] rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 shadow-sm cursor-pointer"
               >
                 Sign Out
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 bg-[#5A42EC] hover:bg-[#4831D4] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+                className="flex-1 bg-[#111111] hover:bg-[#000000] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm disabled:opacity-50 cursor-pointer"
               >
                 {submitting ? (
                   <>
@@ -151,7 +151,7 @@ const TemporaryPasswordChange = () => {
           <div className="text-center pt-1">
             <button 
               onClick={logout} 
-              className="text-xs text-[#64748B] hover:text-[#0F172A] font-medium transition duration-150 cursor-pointer"
+              className="text-xs text-[#737373] hover:text-[#111111] font-medium transition duration-150 cursor-pointer"
             >
               Sign Out
             </button>

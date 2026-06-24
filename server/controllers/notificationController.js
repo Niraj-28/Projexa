@@ -20,8 +20,25 @@ const createNotification = async ({ company, recipient = null, type, title, mess
 const getNotifications = async (req, res) => {
   try {
     const query = {};
+    const userRole = req.user.role;
 
-    if (req.user.role !== 'super_admin') {
+    if (userRole === 'super_admin') {
+      // Super admins only receive system-level/global notifications addressed to them
+      query.company = null;
+      query.$or = [{ recipient: null }, { recipient: req.user._id }];
+    } else if (userRole === 'employee') {
+      // Employees get company notifications addressed to them, or company-wide announcements
+      // that are NOT administrative (like leave requests or attendance logs of other employees)
+      query.company = req.user.company;
+      query.$or = [
+        { recipient: req.user._id },
+        { 
+          recipient: null, 
+          type: { $nin: ['leave', 'attendance'] } 
+        }
+      ];
+    } else {
+      // Company admins and Managers see all workspace-scoped notifications
       query.company = req.user.company;
       query.$or = [{ recipient: null }, { recipient: req.user._id }];
     }
