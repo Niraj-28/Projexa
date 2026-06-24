@@ -48,7 +48,7 @@ const Companies = () => {
               placeholder="Search companies by name or slug..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-[#5A42EC] transition-all duration-200"
+              className="w-full bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-lg pl-10 pr-4 py-3 focus:outline-none focus:border-neutral-900 transition-all duration-200"
             />
           </div>
         </div>

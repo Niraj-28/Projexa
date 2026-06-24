@@ -72,6 +72,26 @@ const createManager = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email is already registered' });
     }
 
+    // Check seat limit
+    const company = req.user.company;
+    if (!company) {
+      return res.status(400).json({ success: false, message: 'Workspace context not found' });
+    }
+    let seatLimit = 10;
+    if (company.subscriptionPlan === 'Professional') {
+      seatLimit = 100;
+    } else if (company.subscriptionPlan === 'Enterprise') {
+      seatLimit = 1000;
+    }
+
+    const activeHeadcount = await User.countDocuments({ company: company._id || company, isActive: true });
+    if (activeHeadcount >= seatLimit) {
+      return res.status(400).json({
+        success: false,
+        message: `Seat limit reached (${seatLimit} seats). Please upgrade your subscription plan to add more users.`
+      });
+    }
+
     // Temporary password as requested by user
     const tempPassword = 'Temp@123';
 
@@ -143,6 +163,26 @@ const createEmployee = async (req, res) => {
     const userExists = await User.findOne({ email: email.toLowerCase() });
     if (userExists) {
       return res.status(400).json({ success: false, message: 'Email is already registered' });
+    }
+
+    // Check seat limit
+    const company = req.user.company;
+    if (!company) {
+      return res.status(400).json({ success: false, message: 'Workspace context not found' });
+    }
+    let seatLimit = 10;
+    if (company.subscriptionPlan === 'Professional') {
+      seatLimit = 100;
+    } else if (company.subscriptionPlan === 'Enterprise') {
+      seatLimit = 1000;
+    }
+
+    const activeHeadcount = await User.countDocuments({ company: company._id || company, isActive: true });
+    if (activeHeadcount >= seatLimit) {
+      return res.status(400).json({
+        success: false,
+        message: `Seat limit reached (${seatLimit} seats). Please upgrade your subscription plan to add more users.`
+      });
     }
 
     // Temporary password as requested by user
@@ -316,6 +356,33 @@ const updateUser = async (req, res) => {
     }
     if (designation !== undefined) userToEdit.designation = designation;
     if (role && req.user.role === 'company_admin') userToEdit.role = role;
+    
+    const willBeActive = (isActive !== undefined && isActive) || (status && status === 'Active');
+    const wasActive = userToEdit.isActive;
+
+    if (willBeActive && !wasActive && req.user.role === 'company_admin') {
+      const companyId = userToEdit.company || req.user.company;
+      const Company = require('../models/Company');
+      const company = await Company.findById(companyId);
+      if (!company) {
+        return res.status(400).json({ success: false, message: 'Workspace context not found' });
+      }
+
+      let seatLimit = 10;
+      if (company.subscriptionPlan === 'Professional') {
+        seatLimit = 100;
+      } else if (company.subscriptionPlan === 'Enterprise') {
+        seatLimit = 1000;
+      }
+
+      const activeHeadcount = await User.countDocuments({ company: companyId, isActive: true });
+      if (activeHeadcount >= seatLimit) {
+        return res.status(400).json({
+          success: false,
+          message: `Seat limit reached (${seatLimit} seats). Cannot activate user. Please upgrade your subscription plan.`
+        });
+      }
+    }
     
     if (isActive !== undefined && req.user.role === 'company_admin') {
       userToEdit.isActive = isActive;

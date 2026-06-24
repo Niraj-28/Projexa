@@ -12,25 +12,29 @@ const enrichCompanyDetails = (companyObj) => {
   const activePlan = companyObj.subscriptionPlan || 'Free';
   let seatLimit = 10;
   let priceString = '₹0 / month • Free Tiers';
-  let cardString = 'No card required (Free Tier)';
-  let cardBrand = 'N/A';
-  let autoRenew = false;
+  let cardString = companyObj.cardLast4 ? `•••• •••• •••• ${companyObj.cardLast4}` : 'No card required (Free Tier)';
+  let cardBrand = companyObj.cardBrand || 'N/A';
+  let autoRenew = companyObj.autoRenew || false;
   let renewalDate = 'N/A';
 
   if (activePlan === 'Professional') {
     seatLimit = 100;
     priceString = '₹999 / month';
-    cardString = '•••• •••• •••• 4892';
-    cardBrand = 'HDFC Bank Debit Card';
+    if (!companyObj.cardLast4) {
+      cardString = '•••• •••• •••• 4892';
+      cardBrand = 'HDFC Bank Debit Card';
+      autoRenew = true;
+    }
     renewalDate = 'July 1, 2026';
-    autoRenew = true;
   } else if (activePlan === 'Enterprise') {
     seatLimit = 1000;
     priceString = '₹4,999 / month';
-    cardString = '•••• •••• •••• 9811';
-    cardBrand = 'ICICI Corporate Credit Card';
+    if (!companyObj.cardLast4) {
+      cardString = '•••• •••• •••• 9811';
+      cardBrand = 'ICICI Corporate Credit Card';
+      autoRenew = true;
+    }
     renewalDate = 'July 1, 2026';
-    autoRenew = true;
   }
 
   return {
@@ -326,6 +330,67 @@ const getPlatformAnalytics = async (req, res) => {
   }
 };
 
+const updateMySubscriptionPlan = async (req, res) => {
+  try {
+    const { subscriptionPlan, cardBrand, cardLast4 } = req.body;
+
+    if (!subscriptionPlan || !['Free', 'Professional', 'Enterprise'].includes(subscriptionPlan)) {
+      return res.status(400).json({ success: false, message: 'Invalid subscription plan' });
+    }
+
+    if (!req.user.company) {
+      return res.status(400).json({ success: false, message: 'User does not belong to a company workspace' });
+    }
+
+    const company = await Company.findById(req.user.company);
+    if (!company) {
+      return res.status(404).json({ success: false, message: 'Company not found' });
+    }
+
+    // Determine target seat limit
+    let targetSeatLimit = 10;
+    if (subscriptionPlan === 'Professional') {
+      targetSeatLimit = 100;
+    } else if (subscriptionPlan === 'Enterprise') {
+      targetSeatLimit = 1000;
+    }
+
+    // Check active headcount
+    const activeHeadcount = await User.countDocuments({ company: company._id, isActive: true });
+    if (activeHeadcount > targetSeatLimit) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot downgrade to ${subscriptionPlan} plan because your workspace has ${activeHeadcount} active users, which exceeds the plan limit of ${targetSeatLimit}. Please deactivate users before downgrading.`
+      });
+    }
+
+    // Update plan details
+    company.subscriptionPlan = subscriptionPlan;
+    
+    if (subscriptionPlan === 'Free') {
+      company.cardBrand = '';
+      company.cardLast4 = '';
+      company.autoRenew = false;
+    } else {
+      company.cardBrand = cardBrand || 'Mock Card';
+      company.cardLast4 = cardLast4 || '4242';
+      company.autoRenew = true;
+    }
+
+    await company.save();
+    
+    const enriched = enrichCompanyDetails(company.toObject());
+    res.status(200).json({
+      success: true,
+      message: `Subscription plan updated to ${subscriptionPlan} successfully.`,
+      company: enriched
+    });
+  } catch (error) {
+    console.error('Update subscription plan error:', error);
+    res.status(500).json({ success: false, message: 'Server error updating subscription plan', error: error.message });
+  }
+};
+
 module.exports = {
   getCompanies,
   getCompany,
@@ -337,4 +402,5 @@ module.exports = {
   updatePlatformSettings,
   getPlatformRevenue,
   getPlatformAnalytics,
+  updateMySubscriptionPlan,
 };

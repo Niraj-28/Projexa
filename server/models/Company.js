@@ -37,6 +37,18 @@ const companySchema = new mongoose.Schema(
       enum: ['Active', 'Suspended'],
       default: 'Active',
     },
+    cardBrand: {
+      type: String,
+      default: '',
+    },
+    cardLast4: {
+      type: String,
+      default: '',
+    },
+    autoRenew: {
+      type: Boolean,
+      default: false,
+    },
     shiftStart: {
       type: String,
       default: '09:00 AM',

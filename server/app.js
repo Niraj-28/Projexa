@@ -12,6 +12,7 @@ const leaveRoutes = require('./routes/leaveRoutes');
 const companyRoutes = require('./routes/companyRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 
 // Load environment variables (fallback if not loaded in server.js)
 require('dotenv').config();
@@ -44,6 +45,7 @@ app.use('/api/leaves', leaveRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Root Health Check Route
 app.get('/', (req, res) => {

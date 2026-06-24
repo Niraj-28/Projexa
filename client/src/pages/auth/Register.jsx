@@ -13,7 +13,7 @@ const Register = () => {
     companyName: '',
     companyEmail: '',
     industry: '',
-    teamSize: '1-5',
+    subscriptionPlan: 'Free',
     adminName: '',
     adminEmail: '',
     password: '',
@@ -211,18 +211,17 @@ const Register = () => {
                       </div>
                     </div>
                     <div className="flex flex-col space-y-1">
-                      <label className="text-[11px] font-medium text-[#111111]">Team Size</label>
+                      <label className="text-[11px] font-medium text-[#111111]">Subscription Plan</label>
                       <div className="relative">
                         <select
-                          name="teamSize"
-                          value={formData.teamSize}
+                          name="subscriptionPlan"
+                          value={formData.subscriptionPlan}
                           onChange={handleChange}
                           className="w-full bg-[#F5F5F5] border border-[#E5E5E5] rounded-xl px-4 py-2.5 text-xs text-[#111111] focus:outline-none focus:bg-white focus:border-[#111111] focus:ring-2 focus:ring-[#111111]/10 transition-all duration-200 font-normal"
                         >
-                          <option value="1-5">1-5</option>
-                          <option value="6-20">6-20</option>
-                          <option value="21-100">21-100</option>
-                          <option value="100+">100+</option>
+                          <option value="Free">Free Plan (10 seats — ₹0/mo)</option>
+                          <option value="Professional">Professional Plan (100 seats — ₹999/mo)</option>
+                          <option value="Enterprise">Enterprise Plan (1,000 seats — ₹4,999/mo)</option>
                         </select>
                       </div>
                     </div>
@@ -403,7 +402,16 @@ const Register = () => {
                     Your workspace is ready. Start collaborating now.
                   </p>
                 </div>
-                <button onClick={() => navigate('/dashboard')} className="w-full bg-[#111111] hover:bg-[#000000] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+                <button 
+                  onClick={() => {
+                    if (formData.subscriptionPlan !== 'Free') {
+                      navigate(`/company/subscription?checkout=${formData.subscriptionPlan}`);
+                    } else {
+                      navigate('/dashboard');
+                    }
+                  }} 
+                  className="w-full bg-[#111111] hover:bg-[#000000] text-white rounded-xl py-2.5 font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2 shadow-sm cursor-pointer"
+                >
                   <span>Go to Dashboard</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </button>

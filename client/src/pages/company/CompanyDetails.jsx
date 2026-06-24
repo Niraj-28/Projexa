@@ -56,7 +56,7 @@ const CompanyDetails = () => {
   if (loading) {
     return (
       <div className="p-14 flex flex-col items-center justify-center text-[#64748B] space-y-2">
-        <Loader2 className="h-6 w-6 animate-spin text-[#5A42EC]" />
+        <Loader2 className="h-6 w-6 animate-spin text-[#0F172A]" />
         <span className="text-sm">Loading workspace details...</span>
       </div>
     );
@@ -112,7 +112,7 @@ const CompanyDetails = () => {
             </div>
             <div className="flex justify-between border-b border-[#E2E8F0]/60 pb-3 hover-row rounded px-2 -mx-2 transition-colors">
               <span className="text-[#94A3B8] font-medium">Subscription Plan</span>
-              <span className="text-[#5A42EC] bg-[#5A42EC]/5 border border-[#5A42EC]/10 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">{company.subscriptionPlan || 'Free'}</span>
+              <span className="text-neutral-800 bg-neutral-100 border border-neutral-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">{company.subscriptionPlan || 'Free'}</span>
             </div>
             <div className="flex justify-between hover-row rounded px-2 -mx-2 transition-colors">
               <span className="text-[#94A3B8] font-medium">Status</span>
@@ -154,7 +154,7 @@ const CompanyDetails = () => {
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-xl p-3 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-xl p-3 focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all duration-200 cursor-pointer"
                 >
                   <option value="Active">Active</option>
                   <option value="Suspended">Suspended</option>
@@ -166,7 +166,7 @@ const CompanyDetails = () => {
                 <select
                   value={subscriptionPlan}
                   onChange={(e) => setSubscriptionPlan(e.target.value)}
-                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-xl p-3 focus:outline-none focus:border-[#5A42EC] focus:ring-2 focus:ring-[#5A42EC]/10 transition-all duration-200 cursor-pointer"
+                  className="bg-[#F4F5F9] border border-[#E2E8F0] text-sm text-[#0F172A] rounded-xl p-3 focus:outline-none focus:border-neutral-900 focus:ring-2 focus:ring-neutral-900/10 transition-all duration-200 cursor-pointer"
                 >
                   <option value="Free">Free</option>
                   <option value="Professional">Professional</option>
@@ -178,7 +178,7 @@ const CompanyDetails = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="bg-[#5A42EC] hover:bg-[#4831D4] disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] text-white px-7 py-3 rounded-xl text-sm font-bold shadow-sm shadow-[#5A42EC]/20 transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
+              className="bg-neutral-900 hover:bg-neutral-800 disabled:opacity-50 hover:scale-[1.01] active:scale-[0.99] text-white px-7 py-3 rounded-xl text-sm font-bold shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
             >
               {submitting ? (
                 <>

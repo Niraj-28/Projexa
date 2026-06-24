@@ -24,10 +24,10 @@ const Chat = () => {
 
   // Establish Socket.io connection and room enrollment
   useEffect(() => {
-    const socketUrl = import.meta.env.VITE_API_URL 
-      ? import.meta.env.VITE_API_URL.replace('/api', '') 
+    const socketUrl = import.meta.env.VITE_API_URL
+      ? import.meta.env.VITE_API_URL.replace('/api', '')
       : 'http://localhost:5000';
-      
+
     socketRef.current = io(socketUrl, {
       withCredentials: true,
     });
@@ -124,7 +124,7 @@ const Chat = () => {
 
   return (
     <div className="h-[calc(100vh-140px)] bg-white border border-[#E5E5E5] rounded-[24px] overflow-hidden flex shadow-sm font-sans">
-      
+
       {/* Channels Sidebar Panel */}
       <div className="w-64 border-r border-[#E5E5E5] flex flex-col bg-[#F5F5F5]/30">
         <div className="p-4 border-b border-[#E5E5E5] flex items-center justify-between">
@@ -145,11 +145,10 @@ const Chat = () => {
             <button
               key={ch.id}
               onClick={() => setActiveChannel(ch.id)}
-              className={`w-full text-left px-3 py-2.5 rounded-xl flex flex-col gap-0.5 transition-all duration-200 cursor-pointer ${
-                activeChannel === ch.id
+              className={`w-full text-left px-3 py-2.5 rounded-xl flex flex-col gap-0.5 transition-all duration-200 cursor-pointer ${activeChannel === ch.id
                   ? 'bg-[#111111] text-white shadow-sm'
                   : 'text-[#737373] hover:bg-[#F5F5F5] hover:text-[#111111]'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-1.5 font-semibold text-xs">
                 <Hash className={`h-3.5 w-3.5 ${activeChannel === ch.id ? 'text-white' : 'text-[#A3A3A3]'}`} />
@@ -178,16 +177,12 @@ const Chat = () => {
 
       {/* Main Chat Display Window */}
       <div className="flex-grow flex flex-col bg-white">
-        
+
         {/* Chat Feed Header */}
         <div className="p-4 border-b border-[#E5E5E5] flex items-center justify-between shadow-sm relative z-10">
           <div className="flex items-center gap-1.5">
             <Hash className="h-5 w-5 text-[#111111]" />
             <h3 className="font-bold text-sm text-[#111111] font-heading">{activeChannel}</h3>
-          </div>
-          <div className="text-[10px] text-[#737373] bg-[#F5F5F5] border border-[#E5E5E5] px-2.5 py-1 rounded-full flex items-center gap-1.5 font-medium">
-            <Users className="h-3 w-3" />
-            <span>Workspace members active</span>
           </div>
         </div>
 
